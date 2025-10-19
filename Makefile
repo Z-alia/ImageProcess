@@ -11,7 +11,7 @@ else
 endif
 
 TARGET = imageprocessor
-SRCS = main.c
+SRCS = main.c processor.c
 OBJS = $(SRCS:.c=.o)
 
 ifeq ($(DEPS_AVAILABLE),yes)
