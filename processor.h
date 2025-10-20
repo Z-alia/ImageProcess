@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 void process_original_to_imo(const uint8_t *original,
-                             uint8_t *imo,
+                             uint8_t *imo_out,
                              int width,
                              int height);
 

@@ -119,7 +119,7 @@ CMakeFiles/image_internal.dir/clean:
 # Target rules for target CMakeFiles/imageprocessor.dir
 
 # All Build rule for target.
-CMakeFiles/imageprocessor.dir/all:
+CMakeFiles/imageprocessor.dir/all: CMakeFiles/image_internal.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=5,6,7,8 "Built target imageprocessor"
@@ -127,7 +127,7 @@ CMakeFiles/imageprocessor.dir/all:
 
 # Build rule for subdir invocation for target.
 CMakeFiles/imageprocessor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/imageprocessor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 0
 .PHONY : CMakeFiles/imageprocessor.dir/rule
@@ -151,7 +151,7 @@ CMakeFiles/imageprocessor.dir/clean:
 # Target rules for target CMakeFiles/video_processor.dir
 
 # All Build rule for target.
-CMakeFiles/video_processor.dir/all:
+CMakeFiles/video_processor.dir/all: CMakeFiles/image_internal.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=9,10,11,12 "Built target video_processor"
@@ -159,7 +159,7 @@ CMakeFiles/video_processor.dir/all:
 
 # Build rule for subdir invocation for target.
 CMakeFiles/video_processor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/video_processor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 0
 .PHONY : CMakeFiles/video_processor.dir/rule

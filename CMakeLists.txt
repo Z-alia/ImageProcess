@@ -50,6 +50,7 @@ if(BUILD_GUI)
             PkgConfig::GTK3
             PkgConfig::LIBPNG
             PkgConfig::LIBJPEG
+            image_internal
     )
 
     if(OpenCV_FOUND)
@@ -71,7 +72,7 @@ if(BUILD_VIDEO_TOOL)
             ${COMMON_C_SOURCES}
         )
         target_include_directories(video_processor PRIVATE ${OpenCV_INCLUDE_DIRS})
-        target_link_libraries(video_processor PRIVATE ${OpenCV_LIBS})
+    target_link_libraries(video_processor PRIVATE ${OpenCV_LIBS} image_internal)
     else()
         message(WARNING "OpenCV 未找到，将跳过 video_processor 目标的构建。设置 OpenCV 环境或使用 -DOpenCV_DIR 指定后重试。")
     endif()

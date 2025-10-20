@@ -167,6 +167,7 @@ bin/video_processor.exe: C:/msys64/mingw64/lib/libopencv_wechat_qrcode.dll.a
 bin/video_processor.exe: C:/msys64/mingw64/lib/libopencv_xfeatures2d.dll.a
 bin/video_processor.exe: C:/msys64/mingw64/lib/libopencv_xobjdetect.dll.a
 bin/video_processor.exe: C:/msys64/mingw64/lib/libopencv_xphoto.dll.a
+bin/video_processor.exe: libimage_internal.a
 bin/video_processor.exe: C:/msys64/mingw64/lib/libopencv_shape.dll.a
 bin/video_processor.exe: C:/msys64/mingw64/lib/libopencv_highgui.dll.a
 bin/video_processor.exe: C:/msys64/mingw64/lib/libopencv_datasets.dll.a

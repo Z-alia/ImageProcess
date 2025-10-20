@@ -17,6 +17,7 @@ CMakeFiles/video_processor.dir/global_image_buffer.c.obj: C:/Users/28693/Desktop
 
 CMakeFiles/video_processor.dir/processor.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/processor.c \
   C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/global_image_buffer.h \
+  C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/image.h \
   C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/processor.h \
   D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
   D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
@@ -492,6 +493,10 @@ C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/processor.c:
 
 C:/msys64/mingw64/include/opencv4/opencv2/core/utility.hpp:
 
+C:/msys64/mingw64/include/opencv4/opencv2/core/bufferpool.hpp:
+
+C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/image.h:
+
 D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/bits/ostream_insert.h:
 
 D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/bits/enable_special_members.h:
@@ -525,8 +530,6 @@ C:/msys64/mingw64/include/opencv4/opencv2/core/async.hpp:
 C:/msys64/mingw64/include/opencv4/opencv2/core/fast_math.hpp:
 
 C:/msys64/mingw64/include/opencv4/opencv2/core/base.hpp:
-
-C:/msys64/mingw64/include/opencv4/opencv2/core/bufferpool.hpp:
 
 D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/bits/cxxabi_init_exception.h:
 

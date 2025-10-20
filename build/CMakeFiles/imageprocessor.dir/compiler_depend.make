@@ -1055,6 +1055,7 @@ CMakeFiles/imageprocessor.dir/processor.c.obj: C:/Users/28693/Desktop/Smart-Car-
   C:/msys64/mingw64/include/string.h \
   C:/msys64/mingw64/include/vadefs.h \
   C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/global_image_buffer.h \
+  C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/image.h \
   C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/processor.h
 
 
@@ -3117,3 +3118,5 @@ D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h:
 D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/xmmintrin.h:
 
 D:/mingw64/x86_64-w64-mingw32/include/math.h:
+
+C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/image.h:

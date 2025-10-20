@@ -14,4 +14,5 @@ CMakeFiles/video_processor.dir/processor.c.obj: \
  D:/mingw64/x86_64-w64-mingw32/include/stddef.h \
  C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.h \
  D:/mingw64/x86_64-w64-mingw32/include/string.h \
- D:/mingw64/x86_64-w64-mingw32/include/sec_api/string_s.h
+ D:/mingw64/x86_64-w64-mingw32/include/sec_api/string_s.h \
+ C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\image.h

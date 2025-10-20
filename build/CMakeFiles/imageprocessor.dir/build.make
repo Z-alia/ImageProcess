@@ -129,6 +129,7 @@ bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/main.cpp.obj
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/processor.c.obj
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/build.make
+bin/imageprocessor.exe: libimage_internal.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_gapi.dll.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_stitching.dll.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_alphamat.dll.a

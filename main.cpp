@@ -85,6 +85,8 @@ int main(int argc, char **argv) {
 }
 
 static void activate(GtkApplication *app, gpointer user_data) {
+    // 初始化全局缓冲，默认白底，避免初始全黑影响观感
+    init_global_image_buffers_default();
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "二值图处理器（含视频）");
     gtk_window_set_default_size(GTK_WINDOW(window), 1100, 720);
