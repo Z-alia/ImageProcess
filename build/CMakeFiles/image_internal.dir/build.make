@@ -76,45 +76,45 @@ CMakeFiles/image_internal.dir/global_image_buffer.c.obj: CMakeFiles/image_intern
 CMakeFiles/image_internal.dir/global_image_buffer.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/global_image_buffer.c
 CMakeFiles/image_internal.dir/global_image_buffer.c.obj: CMakeFiles/image_internal.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/image_internal.dir/global_image_buffer.c.obj"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/image_internal.dir/global_image_buffer.c.obj -MF CMakeFiles\image_internal.dir\global_image_buffer.c.obj.d -o CMakeFiles\image_internal.dir\global_image_buffer.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/image_internal.dir/global_image_buffer.c.obj -MF CMakeFiles\image_internal.dir\global_image_buffer.c.obj.d -o CMakeFiles\image_internal.dir\global_image_buffer.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c
 
 CMakeFiles/image_internal.dir/global_image_buffer.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/image_internal.dir/global_image_buffer.c.i"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c > CMakeFiles\image_internal.dir\global_image_buffer.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c > CMakeFiles\image_internal.dir\global_image_buffer.c.i
 
 CMakeFiles/image_internal.dir/global_image_buffer.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/image_internal.dir/global_image_buffer.c.s"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c -o CMakeFiles\image_internal.dir\global_image_buffer.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c -o CMakeFiles\image_internal.dir\global_image_buffer.c.s
 
 CMakeFiles/image_internal.dir/image.c.obj: CMakeFiles/image_internal.dir/flags.make
 CMakeFiles/image_internal.dir/image.c.obj: CMakeFiles/image_internal.dir/includes_C.rsp
 CMakeFiles/image_internal.dir/image.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/image.c
 CMakeFiles/image_internal.dir/image.c.obj: CMakeFiles/image_internal.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/image_internal.dir/image.c.obj"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/image_internal.dir/image.c.obj -MF CMakeFiles\image_internal.dir\image.c.obj.d -o CMakeFiles\image_internal.dir\image.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\image.c
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/image_internal.dir/image.c.obj -MF CMakeFiles\image_internal.dir\image.c.obj.d -o CMakeFiles\image_internal.dir\image.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\image.c
 
 CMakeFiles/image_internal.dir/image.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/image_internal.dir/image.c.i"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\image.c > CMakeFiles\image_internal.dir\image.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\image.c > CMakeFiles\image_internal.dir\image.c.i
 
 CMakeFiles/image_internal.dir/image.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/image_internal.dir/image.c.s"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\image.c -o CMakeFiles\image_internal.dir\image.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\image.c -o CMakeFiles\image_internal.dir\image.c.s
 
 CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj: CMakeFiles/image_internal.dir/flags.make
 CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj: CMakeFiles/image_internal.dir/includes_C.rsp
 CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/morph_binary_bitpacked.c
 CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj: CMakeFiles/image_internal.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj -MF CMakeFiles\image_internal.dir\morph_binary_bitpacked.c.obj.d -o CMakeFiles\image_internal.dir\morph_binary_bitpacked.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\morph_binary_bitpacked.c
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj -MF CMakeFiles\image_internal.dir\morph_binary_bitpacked.c.obj.d -o CMakeFiles\image_internal.dir\morph_binary_bitpacked.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\morph_binary_bitpacked.c
 
 CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.i"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\morph_binary_bitpacked.c > CMakeFiles\image_internal.dir\morph_binary_bitpacked.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\morph_binary_bitpacked.c > CMakeFiles\image_internal.dir\morph_binary_bitpacked.c.i
 
 CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.s"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\morph_binary_bitpacked.c -o CMakeFiles\image_internal.dir\morph_binary_bitpacked.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\morph_binary_bitpacked.c -o CMakeFiles\image_internal.dir\morph_binary_bitpacked.c.s
 
 # Object files for target image_internal
 image_internal_OBJECTS = \

@@ -14,9 +14,6 @@
 # EXTERNAL cache entries
 ########################
 
-//Build embedded image.c pipeline (requires embedded headers)
-BUILD_EMBEDDED_IMAGE:BOOL=OFF
-
 //Build GTK GUI imageprocessor
 BUILD_GUI:BOOL=ON
 
@@ -24,28 +21,28 @@ BUILD_GUI:BOOL=ON
 BUILD_VIDEO_TOOL:BOOL=ON
 
 //Path to a program.
-CMAKE_ADDR2LINE:FILEPATH=D:/mingw64/bin/addr2line.exe
+CMAKE_ADDR2LINE:FILEPATH=C:/msys64/mingw64/bin/addr2line.exe
 
 //Path to a program.
-CMAKE_AR:FILEPATH=D:/mingw64/bin/ar.exe
+CMAKE_AR:FILEPATH=C:/msys64/mingw64/bin/ar.exe
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
 //CXX compiler
-CMAKE_CXX_COMPILER:FILEPATH=D:/mingw64/bin/c++.exe
+CMAKE_CXX_COMPILER:FILEPATH=C:/msys64/mingw64/bin/c++.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_AR:FILEPATH=D:/mingw64/bin/gcc-ar.exe
+CMAKE_CXX_COMPILER_AR:FILEPATH=C:/msys64/mingw64/bin/gcc-ar.exe
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_RANLIB:FILEPATH=D:/mingw64/bin/gcc-ranlib.exe
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=C:/msys64/mingw64/bin/gcc-ranlib.exe
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
@@ -66,15 +63,15 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
 //C compiler
-CMAKE_C_COMPILER:FILEPATH=D:/mingw64/bin/cc.exe
+CMAKE_C_COMPILER:FILEPATH=C:/msys64/mingw64/bin/cc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_AR:FILEPATH=D:/mingw64/bin/gcc-ar.exe
+CMAKE_C_COMPILER_AR:FILEPATH=C:/msys64/mingw64/bin/gcc-ar.exe
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_RANLIB:FILEPATH=D:/mingw64/bin/gcc-ranlib.exe
+CMAKE_C_COMPILER_RANLIB:FILEPATH=C:/msys64/mingw64/bin/gcc-ranlib.exe
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=
@@ -95,7 +92,7 @@ CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_C_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
 //Path to a program.
-CMAKE_DLLTOOL:FILEPATH=D:/mingw64/bin/dlltool.exe
+CMAKE_DLLTOOL:FILEPATH=C:/msys64/mingw64/bin/dlltool.exe
 
 //Flags used by the linker during all build types.
 CMAKE_EXE_LINKER_FLAGS:STRING=
@@ -122,10 +119,10 @@ CMAKE_GNUtoMS:BOOL=OFF
 CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/ImageProcessor
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=D:/mingw64/bin/ld.exe
+CMAKE_LINKER:FILEPATH=C:/msys64/mingw64/bin/ld.exe
 
 //Path to a program.
-CMAKE_MAKE_PROGRAM:FILEPATH=D:/mingw64/bin/mingw32-make.exe
+CMAKE_MAKE_PROGRAM:FILEPATH=C:/msys64/mingw64/bin/mingw32-make.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -148,13 +145,13 @@ CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_NM:FILEPATH=D:/mingw64/bin/nm.exe
+CMAKE_NM:FILEPATH=C:/msys64/mingw64/bin/nm.exe
 
 //Path to a program.
-CMAKE_OBJCOPY:FILEPATH=D:/mingw64/bin/objcopy.exe
+CMAKE_OBJCOPY:FILEPATH=C:/msys64/mingw64/bin/objcopy.exe
 
 //Path to a program.
-CMAKE_OBJDUMP:FILEPATH=D:/mingw64/bin/objdump.exe
+CMAKE_OBJDUMP:FILEPATH=C:/msys64/mingw64/bin/objdump.exe
 
 //Value Computed by CMake
 CMAKE_PROJECT_COMPAT_VERSION:STATIC=
@@ -172,10 +169,10 @@ CMAKE_PROJECT_NAME:STATIC=ImageProcessor
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
 
 //Path to a program.
-CMAKE_RANLIB:FILEPATH=D:/mingw64/bin/ranlib.exe
+CMAKE_RANLIB:FILEPATH=C:/msys64/mingw64/bin/ranlib.exe
 
 //RC compiler
-CMAKE_RC_COMPILER:FILEPATH=D:/mingw64/bin/windres.exe
+CMAKE_RC_COMPILER:FILEPATH=C:/msys64/mingw64/bin/windres.exe
 
 //Flags for Windows Resource Compiler during all build types.
 CMAKE_RC_FLAGS:STRING=
@@ -193,7 +190,7 @@ CMAKE_RC_FLAGS_RELEASE:STRING=
 CMAKE_RC_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_READELF:FILEPATH=D:/mingw64/bin/readelf.exe
+CMAKE_READELF:FILEPATH=C:/msys64/mingw64/bin/readelf.exe
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
@@ -243,7 +240,7 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_STRIP:FILEPATH=D:/mingw64/bin/strip.exe
+CMAKE_STRIP:FILEPATH=C:/msys64/mingw64/bin/strip.exe
 
 //Path to a program.
 CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
@@ -254,9 +251,6 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
-//Enable verbose runtime logging
-IMAGEPROCESSOR_VERBOSE_LOG:BOOL=OFF
-
 //Value Computed by CMake
 ImageProcessor_BINARY_DIR:STATIC=C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/build
 
@@ -266,8 +260,8 @@ ImageProcessor_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 ImageProcessor_SOURCE_DIR:STATIC=C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess
 
-//No help, variable specified on the command line.
-OpenCV_DIR:UNINITIALIZED=C:\msys64\mingw64\lib\cmake\opencv4
+//The directory containing a CMake configuration file for OpenCV.
+OpenCV_DIR:PATH=C:/msys64/mingw64/lib/cmake/opencv4
 
 //Arguments to supply to pkg-config
 PKG_CONFIG_ARGN:STRING=

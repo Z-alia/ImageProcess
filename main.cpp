@@ -203,17 +203,13 @@ static gboolean pixbuf_to_binary_array(GdkPixbuf *pixbuf) {
 }
 
 static gboolean is_png_file(const gchar *filename) {
-    FILE *fp = fopen(filename, "rb");
-    if (!fp) return FALSE;
-    png_byte header[8]; fread(header, 1, 8, fp); fclose(fp);
-    return (png_sig_cmp(header, 0, 8) == 0);
+    // 简单检查：任何文件都允许尝试加载，让 GdkPixbuf 自己判断格式
+    return TRUE;
 }
 
 static gboolean is_jpeg_file(const gchar *filename) {
-    FILE *fp = fopen(filename, "rb");
-    if (!fp) return FALSE;
-    unsigned char header[2]; fread(header, 1, 2, fp); fclose(fp);
-    return (header[0] == 0xFF && header[1] == 0xD8);
+    // 简单检查：任何文件都允许尝试加载，让 GdkPixbuf 自己判断格式
+    return TRUE;
 }
 
 static gboolean load_png_image(const gchar *filename) {

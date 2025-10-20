@@ -76,45 +76,45 @@ CMakeFiles/video_processor.dir/video_processor.cpp.obj: CMakeFiles/video_process
 CMakeFiles/video_processor.dir/video_processor.cpp.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/video_processor.cpp
 CMakeFiles/video_processor.dir/video_processor.cpp.obj: CMakeFiles/video_processor.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/video_processor.dir/video_processor.cpp.obj"
-	D:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/video_processor.dir/video_processor.cpp.obj -MF CMakeFiles\video_processor.dir\video_processor.cpp.obj.d -o CMakeFiles\video_processor.dir\video_processor.cpp.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\video_processor.cpp
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/video_processor.dir/video_processor.cpp.obj -MF CMakeFiles\video_processor.dir\video_processor.cpp.obj.d -o CMakeFiles\video_processor.dir\video_processor.cpp.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\video_processor.cpp
 
 CMakeFiles/video_processor.dir/video_processor.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/video_processor.dir/video_processor.cpp.i"
-	D:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\video_processor.cpp > CMakeFiles\video_processor.dir\video_processor.cpp.i
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\video_processor.cpp > CMakeFiles\video_processor.dir\video_processor.cpp.i
 
 CMakeFiles/video_processor.dir/video_processor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/video_processor.dir/video_processor.cpp.s"
-	D:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\video_processor.cpp -o CMakeFiles\video_processor.dir\video_processor.cpp.s
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\video_processor.cpp -o CMakeFiles\video_processor.dir\video_processor.cpp.s
 
 CMakeFiles/video_processor.dir/global_image_buffer.c.obj: CMakeFiles/video_processor.dir/flags.make
 CMakeFiles/video_processor.dir/global_image_buffer.c.obj: CMakeFiles/video_processor.dir/includes_C.rsp
 CMakeFiles/video_processor.dir/global_image_buffer.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/global_image_buffer.c
 CMakeFiles/video_processor.dir/global_image_buffer.c.obj: CMakeFiles/video_processor.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/video_processor.dir/global_image_buffer.c.obj"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/video_processor.dir/global_image_buffer.c.obj -MF CMakeFiles\video_processor.dir\global_image_buffer.c.obj.d -o CMakeFiles\video_processor.dir\global_image_buffer.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/video_processor.dir/global_image_buffer.c.obj -MF CMakeFiles\video_processor.dir\global_image_buffer.c.obj.d -o CMakeFiles\video_processor.dir\global_image_buffer.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c
 
 CMakeFiles/video_processor.dir/global_image_buffer.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/video_processor.dir/global_image_buffer.c.i"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c > CMakeFiles\video_processor.dir\global_image_buffer.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c > CMakeFiles\video_processor.dir\global_image_buffer.c.i
 
 CMakeFiles/video_processor.dir/global_image_buffer.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/video_processor.dir/global_image_buffer.c.s"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c -o CMakeFiles\video_processor.dir\global_image_buffer.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c -o CMakeFiles\video_processor.dir\global_image_buffer.c.s
 
 CMakeFiles/video_processor.dir/processor.c.obj: CMakeFiles/video_processor.dir/flags.make
 CMakeFiles/video_processor.dir/processor.c.obj: CMakeFiles/video_processor.dir/includes_C.rsp
 CMakeFiles/video_processor.dir/processor.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/processor.c
 CMakeFiles/video_processor.dir/processor.c.obj: CMakeFiles/video_processor.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/video_processor.dir/processor.c.obj"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/video_processor.dir/processor.c.obj -MF CMakeFiles\video_processor.dir\processor.c.obj.d -o CMakeFiles\video_processor.dir\processor.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/video_processor.dir/processor.c.obj -MF CMakeFiles\video_processor.dir\processor.c.obj.d -o CMakeFiles\video_processor.dir\processor.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c
 
 CMakeFiles/video_processor.dir/processor.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/video_processor.dir/processor.c.i"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c > CMakeFiles\video_processor.dir\processor.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c > CMakeFiles\video_processor.dir\processor.c.i
 
 CMakeFiles/video_processor.dir/processor.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/video_processor.dir/processor.c.s"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c -o CMakeFiles\video_processor.dir\processor.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c -o CMakeFiles\video_processor.dir\processor.c.s
 
 # Object files for target video_processor
 video_processor_OBJECTS = \
