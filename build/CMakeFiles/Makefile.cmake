@@ -38,7 +38,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/4.2.0-rc1/CMakeCCompiler.cmake"
   "CMakeFiles/4.2.0-rc1/CMakeRCCompiler.cmake"
   "CMakeFiles/4.2.0-rc1/CMakeSystem.cmake"
-  "C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/cmake/BundleRuntime.cmake.in"
   )
 
 # The corresponding makefile is:
@@ -49,12 +48,10 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "bundle_runtime.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/imageprocessor.dir/DependInfo.cmake"
-  "CMakeFiles/package_portable.dir/DependInfo.cmake"
   )

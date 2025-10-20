@@ -128,19 +128,6 @@ imageprocessor/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/build
 .PHONY : imageprocessor/fast
 
-#=============================================================================
-# Target rules for targets named package_portable
-
-# Build rule for target.
-package_portable: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 package_portable
-.PHONY : package_portable
-
-# fast build rule for target.
-package_portable/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\package_portable.dir\build.make CMakeFiles/package_portable.dir/build
-.PHONY : package_portable/fast
-
 main.obj: main.c.obj
 .PHONY : main.obj
 
@@ -197,7 +184,6 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... package_portable
 	@echo ... imageprocessor
 	@echo ... main.obj
 	@echo ... main.i
