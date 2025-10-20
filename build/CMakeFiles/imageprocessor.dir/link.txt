@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\imageprocessor.dir/objects.a
+D:\mingw64\bin\ar.exe qc CMakeFiles\imageprocessor.dir/objects.a @CMakeFiles\imageprocessor.dir\objects1.rsp
+D:\mingw64\bin\cc.exe -Wl,--whole-archive CMakeFiles\imageprocessor.dir/objects.a -Wl,--no-whole-archive -o bin\imageprocessor.exe -Wl,--out-implib,libimageprocessor.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\imageprocessor.dir\linkLibs.rsp

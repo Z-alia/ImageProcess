@@ -1,6 +1,5 @@
 #include <gtk/gtk.h>
 #include <png.h>
-#include <jpeglib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -556,8 +555,6 @@ static void process_image_clicked(GtkWidget *widget, gpointer data) {
 // 加载JPEG图像
 static gboolean load_jpeg_image(const gchar *filename) {
     FILE *fp;
-    struct jpeg_decompress_struct cinfo;
-    struct jpeg_error_mgr jerr;
     
     g_print("正在尝试加载JPEG文件: %s\n", filename);
     
@@ -568,35 +565,8 @@ static gboolean load_jpeg_image(const gchar *filename) {
         return FALSE;
     }
     g_print("✓ 文件成功打开\n");
-    
-    // 初始化JPEG解压对象
-    cinfo.err = jpeg_std_error(&jerr);
-    jpeg_create_decompress(&cinfo);
-    jpeg_stdio_src(&cinfo, fp);
-    
-    // 读取JPEG文件头
-    jpeg_read_header(&cinfo, TRUE);
-    
-    g_print("JPEG图像信息: %d x %d, 颜色组件数: %d\n", 
-            (int)cinfo.image_width, (int)cinfo.image_height, cinfo.num_components);
-    
-    // 检查图像尺寸
-    if (cinfo.image_width <= 0 || cinfo.image_height <= 0) {
-        g_print("错误: 无效的图像尺寸 (%d x %d)\n", (int)cinfo.image_width, (int)cinfo.image_height);
-        jpeg_destroy_decompress(&cinfo);
-        fclose(fp);
-        return FALSE;
-    }
-    
-    // 检查图像尺寸是否过大
-    if (cinfo.image_width > 10000 || cinfo.image_height > 10000) {
-        g_print("警告: 图像尺寸过大 (%d x %d)，可能导致内存分配问题\n", 
-                (int)cinfo.image_width, (int)cinfo.image_height);
-    }
-    
-    // 我们不需要使用libjpeg来读取像素数据，因为我们使用GDK Pixbuf来处理
-    // 只需要验证文件是有效的JPEG即可
-    jpeg_destroy_decompress(&cinfo);
+
+    // Diagnostic markers to help pinpoint runtime issues under Windows
     fclose(fp);
     
     // 更新图像到界面
@@ -645,7 +615,7 @@ static gboolean load_jpeg_image(const gchar *filename) {
         image_height = TARGET_HEIGHT;
         
         g_print("正在分配内存: %d x %d\n", image_width, image_height);
-        
+
         // 分配二维数组内存
         original_bi_image = (uint8_t **)malloc(image_height * sizeof(uint8_t *));
         if (!original_bi_image) {
@@ -674,7 +644,7 @@ static gboolean load_jpeg_image(const gchar *filename) {
         g_print("✓ 内存分配成功\n");
         
         // 获取缩放后图像的像素数据
-        int rowstride = gdk_pixbuf_get_rowstride(pixbuf);
+    int rowstride = gdk_pixbuf_get_rowstride(pixbuf);
         guchar *pixels = gdk_pixbuf_get_pixels(pixbuf);
         int channels = gdk_pixbuf_get_n_channels(pixbuf);
         

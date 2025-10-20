@@ -55,12 +55,17 @@ sudo dnf install gtk3-devel libpng-devel libjpeg-devel
 
 ## 编译程序
 
-使用Makefile编译：
+推荐使用 CMake 进行 out-of-source 构建：
+
 ```bash
-make
+cmake -S . -B build
+cmake --build build
 ```
 
-如果遇到pkg-config相关错误，请确保pkg-config可以找到gtk库：
+> Windows 用户请根据本地工具链选择生成器，例如 `cmake -S . -B build -G "MinGW Makefiles"`。多配置生成器（Visual Studio / Ninja Multi-Config）下可使用 `cmake --build build --config Release` 构建特定配置。
+
+如果遇到 pkg-config 相关错误，请确认 pkg-config 能找到 GTK、libpng 和 libjpeg 的 `.pc` 文件：
+
 ```bash
 export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig:/usr/lib/pkgconfig
 ```
@@ -68,8 +73,19 @@ export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig:
 ## 运行程序
 
 ```bash
-./imageprocessor
+./build/bin/imageprocessor
 ```
+
+在 Windows PowerShell 中运行时，请先临时加入 MSYS2 MinGW64 DLL 路径：
+
+```powershell
+$env:PATH = "C:\msys64\mingw64\bin;$env:PATH"
+$env:XDG_DATA_DIRS = "C:\msys64\mingw64\share;$env:XDG_DATA_DIRS"
+$env:GSETTINGS_SCHEMA_DIR = "C:\msys64\mingw64\share\glib-2.0\schemas"
+./build/bin/imageprocessor.exe
+```
+
+也可以直接双击仓库根目录下的 `run_imageprocessor.bat`，脚本会自动配置 PATH 并启动程序。
 
 ## 使用方法
 
