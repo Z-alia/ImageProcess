@@ -15,7 +15,7 @@
 ########################
 
 //Build GTK GUI imageprocessor
-BUILD_GUI:BOOL=OFF
+BUILD_GUI:BOOL=ON
 
 //Build video_processor CLI (OpenCV)
 BUILD_VIDEO_TOOL:BOOL=ON

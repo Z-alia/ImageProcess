@@ -116,6 +116,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named imageprocessor
+
+# Build rule for target.
+imageprocessor: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 imageprocessor
+.PHONY : imageprocessor
+
+# fast build rule for target.
+imageprocessor/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/build
+.PHONY : imageprocessor/fast
+
+#=============================================================================
 # Target rules for targets named video_processor
 
 # Build rule for target.
@@ -128,11 +141,36 @@ video_processor/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/build
 .PHONY : video_processor/fast
 
+main.obj: main.cpp.obj
+.PHONY : main.obj
+
+# target to build an object file
+main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/main.cpp.obj
+.PHONY : main.cpp.obj
+
+main.i: main.cpp.i
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/main.cpp.s
+.PHONY : main.cpp.s
+
 processor.obj: processor.c.obj
 .PHONY : processor.obj
 
 # target to build an object file
 processor.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/processor.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/processor.c.obj
 .PHONY : processor.c.obj
 
@@ -141,6 +179,7 @@ processor.i: processor.c.i
 
 # target to preprocess a source file
 processor.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/processor.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/processor.c.i
 .PHONY : processor.c.i
 
@@ -149,6 +188,7 @@ processor.s: processor.c.s
 
 # target to generate assembly for a file
 processor.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/processor.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/processor.c.s
 .PHONY : processor.c.s
 
@@ -184,7 +224,11 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... imageprocessor
 	@echo ... video_processor
+	@echo ... main.obj
+	@echo ... main.i
+	@echo ... main.s
 	@echo ... processor.obj
 	@echo ... processor.i
 	@echo ... processor.s

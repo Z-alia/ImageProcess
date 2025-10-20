@@ -17,7 +17,7 @@ option(BUILD_GUI "Build GTK GUI imageprocessor" OFF)
 # ---------------- GUI 目标（可选） ----------------
 if(BUILD_GUI)
     set(SOURCES_GUI
-        main.c
+        main.cpp
         processor.c
     )
 
@@ -25,6 +25,9 @@ if(BUILD_GUI)
     pkg_check_modules(GTK3 REQUIRED IMPORTED_TARGET gtk+-3.0)
     pkg_check_modules(LIBPNG REQUIRED IMPORTED_TARGET libpng)
     pkg_check_modules(LIBJPEG REQUIRED IMPORTED_TARGET libjpeg)
+
+    # GUI 可选集成 OpenCV（用于视频导入）。未找到 OpenCV 也可以继续构建 GUI，只是禁用视频按钮。
+    find_package(OpenCV QUIET)
 
     add_executable(imageprocessor ${SOURCES_GUI})
 
@@ -34,6 +37,12 @@ if(BUILD_GUI)
             PkgConfig::LIBPNG
             PkgConfig::LIBJPEG
     )
+
+    if(OpenCV_FOUND)
+        target_include_directories(imageprocessor PRIVATE ${OpenCV_INCLUDE_DIRS})
+        target_link_libraries(imageprocessor PRIVATE ${OpenCV_LIBS})
+        target_compile_definitions(imageprocessor PRIVATE HAVE_OPENCV=1)
+    endif()
 endif()
 
 # ---------------- 视频逐帧处理 CLI 目标 ----------------

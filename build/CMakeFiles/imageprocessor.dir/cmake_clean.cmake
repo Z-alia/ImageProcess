@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/imageprocessor.dir/main.c.obj"
-  "CMakeFiles/imageprocessor.dir/main.c.obj.d"
+  "CMakeFiles/imageprocessor.dir/main.cpp.obj"
+  "CMakeFiles/imageprocessor.dir/main.cpp.obj.d"
   "CMakeFiles/imageprocessor.dir/processor.c.obj"
   "CMakeFiles/imageprocessor.dir/processor.c.obj.d"
   "bin/imageprocessor.exe"
@@ -10,6 +10,6 @@ file(REMOVE_RECURSE
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang C)
+foreach(lang C CXX)
   include(CMakeFiles/imageprocessor.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

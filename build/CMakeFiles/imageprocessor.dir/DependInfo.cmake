@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/main.c" "CMakeFiles/imageprocessor.dir/main.c.obj" "gcc" "CMakeFiles/imageprocessor.dir/main.c.obj.d"
   "C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/processor.c" "CMakeFiles/imageprocessor.dir/processor.c.obj" "gcc" "CMakeFiles/imageprocessor.dir/processor.c.obj.d"
+  "C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/main.cpp" "CMakeFiles/imageprocessor.dir/main.cpp.obj" "gcc" "CMakeFiles/imageprocessor.dir/main.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

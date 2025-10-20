@@ -71,20 +71,20 @@ include CMakeFiles/imageprocessor.dir/flags.make
 CMakeFiles/imageprocessor.dir/codegen:
 .PHONY : CMakeFiles/imageprocessor.dir/codegen
 
-CMakeFiles/imageprocessor.dir/main.c.obj: CMakeFiles/imageprocessor.dir/flags.make
-CMakeFiles/imageprocessor.dir/main.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
-CMakeFiles/imageprocessor.dir/main.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/main.c
-CMakeFiles/imageprocessor.dir/main.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/imageprocessor.dir/main.c.obj"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/main.c.obj -MF CMakeFiles\imageprocessor.dir\main.c.obj.d -o CMakeFiles\imageprocessor.dir\main.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.c
+CMakeFiles/imageprocessor.dir/main.cpp.obj: CMakeFiles/imageprocessor.dir/flags.make
+CMakeFiles/imageprocessor.dir/main.cpp.obj: CMakeFiles/imageprocessor.dir/includes_CXX.rsp
+CMakeFiles/imageprocessor.dir/main.cpp.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/main.cpp
+CMakeFiles/imageprocessor.dir/main.cpp.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/imageprocessor.dir/main.cpp.obj"
+	D:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/main.cpp.obj -MF CMakeFiles\imageprocessor.dir\main.cpp.obj.d -o CMakeFiles\imageprocessor.dir\main.cpp.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.cpp
 
-CMakeFiles/imageprocessor.dir/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/imageprocessor.dir/main.c.i"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.c > CMakeFiles\imageprocessor.dir\main.c.i
+CMakeFiles/imageprocessor.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/imageprocessor.dir/main.cpp.i"
+	D:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.cpp > CMakeFiles\imageprocessor.dir\main.cpp.i
 
-CMakeFiles/imageprocessor.dir/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/imageprocessor.dir/main.c.s"
-	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.c -o CMakeFiles\imageprocessor.dir\main.c.s
+CMakeFiles/imageprocessor.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/imageprocessor.dir/main.cpp.s"
+	D:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.cpp -o CMakeFiles\imageprocessor.dir\main.cpp.s
 
 CMakeFiles/imageprocessor.dir/processor.c.obj: CMakeFiles/imageprocessor.dir/flags.make
 CMakeFiles/imageprocessor.dir/processor.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
@@ -103,15 +103,53 @@ CMakeFiles/imageprocessor.dir/processor.c.s: cmake_force
 
 # Object files for target imageprocessor
 imageprocessor_OBJECTS = \
-"CMakeFiles/imageprocessor.dir/main.c.obj" \
+"CMakeFiles/imageprocessor.dir/main.cpp.obj" \
 "CMakeFiles/imageprocessor.dir/processor.c.obj"
 
 # External object files for target imageprocessor
 imageprocessor_EXTERNAL_OBJECTS =
 
-bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/main.c.obj
+bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/main.cpp.obj
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/processor.c.obj
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/build.make
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_gapi.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_stitching.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_alphamat.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_aruco.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_bgsegm.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ccalib.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_cvv.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn_objdetect.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn_superres.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dpm.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_face.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_freetype.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_fuzzy.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_hdf.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_hfs.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_img_hash.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_intensity_transform.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_line_descriptor.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_mcc.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ovis.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_quality.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_rapid.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_reg.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_rgbd.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_saliency.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_sfm.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_signal.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_stereo.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_structured_light.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_superres.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_surface_matching.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_tracking.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_videostab.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_viz.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_wechat_qrcode.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xfeatures2d.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xobjdetect.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xphoto.dll.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgtk-3.dll.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgdk-3.dll.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libz.dll.a
@@ -142,10 +180,30 @@ bin/imageprocessor.exe: C:/msys64/mingw64/lib/libglib-2.0.dll.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libintl.dll.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpng16.dll.a
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libjpeg.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_shape.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_highgui.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_datasets.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_plot.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_text.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ml.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_phase_unwrapping.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_optflow.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ximgproc.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_video.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_videoio.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_imgcodecs.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_objdetect.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_calib3d.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_features2d.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_flann.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_photo.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_imgproc.dll.a
+bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_core.dll.a
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/linkLibs.rsp
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/objects1.rsp
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable bin\imageprocessor.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable bin\imageprocessor.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\imageprocessor.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
