@@ -377,4 +377,5 @@ CMakeFiles/video_processor.dir/video_processor.cpp.obj: \
  D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/codecvt \
  D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/bits/fs_dir.h \
  D:/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/c++/bits/fs_ops.h \
- C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.h
+ C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.h \
+ C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.h

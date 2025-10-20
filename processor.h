@@ -8,12 +8,14 @@
 
 #include <stdint.h>
 
+#include "global_image_buffer.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void process_original_to_imo(const uint8_t **original,
-                             uint8_t **imo,
+void process_original_to_imo(const uint8_t *original,
+                             uint8_t *imo,
                              int width,
                              int height);
 

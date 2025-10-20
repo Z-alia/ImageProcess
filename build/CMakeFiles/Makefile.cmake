@@ -65,6 +65,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/image_internal.dir/DependInfo.cmake"
   "CMakeFiles/imageprocessor.dir/DependInfo.cmake"
   "CMakeFiles/video_processor.dir/DependInfo.cmake"
   )

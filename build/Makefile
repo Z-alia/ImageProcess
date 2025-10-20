@@ -116,6 +116,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named image_internal
+
+# Build rule for target.
+image_internal: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 image_internal
+.PHONY : image_internal
+
+# fast build rule for target.
+image_internal/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/build
+.PHONY : image_internal/fast
+
+#=============================================================================
 # Target rules for targets named imageprocessor
 
 # Build rule for target.
@@ -141,6 +154,60 @@ video_processor/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/build
 .PHONY : video_processor/fast
 
+global_image_buffer.obj: global_image_buffer.c.obj
+.PHONY : global_image_buffer.obj
+
+# target to build an object file
+global_image_buffer.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/global_image_buffer.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/global_image_buffer.c.obj
+.PHONY : global_image_buffer.c.obj
+
+global_image_buffer.i: global_image_buffer.c.i
+.PHONY : global_image_buffer.i
+
+# target to preprocess a source file
+global_image_buffer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/global_image_buffer.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/global_image_buffer.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/global_image_buffer.c.i
+.PHONY : global_image_buffer.c.i
+
+global_image_buffer.s: global_image_buffer.c.s
+.PHONY : global_image_buffer.s
+
+# target to generate assembly for a file
+global_image_buffer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/global_image_buffer.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/global_image_buffer.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/global_image_buffer.c.s
+.PHONY : global_image_buffer.c.s
+
+image.obj: image.c.obj
+.PHONY : image.obj
+
+# target to build an object file
+image.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/image.c.obj
+.PHONY : image.c.obj
+
+image.i: image.c.i
+.PHONY : image.i
+
+# target to preprocess a source file
+image.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/image.c.i
+.PHONY : image.c.i
+
+image.s: image.c.s
+.PHONY : image.s
+
+# target to generate assembly for a file
+image.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/image.c.s
+.PHONY : image.c.s
+
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -164,6 +231,30 @@ main.s: main.cpp.s
 main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+morph_binary_bitpacked.obj: morph_binary_bitpacked.c.obj
+.PHONY : morph_binary_bitpacked.obj
+
+# target to build an object file
+morph_binary_bitpacked.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj
+.PHONY : morph_binary_bitpacked.c.obj
+
+morph_binary_bitpacked.i: morph_binary_bitpacked.c.i
+.PHONY : morph_binary_bitpacked.i
+
+# target to preprocess a source file
+morph_binary_bitpacked.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.i
+.PHONY : morph_binary_bitpacked.c.i
+
+morph_binary_bitpacked.s: morph_binary_bitpacked.c.s
+.PHONY : morph_binary_bitpacked.s
+
+# target to generate assembly for a file
+morph_binary_bitpacked.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.s
+.PHONY : morph_binary_bitpacked.c.s
 
 processor.obj: processor.c.obj
 .PHONY : processor.obj
@@ -224,11 +315,21 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... image_internal
 	@echo ... imageprocessor
 	@echo ... video_processor
+	@echo ... global_image_buffer.obj
+	@echo ... global_image_buffer.i
+	@echo ... global_image_buffer.s
+	@echo ... image.obj
+	@echo ... image.i
+	@echo ... image.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... morph_binary_bitpacked.obj
+	@echo ... morph_binary_bitpacked.i
+	@echo ... morph_binary_bitpacked.s
 	@echo ... processor.obj
 	@echo ... processor.i
 	@echo ... processor.s

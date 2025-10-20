@@ -14,6 +14,9 @@
 # EXTERNAL cache entries
 ########################
 
+//Build embedded image.c pipeline (requires embedded headers)
+BUILD_EMBEDDED_IMAGE:BOOL=OFF
+
 //Build GTK GUI imageprocessor
 BUILD_GUI:BOOL=ON
 

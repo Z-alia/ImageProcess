@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 #include "processor.h"
+#include "global_image_buffer.h"
 
 #ifdef HAVE_OPENCV
 // 兼容 MSYS2 mingw64 (msvcrt) 缺少 quick_exit/timespec_get 的环境：
@@ -27,12 +28,11 @@ static GtkWidget *process_button;
 static GtkWidget *imo_image_view;
 static GdkPixbuf *current_image = NULL;
 
-static uint8_t **original_bi_image = NULL;
-static uint8_t **imo = NULL;
-static int image_width = 0;
-static int image_height = 0;
-static const int TARGET_WIDTH = 188;
-static const int TARGET_HEIGHT = 120;
+// 全局二维数组已在 global_image_buffer.h/c 定义
+static int image_width = IMAGE_W;
+static int image_height = IMAGE_H;
+static const int TARGET_WIDTH = IMAGE_W;
+static const int TARGET_HEIGHT = IMAGE_H;
 
 #ifdef HAVE_OPENCV
 // 视频相关状态
@@ -156,25 +156,9 @@ static void activate(GtkApplication *app, gpointer user_data) {
     gtk_widget_show_all(window);
 }
 
-static void free_imo_array() {
-    if (imo) {
-        for (int i = 0; i < image_height; i++) {
-            free(imo[i]);
-        }
-        free(imo);
-        imo = NULL;
-    }
-}
-
-static void free_binary_image_data() {
-    if (original_bi_image) {
-        for (int i = 0; i < image_height; i++) free(original_bi_image[i]);
-        free(original_bi_image);
-        original_bi_image = NULL;
-    }
-    free_imo_array();
-    image_width = image_height = 0;
-}
+// 全局数组无需释放
+static void free_imo_array() {}
+static void free_binary_image_data() {}
 
 static void reset_image_views() {
     if (original_array_area)
@@ -193,25 +177,12 @@ static GdkPixbuf* scale_pixbuf_to_target(GdkPixbuf *pixbuf) {
 
 static gboolean pixbuf_to_binary_array(GdkPixbuf *pixbuf) {
     if (!pixbuf) return FALSE;
-
-    // 重置旧数据
-    free_binary_image_data();
-    image_width = TARGET_WIDTH;
-    image_height = TARGET_HEIGHT;
-
-    original_bi_image = (uint8_t **)malloc(image_height * sizeof(uint8_t *));
-    if (!original_bi_image) return FALSE;
-    for (int i = 0; i < image_height; ++i) {
-        original_bi_image[i] = (uint8_t *)malloc(image_width * sizeof(uint8_t));
-        if (!original_bi_image[i]) return FALSE;
-    }
-
     int rowstride = gdk_pixbuf_get_rowstride(pixbuf);
     guchar *pixels = gdk_pixbuf_get_pixels(pixbuf);
     int channels = gdk_pixbuf_get_n_channels(pixbuf);
-    for (int y = 0; y < image_height; y++) {
+    for (int y = 0; y < IMAGE_H; y++) {
         guchar *row = pixels + y * rowstride;
-        for (int x = 0; x < image_width; x++) {
+        for (int x = 0; x < IMAGE_W; x++) {
             int gray;
             if (channels == 1) gray = row[x];
             else if (channels == 2) gray = row[x * 2];
@@ -303,25 +274,20 @@ static void upload_image_clicked(GtkWidget *widget, gpointer data) {
 }
 
 static void allocate_imo_array() {
-    free_imo_array();
-    imo = (uint8_t **)malloc(image_height * sizeof(uint8_t *));
-    if (!imo) return;
-    for (int i = 0; i < image_height; i++) {
-        imo[i] = (uint8_t *)malloc(image_width * sizeof(uint8_t));
-        if (!imo[i]) return;
-        memset(imo[i], 255, image_width);
+    for (int i = 0; i < IMAGE_H; i++) {
+        for (int j = 0; j < IMAGE_W; j++) {
+            imo[i][j] = 255;
+        }
     }
 }
 
 static void process_image_clicked(GtkWidget *widget, gpointer data) {
-    if (!original_bi_image || image_width <= 0 || image_height <= 0) return;
     allocate_imo_array();
-    if (!imo) return;
-    process_original_to_imo((const uint8_t **)original_bi_image, imo, image_width, image_height);
+    process_original_to_imo(&original_bi_image[0][0], &imo[0][0], IMAGE_W, IMAGE_H);
     refresh_all_views();
 }
 
-static GdkPixbuf* render_bw_array_pixbuf(uint8_t **arr, int w, int h, int pixel_size) {
+static GdkPixbuf* render_bw_array_pixbuf(uint8_t arr[IMAGE_H][IMAGE_W], int w, int h, int pixel_size) {
     if (!arr || w <= 0 || h <= 0) return NULL;
     int W = w * pixel_size, H = h * pixel_size;
     GdkPixbuf *pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, W, H);
@@ -342,7 +308,7 @@ static GdkPixbuf* render_bw_array_pixbuf(uint8_t **arr, int w, int h, int pixel_
     return pb;
 }
 
-static GdkPixbuf* render_imo_array_pixbuf(uint8_t **arr, int w, int h, int pixel_size) {
+static GdkPixbuf* render_imo_array_pixbuf(uint8_t arr[IMAGE_H][IMAGE_W], int w, int h, int pixel_size) {
     if (!arr || w <= 0 || h <= 0) return NULL;
     int W = w * pixel_size, H = h * pixel_size;
     GdkPixbuf *pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, W, H);
@@ -373,11 +339,11 @@ static GdkPixbuf* render_imo_array_pixbuf(uint8_t **arr, int w, int h, int pixel
 }
 
 static void refresh_all_views() {
-    if (original_bi_image && original_array_area) {
-        GdkPixbuf *base = render_bw_array_pixbuf(original_bi_image, image_width, image_height, 2);
+    if (original_array_area) {
+        GdkPixbuf *base = render_bw_array_pixbuf(original_bi_image, IMAGE_W, IMAGE_H, 2);
         if (base) { gtk_image_set_from_pixbuf(GTK_IMAGE(original_array_area), base); g_object_unref(base);}    }
-    if (imo && imo_image_view) {
-        GdkPixbuf *base = render_imo_array_pixbuf(imo, image_width, image_height, 2);
+    if (imo_image_view) {
+        GdkPixbuf *base = render_imo_array_pixbuf(imo, IMAGE_W, IMAGE_H, 2);
         if (base) { gtk_image_set_from_pixbuf(GTK_IMAGE(imo_image_view), base); g_object_unref(base);}    }
 }
 

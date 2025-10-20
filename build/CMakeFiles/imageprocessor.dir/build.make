@@ -86,11 +86,26 @@ CMakeFiles/imageprocessor.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/imageprocessor.dir/main.cpp.s"
 	D:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.cpp -o CMakeFiles\imageprocessor.dir\main.cpp.s
 
+CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/flags.make
+CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
+CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/global_image_buffer.c
+CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj"
+	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj -MF CMakeFiles\imageprocessor.dir\global_image_buffer.c.obj.d -o CMakeFiles\imageprocessor.dir\global_image_buffer.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c
+
+CMakeFiles/imageprocessor.dir/global_image_buffer.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/imageprocessor.dir/global_image_buffer.c.i"
+	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c > CMakeFiles\imageprocessor.dir\global_image_buffer.c.i
+
+CMakeFiles/imageprocessor.dir/global_image_buffer.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/imageprocessor.dir/global_image_buffer.c.s"
+	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c -o CMakeFiles\imageprocessor.dir\global_image_buffer.c.s
+
 CMakeFiles/imageprocessor.dir/processor.c.obj: CMakeFiles/imageprocessor.dir/flags.make
 CMakeFiles/imageprocessor.dir/processor.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
 CMakeFiles/imageprocessor.dir/processor.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/processor.c
 CMakeFiles/imageprocessor.dir/processor.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/imageprocessor.dir/processor.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/imageprocessor.dir/processor.c.obj"
 	D:\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/processor.c.obj -MF CMakeFiles\imageprocessor.dir\processor.c.obj.d -o CMakeFiles\imageprocessor.dir\processor.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c
 
 CMakeFiles/imageprocessor.dir/processor.c.i: cmake_force
@@ -104,12 +119,14 @@ CMakeFiles/imageprocessor.dir/processor.c.s: cmake_force
 # Object files for target imageprocessor
 imageprocessor_OBJECTS = \
 "CMakeFiles/imageprocessor.dir/main.cpp.obj" \
+"CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj" \
 "CMakeFiles/imageprocessor.dir/processor.c.obj"
 
 # External object files for target imageprocessor
 imageprocessor_EXTERNAL_OBJECTS =
 
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/main.cpp.obj
+bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/processor.c.obj
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/build.make
 bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_gapi.dll.a
@@ -203,7 +220,7 @@ bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_core.dll.a
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/linkLibs.rsp
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/objects1.rsp
 bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable bin\imageprocessor.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable bin\imageprocessor.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\imageprocessor.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

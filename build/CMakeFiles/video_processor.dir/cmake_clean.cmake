@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/video_processor.dir/global_image_buffer.c.obj"
+  "CMakeFiles/video_processor.dir/global_image_buffer.c.obj.d"
   "CMakeFiles/video_processor.dir/processor.c.obj"
   "CMakeFiles/video_processor.dir/processor.c.obj.d"
   "CMakeFiles/video_processor.dir/video_processor.cpp.obj"

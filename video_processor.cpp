@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdint>
 #include "processor.h"
+#include "global_image_buffer.h"
 
 namespace fs = std::filesystem;
 
@@ -94,16 +95,14 @@ int main(int argc, char **argv) {
         // 转换成 188x120 二值 original，并调用现有 C 处理逻辑，选择性落盘
         std::vector<std::vector<uint8_t>> original;
         resize_and_binarize(frame, original, TARGET_W, TARGET_H);
-
-        // 为 C 接口准备指针数组
-        std::vector<uint8_t*> imoRows(TARGET_H, nullptr);
-        std::vector<const uint8_t*> origRows(TARGET_H, nullptr);
-        std::vector<std::vector<uint8_t>> imo(TARGET_H, std::vector<uint8_t>(TARGET_W, 255));
-        for (int y = 0; y < TARGET_H; ++y) {
-            origRows[y] = original[y].data();
-            imoRows[y] = imo[y].data();
-        }
-        process_original_to_imo(origRows.data(), imoRows.data(), TARGET_W, TARGET_H);
+        // 拷贝到全局 original_bi_image
+        for (int y = 0; y < TARGET_H; ++y)
+            memcpy(original_bi_image[y], original[y].data(), TARGET_W);
+        // 清空全局 imo
+        for (int y = 0; y < TARGET_H; ++y)
+            for (int x = 0; x < TARGET_W; ++x)
+                imo[y][x] = 255;
+    process_original_to_imo(&original_bi_image[0][0], &imo[0][0], TARGET_W, TARGET_H);
 
         if (exportImo) {
             // 将 imo 可视化落盘为彩色 PNG（0=黑，1=红，2=橙，3=黄，4=绿，5=青，255=白）

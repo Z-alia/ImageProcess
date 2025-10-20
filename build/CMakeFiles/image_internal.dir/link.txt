@@ -1,0 +1,2 @@
+D:\mingw64\bin\ar.exe qc libimage_internal.a CMakeFiles/image_internal.dir/global_image_buffer.c.obj CMakeFiles/image_internal.dir/image.c.obj CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj
+D:\mingw64\bin\ranlib.exe libimage_internal.a

@@ -707,6 +707,7 @@ CMakeFiles/imageprocessor.dir/main.cpp.obj: \
  C:/msys64/mingw64/include/png.h C:/msys64/mingw64/include/pnglibconf.h \
  C:/msys64/mingw64/include/pngconf.h C:/msys64/mingw64/include/setjmp.h \
  C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.h \
+ C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.h \
  C:/msys64/mingw64/include/opencv4/opencv2/opencv.hpp \
  C:/msys64/mingw64/include/opencv4/opencv2/opencv_modules.hpp \
  C:/msys64/mingw64/include/opencv4/opencv2/core.hpp \

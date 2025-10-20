@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj"
+  "CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj.d"
   "CMakeFiles/imageprocessor.dir/main.cpp.obj"
   "CMakeFiles/imageprocessor.dir/main.cpp.obj.d"
   "CMakeFiles/imageprocessor.dir/processor.c.obj"
