@@ -62,11 +62,11 @@ CMAKE_BINARY_DIR = C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/imageprocessor.dir/all
+all: CMakeFiles/video_processor.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/imageprocessor.dir/codegen
+codegen: CMakeFiles/video_processor.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -74,40 +74,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/imageprocessor.dir/clean
+clean: CMakeFiles/video_processor.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/imageprocessor.dir
+# Target rules for target CMakeFiles/video_processor.dir
 
 # All Build rule for target.
-CMakeFiles/imageprocessor.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=1,2,3 "Built target imageprocessor"
-.PHONY : CMakeFiles/imageprocessor.dir/all
+CMakeFiles/video_processor.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=1,2,3 "Built target video_processor"
+.PHONY : CMakeFiles/video_processor.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/imageprocessor.dir/rule: cmake_check_build_system
+CMakeFiles/video_processor.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/imageprocessor.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/video_processor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 0
-.PHONY : CMakeFiles/imageprocessor.dir/rule
+.PHONY : CMakeFiles/video_processor.dir/rule
 
 # Convenience name for target.
-imageprocessor: CMakeFiles/imageprocessor.dir/rule
-.PHONY : imageprocessor
+video_processor: CMakeFiles/video_processor.dir/rule
+.PHONY : video_processor
 
 # codegen rule for target.
-CMakeFiles/imageprocessor.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=1,2,3 "Finished codegen for target imageprocessor"
-.PHONY : CMakeFiles/imageprocessor.dir/codegen
+CMakeFiles/video_processor.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=1,2,3 "Finished codegen for target video_processor"
+.PHONY : CMakeFiles/video_processor.dir/codegen
 
 # clean rule for target.
-CMakeFiles/imageprocessor.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/clean
-.PHONY : CMakeFiles/imageprocessor.dir/clean
+CMakeFiles/video_processor.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/clean
+.PHONY : CMakeFiles/video_processor.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

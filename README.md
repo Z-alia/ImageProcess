@@ -240,3 +240,31 @@ UI功能：
 - 图像分析
 - 特征提取
 - 数据导出等
+
+---
+
+## 新增：视频逐帧导出工具（OpenCV）
+
+为满足“把 mp4 的每一帧导出为 PNG 并逐帧处理”的需求，新增命令行工具：`video_processor`。
+
+功能：
+- 读取输入视频（如 .mp4），将每一帧导出为 `frame_XXXXXX.png`。
+- 将每帧缩放为 188x120 并二值化为 original 数组，调用 `processor.c` 中的 `process_original_to_imo` 生成 imo；若附加 `--export-imo` 则导出 `imo_XXXXXX.png` 可视化。
+
+构建说明：
+- 本仓库的 CMake 已将 GUI 与视频工具拆分为可选目标：
+  - `-DBUILD_VIDEO_TOOL=ON`（默认 ON）构建 `video_processor`
+  - `-DBUILD_GUI=ON` 构建原有 GTK 图形界面 `imageprocessor`
+- `video_processor` 依赖 OpenCV（imgcodecs、imgproc、videoio）。若 CMake 输出“OpenCV 未找到，将跳过 video_processor 目标的构建”，请先安装/配置 OpenCV。
+
+Windows（MinGW + MSYS2）示例：
+1) 在 MSYS2 中安装 OpenCV（示例）：`pacman -S mingw-w64-x86_64-opencv`
+2) 在 PowerShell 生成与构建（根据本地路径调整 OpenCV_DIR）：
+   - cmake -S . -B build -G "MinGW Makefiles" -DOpenCV_DIR=C:\\msys64\\mingw64\\lib\\cmake\\opencv4
+   - cmake --build build --target video_processor
+
+运行：
+- 直接运行可执行文件（PowerShell）：
+  - ./build/bin/video_processor.exe C:\\path\\to\\input.mp4 C:\\path\\to\\frames --export-imo
+- 或使用脚本：
+  - ./run_video_processor.ps1 -Input C:\\path\\to\\input.mp4 -OutDir C:\\path\\to\\frames -ExportImo

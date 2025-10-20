@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCInformation.cmake"
+  "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCXXInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeCommonLanguageInclude.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeGenericSystem.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeInitializeConfigs.cmake"
@@ -17,18 +18,23 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeSystemSpecificInitialize.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/GNU-C.cmake"
+  "C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/GNU-CXX.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/GNU.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageHandleStandardArgs.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageMessage.cmake"
-  "C:/Program Files/CMake/share/cmake-4.2/Modules/FindPkgConfig.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CMakeCLinkerInformation.cmake"
+  "C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CMakeCXXLinkerInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CMakeCommonLinkerInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Linker/GNU.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Linker/Windows-C.cmake"
+  "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Linker/Windows-CXX.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Linker/Windows-GNU-C.cmake"
+  "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Linker/Windows-GNU-CXX.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Linker/Windows-GNU.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-GNU-C-ABI.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-GNU-C.cmake"
+  "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-GNU-CXX-ABI.cmake"
+  "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-GNU-CXX.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-GNU.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-Initialize.cmake"
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Windows-windres.cmake"
@@ -36,8 +42,13 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/WindowsPaths.cmake"
   "C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/CMakeLists.txt"
   "CMakeFiles/4.2.0-rc1/CMakeCCompiler.cmake"
+  "CMakeFiles/4.2.0-rc1/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.2.0-rc1/CMakeRCCompiler.cmake"
   "CMakeFiles/4.2.0-rc1/CMakeSystem.cmake"
+  "C:/msys64/mingw64/lib/cmake/opencv4/OpenCVConfig-version.cmake"
+  "C:/msys64/mingw64/lib/cmake/opencv4/OpenCVConfig.cmake"
+  "C:/msys64/mingw64/lib/cmake/opencv4/OpenCVModules-release.cmake"
+  "C:/msys64/mingw64/lib/cmake/opencv4/OpenCVModules.cmake"
   )
 
 # The corresponding makefile is:
@@ -53,5 +64,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/imageprocessor.dir/DependInfo.cmake"
+  "CMakeFiles/video_processor.dir/DependInfo.cmake"
   )
