@@ -60,6 +60,7 @@ static void allocate_imo_array();
 static void refresh_all_views();
 static void on_size_allocate(GtkWidget *widget, GdkRectangle *allocation, gpointer user_data);
 static GdkPixbuf* scale_pixbuf_to_target(GdkPixbuf *pixbuf);
+static GdkPixbuf* scale_pixbuf_to_fit(GdkPixbuf *pixbuf, int max_width, int max_height);
 
 // 从 pixbuf 填充 original_bi_image
 static gboolean pixbuf_to_binary_array(GdkPixbuf *pixbuf);
@@ -177,32 +178,49 @@ static void activate(GtkApplication *app, gpointer user_data) {
     g_signal_connect(g_progress_scale, "value-changed", G_CALLBACK(progress_scale_changed), NULL);
 #endif
 
-    GtkWidget *image_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-    gtk_box_pack_start(GTK_BOX(vbox), image_hbox, TRUE, TRUE, 0);
+    // 使用水平分隔面板代替固定布局,支持拖动调整
+    GtkWidget *main_hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_pack_start(GTK_BOX(vbox), main_hpaned, TRUE, TRUE, 0);
 
-    GtkWidget *left_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-    gtk_box_pack_start(GTK_BOX(image_hbox), left_vbox, TRUE, TRUE, 0);
+    // 左侧垂直分隔面板：原始图 + Original数组图
+    GtkWidget *left_vpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
+    gtk_paned_pack1(GTK_PANED(main_hpaned), left_vpaned, TRUE, TRUE);
 
+    // 原始输入图（带滚动窗口,图像自适应）
     GtkWidget *current_frame = gtk_frame_new("原始输入图");
     gtk_frame_set_shadow_type(GTK_FRAME(current_frame), GTK_SHADOW_ETCHED_IN);
+    GtkWidget *current_scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(current_scroll), 
+                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     image_area = gtk_image_new();
-    gtk_container_add(GTK_CONTAINER(current_frame), image_area);
-    gtk_box_pack_start(GTK_BOX(left_vbox), current_frame, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(current_scroll), image_area);
+    gtk_container_add(GTK_CONTAINER(current_frame), current_scroll);
+    gtk_paned_pack1(GTK_PANED(left_vpaned), current_frame, TRUE, TRUE);
 
+    // Original数组图（带滚动窗口）
     GtkWidget *orig_frame = gtk_frame_new("Original 数组图 (0/255)");
     gtk_frame_set_shadow_type(GTK_FRAME(orig_frame), GTK_SHADOW_ETCHED_IN);
+    GtkWidget *orig_scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(orig_scroll), 
+                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     original_array_area = gtk_image_new();
-    gtk_container_add(GTK_CONTAINER(orig_frame), original_array_area);
-    gtk_box_pack_start(GTK_BOX(left_vbox), orig_frame, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(orig_scroll), original_array_area);
+    gtk_container_add(GTK_CONTAINER(orig_frame), orig_scroll);
+    gtk_paned_pack2(GTK_PANED(left_vpaned), orig_frame, TRUE, TRUE);
 
     // 右侧垂直布局：IMO 数组图 + 日志显示
     GtkWidget *right_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-    gtk_box_pack_start(GTK_BOX(image_hbox), right_vbox, TRUE, TRUE, 0);
+    gtk_paned_pack2(GTK_PANED(main_hpaned), right_vbox, TRUE, TRUE);
 
+    // IMO数组图（带滚动窗口）
     GtkWidget *imo_frame = gtk_frame_new("IMO 数组图（最终输出）");
     gtk_frame_set_shadow_type(GTK_FRAME(imo_frame), GTK_SHADOW_ETCHED_IN);
+    GtkWidget *imo_scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(imo_scroll), 
+                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     imo_image_view = gtk_image_new();
-    gtk_container_add(GTK_CONTAINER(imo_frame), imo_image_view);
+    gtk_container_add(GTK_CONTAINER(imo_scroll), imo_image_view);
+    gtk_container_add(GTK_CONTAINER(imo_frame), imo_scroll);
     gtk_box_pack_start(GTK_BOX(right_vbox), imo_frame, TRUE, TRUE, 0);
 
 #ifdef HAVE_OPENCV
@@ -260,6 +278,31 @@ static GdkPixbuf* scale_pixbuf_to_target(GdkPixbuf *pixbuf) {
     return gdk_pixbuf_scale_simple(pixbuf, TARGET_WIDTH, TARGET_HEIGHT, GDK_INTERP_BILINEAR);
 }
 
+// 新增：按比例缩放图像以适应指定区域（保持宽高比）
+static GdkPixbuf* scale_pixbuf_to_fit(GdkPixbuf *pixbuf, int max_width, int max_height) {
+    if (!pixbuf || max_width <= 0 || max_height <= 0) return NULL;
+    
+    int orig_width = gdk_pixbuf_get_width(pixbuf);
+    int orig_height = gdk_pixbuf_get_height(pixbuf);
+    
+    // 计算缩放比例（保持宽高比）
+    double scale_w = (double)max_width / orig_width;
+    double scale_h = (double)max_height / orig_height;
+    double scale = (scale_w < scale_h) ? scale_w : scale_h;
+    
+    // 限制最小缩放比例，避免图像过小
+    if (scale < 0.1) scale = 0.1;
+    
+    int new_width = (int)(orig_width * scale);
+    int new_height = (int)(orig_height * scale);
+    
+    if (new_width == orig_width && new_height == orig_height) {
+        return g_object_ref(pixbuf);
+    }
+    
+    return gdk_pixbuf_scale_simple(pixbuf, new_width, new_height, GDK_INTERP_BILINEAR);
+}
+
 static gboolean pixbuf_to_binary_array(GdkPixbuf *pixbuf) {
     if (!pixbuf) return FALSE;
     int rowstride = gdk_pixbuf_get_rowstride(pixbuf);
@@ -298,9 +341,20 @@ static gboolean is_jpeg_file(const gchar *filename) {
 static gboolean load_png_image(const gchar *filename) {
     GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
     if (!pixbuf) return FALSE;
-    // 左侧显示原图
-    gtk_image_set_from_pixbuf(GTK_IMAGE(image_area), pixbuf);
-    // 转为 188x120
+    
+    // 获取image_area的分配大小，自适应缩放显示
+    GtkAllocation alloc;
+    gtk_widget_get_allocation(image_area, &alloc);
+    int max_w = alloc.width > 50 ? alloc.width - 20 : 800;
+    int max_h = alloc.height > 50 ? alloc.height - 20 : 600;
+    
+    GdkPixbuf *display_pb = scale_pixbuf_to_fit(pixbuf, max_w, max_h);
+    if (display_pb) {
+        gtk_image_set_from_pixbuf(GTK_IMAGE(image_area), display_pb);
+        g_object_unref(display_pb);
+    }
+    
+    // 转为 188x120 用于处理
     GdkPixbuf *scaled = scale_pixbuf_to_target(pixbuf);
     g_object_unref(pixbuf);
     if (!scaled) return FALSE;
@@ -318,7 +372,20 @@ static gboolean load_png_image(const gchar *filename) {
 static gboolean load_jpeg_image(const gchar *filename) {
     GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
     if (!pixbuf) return FALSE;
-    gtk_image_set_from_pixbuf(GTK_IMAGE(image_area), pixbuf);
+    
+    // 获取image_area的分配大小，自适应缩放显示
+    GtkAllocation alloc;
+    gtk_widget_get_allocation(image_area, &alloc);
+    int max_w = alloc.width > 50 ? alloc.width - 20 : 800;
+    int max_h = alloc.height > 50 ? alloc.height - 20 : 600;
+    
+    GdkPixbuf *display_pb = scale_pixbuf_to_fit(pixbuf, max_w, max_h);
+    if (display_pb) {
+        gtk_image_set_from_pixbuf(GTK_IMAGE(image_area), display_pb);
+        g_object_unref(display_pb);
+    }
+    
+    // 转为 188x120 用于处理
     GdkPixbuf *scaled = scale_pixbuf_to_target(pixbuf);
     g_object_unref(pixbuf);
     if (!scaled) return FALSE;
@@ -424,16 +491,59 @@ static GdkPixbuf* render_imo_array_pixbuf(uint8_t arr[IMAGE_H][IMAGE_W], int w, 
 }
 
 static void refresh_all_views() {
+    // 获取各个图像区域的分配大小
+    GtkAllocation alloc_orig, alloc_imo;
+    
     if (original_array_area) {
+        gtk_widget_get_allocation(original_array_area, &alloc_orig);
+        int max_w = alloc_orig.width > 50 ? alloc_orig.width - 20 : 400;
+        int max_h = alloc_orig.height > 50 ? alloc_orig.height - 20 : 300;
+        
         GdkPixbuf *base = render_bw_array_pixbuf(original_bi_image, IMAGE_W, IMAGE_H, 2);
-        if (base) { gtk_image_set_from_pixbuf(GTK_IMAGE(original_array_area), base); g_object_unref(base);}    }
+        if (base) {
+            GdkPixbuf *scaled = scale_pixbuf_to_fit(base, max_w, max_h);
+            if (scaled) {
+                gtk_image_set_from_pixbuf(GTK_IMAGE(original_array_area), scaled);
+                g_object_unref(scaled);
+            }
+            g_object_unref(base);
+        }
+    }
+    
     if (imo_image_view) {
+        gtk_widget_get_allocation(imo_image_view, &alloc_imo);
+        int max_w = alloc_imo.width > 50 ? alloc_imo.width - 20 : 400;
+        int max_h = alloc_imo.height > 50 ? alloc_imo.height - 20 : 300;
+        
         GdkPixbuf *base = render_imo_array_pixbuf(imo, IMAGE_W, IMAGE_H, 2);
-        if (base) { gtk_image_set_from_pixbuf(GTK_IMAGE(imo_image_view), base); g_object_unref(base);}    }
+        if (base) {
+            GdkPixbuf *scaled = scale_pixbuf_to_fit(base, max_w, max_h);
+            if (scaled) {
+                gtk_image_set_from_pixbuf(GTK_IMAGE(imo_image_view), scaled);
+                g_object_unref(scaled);
+            }
+            g_object_unref(base);
+        }
+    }
+}
+
+// 全局timeout_id，避免多次触发
+static guint g_refresh_timeout_id = 0;
+
+static gboolean refresh_all_views_callback(gpointer user_data) {
+    refresh_all_views();
+    g_refresh_timeout_id = 0;  // 清除ID，表示已完成
+    return G_SOURCE_REMOVE; // 只执行一次
 }
 
 static void on_size_allocate(GtkWidget *widget, GdkRectangle *allocation, gpointer user_data) {
-    (void)widget; (void)allocation; (void)user_data; refresh_all_views(); }
+    (void)widget; (void)allocation; (void)user_data; 
+    // 延迟刷新，避免在size-allocate期间频繁重绘
+    if (g_refresh_timeout_id != 0) {
+        g_source_remove(g_refresh_timeout_id);
+    }
+    g_refresh_timeout_id = g_timeout_add(150, refresh_all_views_callback, NULL);
+}
 
 #ifdef HAVE_OPENCV
 static GdkPixbuf* pixbuf_from_rgb_mat_copy(const cv::Mat &rgb)
@@ -449,7 +559,7 @@ static GdkPixbuf* pixbuf_from_rgb_mat_copy(const cv::Mat &rgb)
 }
 
 static void show_cv_frame(const cv::Mat &frame) {
-    // 左侧显示原始帧（限制大小为 TARGET_WIDTH x TARGET_HEIGHT，与 original 图保持一致）
+    // 转换为RGB格式
     cv::Mat bgr; 
     if (frame.channels() == 3) 
         bgr = frame; 
@@ -459,20 +569,28 @@ static void show_cv_frame(const cv::Mat &frame) {
     cv::Mat rgb; 
     cv::cvtColor(bgr, rgb, cv::COLOR_BGR2RGB);
     
-    // 将原始图缩放到 TARGET_WIDTH x TARGET_HEIGHT 以保持界面协调
-    cv::Mat resized_rgb;
-    if (rgb.cols != TARGET_WIDTH || rgb.rows != TARGET_HEIGHT) {
-        cv::resize(rgb, resized_rgb, cv::Size(TARGET_WIDTH, TARGET_HEIGHT), 0, 0, cv::INTER_LINEAR);
-    } else {
-        resized_rgb = rgb;
-    }
-    
-    GdkPixbuf *pb = pixbuf_from_rgb_mat_copy(resized_rgb);
+    // 显示原始图像（不限制大小，让滚动窗口和自适应缩放处理）
+    GdkPixbuf *pb = pixbuf_from_rgb_mat_copy(rgb);
     if (pb) {
-        gtk_image_set_from_pixbuf(GTK_IMAGE(image_area), pb);
+        // 获取image_area的分配大小，自适应缩放
+        GtkAllocation alloc;
+        gtk_widget_get_allocation(image_area, &alloc);
+        int max_w = alloc.width > 50 ? alloc.width - 20 : 800;
+        int max_h = alloc.height > 50 ? alloc.height - 20 : 600;
         
-        // 用于二值化的 pixbuf（已经是 TARGET_WIDTH x TARGET_HEIGHT）
-        pixbuf_to_binary_array(pb);
+        GdkPixbuf *display_pb = scale_pixbuf_to_fit(pb, max_w, max_h);
+        if (display_pb) {
+            gtk_image_set_from_pixbuf(GTK_IMAGE(image_area), display_pb);
+            g_object_unref(display_pb);
+        }
+        
+        // 用于二值化的 pixbuf（固定为 TARGET_WIDTH x TARGET_HEIGHT）
+        GdkPixbuf *scaled = gdk_pixbuf_scale_simple(pb, TARGET_WIDTH, TARGET_HEIGHT, GDK_INTERP_BILINEAR);
+        if (scaled) {
+            pixbuf_to_binary_array(scaled);
+            g_object_unref(scaled);
+        }
+        
         g_object_unref(pb);
         
         // 自动处理图像：从 original 转换为 imo
