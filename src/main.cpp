@@ -773,6 +773,9 @@ static void open_tiled_selector_clicked(GtkWidget *widget, gpointer data)
 
     GtkWidget *dialog = gtk_dialog_new_with_buttons("选择帧", GTK_WINDOW(window), GTK_DIALOG_MODAL,
                                                     "关闭", GTK_RESPONSE_CLOSE, NULL);
+    gtk_window_set_default_size(GTK_WINDOW(dialog), 1400, 900);  // 设置默认窗口大小
+    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);  // 居中显示
+    
     GtkWidget *content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     GtkWidget *scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
