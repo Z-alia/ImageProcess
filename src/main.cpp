@@ -7,6 +7,7 @@
 #include "processor.h"
 #include "global_image_buffer.h"
 #include "csv_reader.h"
+#include "oscilloscope.h"
 
 #ifdef HAVE_OPENCV
 // 兼容 MSYS2 mingw64 (msvcrt) 缺少 quick_exit/timespec_get 的环境：
@@ -50,6 +51,10 @@ static gboolean g_updating_progress = FALSE; // 是否正在更新进度条（�
 static CSVReader g_csv_reader;
 static GtkWidget *g_log_text_view = NULL;  // 日志显示文本框
 static GtkTextBuffer *g_log_buffer = NULL; // 日志文本缓冲区
+static std::string g_csv_file_path;        // 保存CSV文件路径
+
+// 示波器
+static OscilloscopeWindow *g_oscilloscope = NULL;
 #endif
 
 // 前置声明
@@ -90,6 +95,7 @@ static void progress_scale_changed(GtkRange *range, gpointer user_data);
 static void update_progress_bar();
 static void load_log_csv_clicked(GtkWidget *widget, gpointer data);
 static void update_log_display(int frame_index);
+static void open_oscilloscope_clicked(GtkWidget *widget, gpointer data);
 #endif
 
 int main(int argc, char **argv) {
@@ -131,6 +137,10 @@ static void activate(GtkApplication *app, gpointer user_data) {
     GtkWidget *load_log_btn = gtk_button_new_with_label("加载日志CSV");
     gtk_box_pack_start(GTK_BOX(hbox), load_log_btn, FALSE, FALSE, 0);
     g_signal_connect(load_log_btn, "clicked", G_CALLBACK(load_log_csv_clicked), NULL);
+
+    GtkWidget *oscilloscope_btn = gtk_button_new_with_label("📊 示波器");
+    gtk_box_pack_start(GTK_BOX(hbox), oscilloscope_btn, FALSE, FALSE, 0);
+    g_signal_connect(oscilloscope_btn, "clicked", G_CALLBACK(open_oscilloscope_clicked), NULL);
 
     GtkWidget *prev_btn = gtk_button_new_with_label("上一帧");
     gtk_box_pack_start(GTK_BOX(hbox), prev_btn, FALSE, FALSE, 0);
@@ -208,9 +218,14 @@ static void activate(GtkApplication *app, gpointer user_data) {
     gtk_container_add(GTK_CONTAINER(orig_frame), orig_scroll);
     gtk_paned_pack2(GTK_PANED(left_vpaned), orig_frame, TRUE, TRUE);
 
-    // 右侧垂直布局：IMO 数组图 + 日志显示
+    // 右侧垂直分隔面板：IMO 数组图 + 日志显示（可拖动调整大小）
+#ifdef HAVE_OPENCV
+    GtkWidget *right_vpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
+    gtk_paned_pack2(GTK_PANED(main_hpaned), right_vpaned, TRUE, TRUE);
+#else
     GtkWidget *right_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_paned_pack2(GTK_PANED(main_hpaned), right_vbox, TRUE, TRUE);
+#endif
 
     // IMO数组图（带滚动窗口）
     GtkWidget *imo_frame = gtk_frame_new("IMO 数组图（最终输出）");
@@ -221,10 +236,14 @@ static void activate(GtkApplication *app, gpointer user_data) {
     imo_image_view = gtk_image_new();
     gtk_container_add(GTK_CONTAINER(imo_scroll), imo_image_view);
     gtk_container_add(GTK_CONTAINER(imo_frame), imo_scroll);
+#ifdef HAVE_OPENCV
+    gtk_paned_pack1(GTK_PANED(right_vpaned), imo_frame, TRUE, TRUE);
+#else
     gtk_box_pack_start(GTK_BOX(right_vbox), imo_frame, TRUE, TRUE, 0);
+#endif
 
 #ifdef HAVE_OPENCV
-    // 添加日志显示区域（在 IMO 数组图下方）
+    // 添加日志显示区域（在 IMO 数组图下方，可拖动调整大小）
     GtkWidget *log_frame = gtk_frame_new("实时日志");
     gtk_frame_set_shadow_type(GTK_FRAME(log_frame), GTK_SHADOW_ETCHED_IN);
     
@@ -232,23 +251,30 @@ static void activate(GtkApplication *app, gpointer user_data) {
     GtkWidget *log_scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(log_scroll), 
                                     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    gtk_widget_set_size_request(log_scroll, -1, 150); // 固定高度150像素
+    // 移除固定高度限制，改为最小高度
+    gtk_widget_set_size_request(log_scroll, -1, 100); // 最小高度100像素
     
     // 创建文本视图
     g_log_text_view = gtk_text_view_new();
     gtk_text_view_set_editable(GTK_TEXT_VIEW(g_log_text_view), FALSE);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(g_log_text_view), GTK_WRAP_WORD_CHAR);
     
-    // 设置等宽字体
-    PangoFontDescription *font_desc = pango_font_description_from_string("Monospace 10");
-    gtk_widget_override_font(g_log_text_view, font_desc);
-    pango_font_description_free(font_desc);
+    // 设置等宽字体（使用CSS Provider代替弃用的override_font）
+    GtkCssProvider *provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(provider, 
+        "textview { font-family: Monospace; font-size: 10pt; }", -1, NULL);
+    gtk_style_context_add_provider(
+        gtk_widget_get_style_context(g_log_text_view),
+        GTK_STYLE_PROVIDER(provider),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    g_object_unref(provider);
     
     g_log_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(g_log_text_view));
     
     gtk_container_add(GTK_CONTAINER(log_scroll), g_log_text_view);
     gtk_container_add(GTK_CONTAINER(log_frame), log_scroll);
-    gtk_box_pack_start(GTK_BOX(right_vbox), log_frame, FALSE, FALSE, 0);
+    // 使用 GtkPaned 添加日志区域，使其可拖动调整大小
+    gtk_paned_pack2(GTK_PANED(right_vpaned), log_frame, FALSE, TRUE);
 #endif
 
     g_signal_connect(current_frame, "size-allocate", G_CALLBACK(on_size_allocate), NULL);
@@ -602,6 +628,11 @@ static void show_cv_frame(const cv::Mat &frame) {
     
     // 更新日志显示
     update_log_display(g_frame_index);
+    
+    // 更新示波器
+    if (g_oscilloscope && g_csv_reader.getRecordCount() > 0) {
+        g_oscilloscope->updateDisplay(g_frame_index);
+    }
 }
 
 static void load_log_csv_clicked(GtkWidget *widget, gpointer data) {
@@ -620,6 +651,9 @@ static void load_log_csv_clicked(GtkWidget *widget, gpointer data) {
         char *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
         
         if (g_csv_reader.loadCSV(filename)) {
+            // 保存CSV路径
+            g_csv_file_path = filename;
+            
             // 成功加载
             GtkWidget *info = gtk_message_dialog_new(GTK_WINDOW(window), 
                                                       GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -632,6 +666,12 @@ static void load_log_csv_clicked(GtkWidget *widget, gpointer data) {
             
             // 更新当前帧的日志显示
             update_log_display(g_frame_index);
+            
+            // 如果示波器已打开，也加载到示波器
+            if (g_oscilloscope) {
+                g_oscilloscope->loadCSV(filename);
+                g_oscilloscope->updateDisplay(g_frame_index);
+            }
         } else {
             GtkWidget *err = gtk_message_dialog_new(GTK_WINDOW(window), 
                                                      GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -710,6 +750,30 @@ static void update_log_display(int frame_index) {
     }
     
     gtk_text_buffer_set_text(g_log_buffer, display_text.c_str(), -1);
+}
+
+// 打开示波器窗口
+static void open_oscilloscope_clicked(GtkWidget *widget, gpointer data) {
+    if (!g_oscilloscope) {
+        g_oscilloscope = new OscilloscopeWindow();
+    }
+    
+    g_oscilloscope->show();
+    
+    // 如果已经加载了CSV，自动加载到示波器
+    if (!g_csv_file_path.empty() && g_csv_reader.getRecordCount() > 0) {
+        g_oscilloscope->loadCSV(g_csv_file_path);
+        g_oscilloscope->updateDisplay(g_frame_index);
+    } else {
+        // 提示用户先加载CSV
+        GtkWidget *info = gtk_message_dialog_new(GTK_WINDOW(window),
+                                                  GTK_DIALOG_MODAL,
+                                                  GTK_MESSAGE_INFO,
+                                                  GTK_BUTTONS_OK,
+                                                  "提示\n\n请先点击\"加载日志CSV\"按钮\n加载包含数值变量的CSV文件");
+        gtk_dialog_run(GTK_DIALOG(info));
+        gtk_widget_destroy(info);
+    }
 }
 
 static void show_cv_frame_OLD(const cv::Mat &frame) {

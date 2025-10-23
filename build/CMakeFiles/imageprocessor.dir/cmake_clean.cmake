@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj.d"
   "CMakeFiles/imageprocessor.dir/src/main.cpp.obj"
   "CMakeFiles/imageprocessor.dir/src/main.cpp.obj.d"
+  "CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.obj"
+  "CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.obj.d"
   "CMakeFiles/imageprocessor.dir/src/processor.c.obj"
   "CMakeFiles/imageprocessor.dir/src/processor.c.obj.d"
 )

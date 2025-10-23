@@ -280,6 +280,30 @@ src/morph_binary_bitpacked.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.s
 .PHONY : src/morph_binary_bitpacked.c.s
 
+src/oscilloscope.obj: src/oscilloscope.cpp.obj
+.PHONY : src/oscilloscope.obj
+
+# target to build an object file
+src/oscilloscope.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.obj
+.PHONY : src/oscilloscope.cpp.obj
+
+src/oscilloscope.i: src/oscilloscope.cpp.i
+.PHONY : src/oscilloscope.i
+
+# target to preprocess a source file
+src/oscilloscope.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.i
+.PHONY : src/oscilloscope.cpp.i
+
+src/oscilloscope.s: src/oscilloscope.cpp.s
+.PHONY : src/oscilloscope.s
+
+# target to generate assembly for a file
+src/oscilloscope.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.s
+.PHONY : src/oscilloscope.cpp.s
+
 src/processor.obj: src/processor.c.obj
 .PHONY : src/processor.obj
 
@@ -357,6 +381,9 @@ help:
 	@echo ... src/morph_binary_bitpacked.obj
 	@echo ... src/morph_binary_bitpacked.i
 	@echo ... src/morph_binary_bitpacked.s
+	@echo ... src/oscilloscope.obj
+	@echo ... src/oscilloscope.i
+	@echo ... src/oscilloscope.s
 	@echo ... src/processor.obj
 	@echo ... src/processor.i
 	@echo ... src/processor.s

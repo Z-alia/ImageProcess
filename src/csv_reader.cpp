@@ -3,6 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <cstdio>
 
 CSVReader::CSVReader() {
 }
@@ -14,7 +15,7 @@ CSVReader::~CSVReader() {
 bool CSVReader::loadCSV(const std::string& filename) {
     clear();
     
-    std::ifstream file(filename);
+    std::ifstream file(filename, std::ios::binary);  // 使用binary模式,避免编码问题
     if (!file.is_open()) {
         return false;
     }
@@ -25,16 +26,34 @@ bool CSVReader::loadCSV(const std::string& filename) {
     int timestampCol = -1;
     int hexCol = -1;
     int utf8Col = -1;
+    int totalLines = 0;
+    int skippedLines = 0;
+    int errorLines = 0;
     
     while (std::getline(file, line)) {
-        if (line.empty()) continue;
+        totalLines++;
         
-        std::vector<std::string> fields = parseLine(line);
+        // 移除行尾的\r (Windows换行符)
+        if (!line.empty() && line.back() == '\r') {
+            line.pop_back();
+        }
         
-        if (isFirstLine) {
-            // 解析表头
-            headers = fields;
-            isFirstLine = false;
+        // 移除NULL字符和EOF字符(0x00和0x1A),这些会导致读取中断
+        line.erase(std::remove(line.begin(), line.end(), '\0'), line.end());
+        line.erase(std::remove(line.begin(), line.end(), '\x1A'), line.end());
+        
+        if (line.empty()) {
+            skippedLines++;
+            continue;
+        }
+        
+        try {
+            std::vector<std::string> fields = parseLine(line);
+            
+            if (isFirstLine) {
+                // 解析表头
+                headers = fields;
+                isFirstLine = false;
             
             // 自动检测关键列的位置（不区分大小写）
             for (size_t i = 0; i < headers.size(); i++) {
@@ -74,7 +93,10 @@ bool CSVReader::loadCSV(const std::string& filename) {
         }
         
         // 解析数据行（不再要求至少3列）
-        if (fields.empty()) continue;
+        if (fields.empty()) {
+            skippedLines++;
+            continue;
+        }
         
         LogRecord record;
         
@@ -99,9 +121,25 @@ bool CSVReader::loadCSV(const std::string& filename) {
         }
         
         records.push_back(record);
+        
+        } catch (const std::exception& e) {
+            // 捕获解析错误,继续处理下一行
+            errorLines++;
+            fprintf(stderr, "[CSV解析错误] 行%d: %s\n", totalLines, e.what());
+            continue;
+        }
     }
     
     file.close();
+    
+    // 打印加载统计信息到stderr（方便调试）
+    fprintf(stderr, "[CSV加载] 总行数: %d, 跳过: %d, 错误: %d, 加载记录: %zu\n", 
+            totalLines, skippedLines, errorLines, records.size());
+    
+    if (totalLines < 100 && records.size() < 50) {
+        fprintf(stderr, "[CSV警告] 读取的行数异常少,可能存在编码或格式问题\n");
+    }
+    
     return !records.empty();
 }
 
