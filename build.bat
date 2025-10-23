@@ -1,11 +1,13 @@
 @echo off
+chcp 65001 >nul
 REM ============================================
-REM 图像处理程序一键编译脚本 (批处理)
+REM 一键编译脚本 (ROS2风格)
 REM ============================================
 
-echo =====================================
-echo   图像处理程序编译脚本
-echo =====================================
+echo.
+echo ========================================
+echo    ImageProcessor 项目编译
+echo ========================================
 echo.
 
 REM 进入脚本所在目录
@@ -50,20 +52,12 @@ echo.
 
 REM 4. 检查生成的可执行文件
 echo [4/4] 检查输出文件...
-if exist "build\bin\imageprocessor.exe" (
-    echo       √ 找到可执行文件: build\bin\imageprocessor.exe
+if exist "install\bin\imageprocessor.exe" (
+    echo       √ GUI工具: install\bin\imageprocessor.exe
     set "FOUND=1"
 )
-if exist "build\imageprocessor.exe" (
-    echo       √ 找到可执行文件: build\imageprocessor.exe
-    set "FOUND=1"
-)
-if exist "build\bin\video_processor.exe" (
-    echo       √ 找到可执行文件: build\bin\video_processor.exe
-    set "FOUND=1"
-)
-if exist "build\video_processor.exe" (
-    echo       √ 找到可执行文件: build\video_processor.exe
+if exist "install\bin\video_processor.exe" (
+    echo       √ 视频工具: install\bin\video_processor.exe
     set "FOUND=1"
 )
 
@@ -73,31 +67,16 @@ if not defined FOUND (
 echo.
 
 REM 完成
-echo =====================================
-echo   编译完成！
-echo =====================================
+echo ========================================
+echo    编译完成！
+echo ========================================
 echo.
-echo 提示: 可以运行以下命令启动程序：
-echo   build\bin\imageprocessor.exe
-echo   或
-echo   run_imageprocessor.bat
+echo 可执行文件位置:
+echo   - GUI工具: install\bin\imageprocessor.exe
+echo   - 视频工具: install\bin\video_processor.exe
 echo.
-
-REM 询问是否立即运行
-set /p RUN="是否立即运行程序? (Y/N): "
-if /i "%RUN%"=="Y" (
-    if exist "build\bin\imageprocessor.exe" (
-        echo 启动程序...
-        start "" "build\bin\imageprocessor.exe"
-        goto :end
-    )
-    if exist "build\imageprocessor.exe" (
-        echo 启动程序...
-        start "" "build\imageprocessor.exe"
-        goto :end
-    )
-    echo 未找到可执行文件
-)
-
-:end
+echo 使用方法:
+echo   运行GUI: run.bat
+echo   清理构建: clean.bat
+echo.
 pause

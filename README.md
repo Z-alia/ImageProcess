@@ -53,9 +53,50 @@ sudo yum install gtk3-devel libpng-devel libjpeg-devel
 sudo dnf install gtk3-devel libpng-devel libjpeg-devel
 ```
 
+## 项目结构（ROS2风格）
+
+本项目采用 ROS2 风格的目录结构，清晰地分离源码、构建产物和输出文件：
+
+```
+ImageProcess/
+├── src/                    # 源代码目录
+│   ├── *.cpp              # C++ 源文件
+│   ├── *.c                # C 源文件
+│   └── *.h                # 头文件
+├── build/                  # CMake 构建产物（临时文件）
+├── install/                # 编译输出目录
+│   ├── bin/               # 可执行程序
+│   └── lib/               # 库文件（如有）
+├── log/                    # 日志文件（预留）
+├── cmake/                  # CMake 辅助脚本
+├── CMakeLists.txt          # CMake 配置文件
+├── build.bat               # 一键构建脚本
+├── clean.bat               # 清理脚本（删除 build/, install/, log/）
+├── run.bat                 # 一键运行脚本（自动启动 imageprocessor）
+└── README.md               # 本文档
+```
+
+**目录说明**：
+- `src/`：所有源代码文件（.cpp/.c/.h）
+- `build/`：CMake 生成的中间文件、Makefile、对象文件等
+- `install/`：最终的可执行程序和库文件
+- `log/`：运行日志（预留，当前未使用）
+
 ## 编译程序
 
-推荐使用 CMake 进行 out-of-source 构建：
+### 方式一：使用一键构建脚本（推荐）
+
+Windows 用户可以直接运行：
+```batch
+build.bat
+```
+
+该脚本会自动：
+1. 检查并配置 CMake（使用 MinGW Makefiles 生成器）
+2. 编译项目
+3. 将可执行文件输出到 `install/bin/` 目录
+
+### 方式二：手动使用 CMake
 
 ```bash
 cmake -S . -B build
@@ -72,8 +113,22 @@ export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig:
 
 ## 运行程序
 
+### 方式一：使用一键运行脚本（推荐）
+
+Windows 用户可以直接运行：
+```batch
+run.bat
+```
+
+该脚本会自动：
+1. 检查 `install/bin/imageprocessor.exe` 是否存在
+2. 配置 MSYS2 MinGW64 环境变量
+3. 启动程序
+
+### 方式二：手动运行
+
 ```bash
-./build/bin/imageprocessor
+./install/bin/imageprocessor
 ```
 
 在 Windows PowerShell 中运行时，请先临时加入 MSYS2 MinGW64 DLL 路径：
@@ -82,10 +137,19 @@ export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig:
 $env:PATH = "C:\msys64\mingw64\bin;$env:PATH"
 $env:XDG_DATA_DIRS = "C:\msys64\mingw64\share;$env:XDG_DATA_DIRS"
 $env:GSETTINGS_SCHEMA_DIR = "C:\msys64\mingw64\share\glib-2.0\schemas"
-./build/bin/imageprocessor.exe
+./install/bin/imageprocessor.exe
 ```
 
 也可以直接双击仓库根目录下的 `run_imageprocessor.bat`，脚本会自动配置 PATH 并启动程序。
+
+## 清理构建文件
+
+如需清理所有构建产物和输出文件，运行：
+```batch
+clean.bat
+```
+
+该脚本会删除 `build/`、`install/` 和 `log/` 目录。
 
 ## 使用方法
 

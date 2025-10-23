@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess
+CMAKE_SOURCE_DIR = C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build
+CMAKE_BINARY_DIR = C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/imageprocessor.dir/depend.make
@@ -71,161 +71,161 @@ include CMakeFiles/imageprocessor.dir/flags.make
 CMakeFiles/imageprocessor.dir/codegen:
 .PHONY : CMakeFiles/imageprocessor.dir/codegen
 
-CMakeFiles/imageprocessor.dir/main.cpp.obj: CMakeFiles/imageprocessor.dir/flags.make
-CMakeFiles/imageprocessor.dir/main.cpp.obj: CMakeFiles/imageprocessor.dir/includes_CXX.rsp
-CMakeFiles/imageprocessor.dir/main.cpp.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/main.cpp
-CMakeFiles/imageprocessor.dir/main.cpp.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/imageprocessor.dir/main.cpp.obj"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/main.cpp.obj -MF CMakeFiles\imageprocessor.dir\main.cpp.obj.d -o CMakeFiles\imageprocessor.dir\main.cpp.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.cpp
+CMakeFiles/imageprocessor.dir/src/main.cpp.obj: CMakeFiles/imageprocessor.dir/flags.make
+CMakeFiles/imageprocessor.dir/src/main.cpp.obj: CMakeFiles/imageprocessor.dir/includes_CXX.rsp
+CMakeFiles/imageprocessor.dir/src/main.cpp.obj: C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/src/main.cpp
+CMakeFiles/imageprocessor.dir/src/main.cpp.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/imageprocessor.dir/src/main.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/src/main.cpp.obj -MF CMakeFiles\imageprocessor.dir\src\main.cpp.obj.d -o CMakeFiles\imageprocessor.dir\src\main.cpp.obj -c C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\main.cpp
 
-CMakeFiles/imageprocessor.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/imageprocessor.dir/main.cpp.i"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.cpp > CMakeFiles\imageprocessor.dir\main.cpp.i
+CMakeFiles/imageprocessor.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/imageprocessor.dir/src/main.cpp.i"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\main.cpp > CMakeFiles\imageprocessor.dir\src\main.cpp.i
 
-CMakeFiles/imageprocessor.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/imageprocessor.dir/main.cpp.s"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\main.cpp -o CMakeFiles\imageprocessor.dir\main.cpp.s
+CMakeFiles/imageprocessor.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/imageprocessor.dir/src/main.cpp.s"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\main.cpp -o CMakeFiles\imageprocessor.dir\src\main.cpp.s
 
-CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/flags.make
-CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
-CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/global_image_buffer.c
-CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj -MF CMakeFiles\imageprocessor.dir\global_image_buffer.c.obj.d -o CMakeFiles\imageprocessor.dir\global_image_buffer.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c
+CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/flags.make
+CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
+CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/src/global_image_buffer.c
+CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj -MF CMakeFiles\imageprocessor.dir\src\global_image_buffer.c.obj.d -o CMakeFiles\imageprocessor.dir\src\global_image_buffer.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\global_image_buffer.c
 
-CMakeFiles/imageprocessor.dir/global_image_buffer.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/imageprocessor.dir/global_image_buffer.c.i"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c > CMakeFiles\imageprocessor.dir\global_image_buffer.c.i
+CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.i"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\global_image_buffer.c > CMakeFiles\imageprocessor.dir\src\global_image_buffer.c.i
 
-CMakeFiles/imageprocessor.dir/global_image_buffer.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/imageprocessor.dir/global_image_buffer.c.s"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\global_image_buffer.c -o CMakeFiles\imageprocessor.dir\global_image_buffer.c.s
+CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.s"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\global_image_buffer.c -o CMakeFiles\imageprocessor.dir\src\global_image_buffer.c.s
 
-CMakeFiles/imageprocessor.dir/processor.c.obj: CMakeFiles/imageprocessor.dir/flags.make
-CMakeFiles/imageprocessor.dir/processor.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
-CMakeFiles/imageprocessor.dir/processor.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/udp/ImageProcess/processor.c
-CMakeFiles/imageprocessor.dir/processor.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/imageprocessor.dir/processor.c.obj"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/processor.c.obj -MF CMakeFiles\imageprocessor.dir\processor.c.obj.d -o CMakeFiles\imageprocessor.dir\processor.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c
+CMakeFiles/imageprocessor.dir/src/processor.c.obj: CMakeFiles/imageprocessor.dir/flags.make
+CMakeFiles/imageprocessor.dir/src/processor.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
+CMakeFiles/imageprocessor.dir/src/processor.c.obj: C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/src/processor.c
+CMakeFiles/imageprocessor.dir/src/processor.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/imageprocessor.dir/src/processor.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/src/processor.c.obj -MF CMakeFiles\imageprocessor.dir\src\processor.c.obj.d -o CMakeFiles\imageprocessor.dir\src\processor.c.obj -c C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\processor.c
 
-CMakeFiles/imageprocessor.dir/processor.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/imageprocessor.dir/processor.c.i"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c > CMakeFiles\imageprocessor.dir\processor.c.i
+CMakeFiles/imageprocessor.dir/src/processor.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/imageprocessor.dir/src/processor.c.i"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\processor.c > CMakeFiles\imageprocessor.dir\src\processor.c.i
 
-CMakeFiles/imageprocessor.dir/processor.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/imageprocessor.dir/processor.c.s"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\processor.c -o CMakeFiles\imageprocessor.dir\processor.c.s
+CMakeFiles/imageprocessor.dir/src/processor.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/imageprocessor.dir/src/processor.c.s"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\src\processor.c -o CMakeFiles\imageprocessor.dir\src\processor.c.s
 
 # Object files for target imageprocessor
 imageprocessor_OBJECTS = \
-"CMakeFiles/imageprocessor.dir/main.cpp.obj" \
-"CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj" \
-"CMakeFiles/imageprocessor.dir/processor.c.obj"
+"CMakeFiles/imageprocessor.dir/src/main.cpp.obj" \
+"CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj" \
+"CMakeFiles/imageprocessor.dir/src/processor.c.obj"
 
 # External object files for target imageprocessor
 imageprocessor_EXTERNAL_OBJECTS =
 
-bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/main.cpp.obj
-bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj
-bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/processor.c.obj
-bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/build.make
-bin/imageprocessor.exe: libimage_internal.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_gapi.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_stitching.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_alphamat.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_aruco.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_bgsegm.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ccalib.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_cvv.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn_objdetect.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn_superres.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dpm.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_face.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_freetype.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_fuzzy.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_hdf.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_hfs.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_img_hash.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_intensity_transform.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_line_descriptor.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_mcc.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ovis.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_quality.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_rapid.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_reg.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_rgbd.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_saliency.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_sfm.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_signal.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_stereo.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_structured_light.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_superres.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_surface_matching.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_tracking.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_videostab.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_viz.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_wechat_qrcode.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xfeatures2d.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xobjdetect.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xphoto.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgtk-3.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgdk-3.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libz.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgdi32.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libimm32.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libshell32.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libole32.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libuuid.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libwinmm.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libdwmapi.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libsetupapi.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcfgmgr32.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libhid.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libwinspool.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcomctl32.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcomdlg32.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpangocairo-1.0.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpangowin32-1.0.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpango-1.0.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcairo-gobject.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcairo.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libharfbuzz.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgdk_pixbuf-2.0.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libatk-1.0.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgio-2.0.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgobject-2.0.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libglib-2.0.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libintl.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpng16.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libjpeg.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_shape.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_highgui.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_datasets.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_plot.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_text.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ml.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_phase_unwrapping.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_optflow.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ximgproc.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_video.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_videoio.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_imgcodecs.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_objdetect.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_calib3d.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_features2d.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_flann.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_photo.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_imgproc.dll.a
-bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_core.dll.a
-bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/linkLibs.rsp
-bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/objects1.rsp
-bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable bin\imageprocessor.exe"
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/main.cpp.obj
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/processor.c.obj
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/build.make
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/lib/libimage_internal.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_gapi.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_stitching.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_alphamat.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_aruco.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_bgsegm.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ccalib.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_cvv.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn_objdetect.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn_superres.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dpm.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_face.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_freetype.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_fuzzy.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_hdf.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_hfs.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_img_hash.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_intensity_transform.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_line_descriptor.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_mcc.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ovis.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_quality.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_rapid.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_reg.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_rgbd.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_saliency.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_sfm.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_signal.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_stereo.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_structured_light.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_superres.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_surface_matching.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_tracking.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_videostab.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_viz.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_wechat_qrcode.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xfeatures2d.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xobjdetect.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_xphoto.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgtk-3.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgdk-3.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libz.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgdi32.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libimm32.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libshell32.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libole32.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libuuid.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libwinmm.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libdwmapi.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libsetupapi.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcfgmgr32.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libhid.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libwinspool.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcomctl32.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcomdlg32.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpangocairo-1.0.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpangowin32-1.0.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpango-1.0.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcairo-gobject.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libcairo.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libharfbuzz.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgdk_pixbuf-2.0.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libatk-1.0.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgio-2.0.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libgobject-2.0.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libglib-2.0.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libintl.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libpng16.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libjpeg.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_shape.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_highgui.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_datasets.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_plot.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_text.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ml.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_phase_unwrapping.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_optflow.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_ximgproc.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_video.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_videoio.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_imgcodecs.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_objdetect.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_calib3d.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_dnn.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_features2d.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_flann.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_photo.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_imgproc.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mingw64/lib/libopencv_core.dll.a
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/linkLibs.rsp
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/objects1.rsp
+C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\install\bin\imageprocessor.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\imageprocessor.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/imageprocessor.dir/build: bin/imageprocessor.exe
+CMakeFiles/imageprocessor.dir/build: C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe
 .PHONY : CMakeFiles/imageprocessor.dir/build
 
 CMakeFiles/imageprocessor.dir/clean:
@@ -233,6 +233,6 @@ CMakeFiles/imageprocessor.dir/clean:
 .PHONY : CMakeFiles/imageprocessor.dir/clean
 
 CMakeFiles/imageprocessor.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles\imageprocessor.dir\DependInfo.cmake "--color=$(COLOR)" imageprocessor
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles\imageprocessor.dir\DependInfo.cmake "--color=$(COLOR)" imageprocessor
 .PHONY : CMakeFiles/imageprocessor.dir/depend
 

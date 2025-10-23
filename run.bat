@@ -1,19 +1,32 @@
 @echo off
-REM 运行图像处理程序
+setlocal
 
-echo =====================================
-echo   启动图像处理器
-echo =====================================
-echo.
+rem ========================================
+rem 一键运行脚本 (ROS2风格)
+rem ========================================
 
-if exist "build\bin\imageprocessor.exe" (
-    echo 找到程序: build\bin\imageprocessor.exe
-    echo 正在启动...
-    echo.
-    start "" "build\bin\imageprocessor.exe"
-    echo 程序已启动！
-) else (
-    echo 错误: 未找到可执行文件
-    echo 请先运行 build.bat 编译程序
-    pause
+rem Ensure MSYS2 MinGW64 runtime DLLs are discoverable at execution time
+if not defined MSYS2_PATH_TYPE set "MSYS2_PATH_TYPE=inherit"
+set "MSYS2_MINGW64_BIN=C:\msys64\mingw64\bin"
+if not exist "%MSYS2_MINGW64_BIN%" (
+    echo [error] Expected MSYS2 MinGW64 directory "%MSYS2_MINGW64_BIN%" not found.
+    echo         Install MSYS2 and the MinGW64 toolchain, or update this script with the correct path.
+    exit /b 1
 )
+
+set "PATH=%MSYS2_MINGW64_BIN%;%PATH%"
+set "XDG_DATA_DIRS=C:\msys64\mingw64\share;%XDG_DATA_DIRS%"
+set "GSETTINGS_SCHEMA_DIR=C:\msys64\mingw64\share\glib-2.0\schemas"
+
+set "APP_DIR=%~dp0install\bin"
+if not exist "%APP_DIR%\imageprocessor.exe" (
+    echo [error] imageprocessor.exe not found in "%APP_DIR%".
+    echo         Build the project first using: build.bat
+    exit /b 1
+)
+
+pushd "%APP_DIR%"
+start "ImageProcessor" imageprocessor.exe
+popd
+
+endlocal

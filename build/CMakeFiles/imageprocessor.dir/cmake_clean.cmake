@@ -1,14 +1,14 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj"
-  "CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj.d"
-  "CMakeFiles/imageprocessor.dir/main.cpp.obj"
-  "CMakeFiles/imageprocessor.dir/main.cpp.obj.d"
-  "CMakeFiles/imageprocessor.dir/processor.c.obj"
-  "CMakeFiles/imageprocessor.dir/processor.c.obj.d"
-  "bin/imageprocessor.exe"
-  "bin/imageprocessor.exe.manifest"
-  "bin/imageprocessor.pdb"
-  "libimageprocessor.dll.a"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.exe.manifest"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/imageprocessor.pdb"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/lib/libimageprocessor.dll.a"
+  "CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj"
+  "CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj.d"
+  "CMakeFiles/imageprocessor.dir/src/main.cpp.obj"
+  "CMakeFiles/imageprocessor.dir/src/main.cpp.obj.d"
+  "CMakeFiles/imageprocessor.dir/src/processor.c.obj"
+  "CMakeFiles/imageprocessor.dir/src/processor.c.obj.d"
 )
 
 # Per-language clean rules from dependency scanning.

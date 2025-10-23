@@ -1,14 +1,14 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/video_processor.dir/global_image_buffer.c.obj"
-  "CMakeFiles/video_processor.dir/global_image_buffer.c.obj.d"
-  "CMakeFiles/video_processor.dir/processor.c.obj"
-  "CMakeFiles/video_processor.dir/processor.c.obj.d"
-  "CMakeFiles/video_processor.dir/video_processor.cpp.obj"
-  "CMakeFiles/video_processor.dir/video_processor.cpp.obj.d"
-  "bin/video_processor.exe"
-  "bin/video_processor.exe.manifest"
-  "bin/video_processor.pdb"
-  "libvideo_processor.dll.a"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/video_processor.exe"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/video_processor.exe.manifest"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/bin/video_processor.pdb"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/lib/libvideo_processor.dll.a"
+  "CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj"
+  "CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj.d"
+  "CMakeFiles/video_processor.dir/src/processor.c.obj"
+  "CMakeFiles/video_processor.dir/src/processor.c.obj.d"
+  "CMakeFiles/video_processor.dir/src/video_processor.cpp.obj"
+  "CMakeFiles/video_processor.dir/src/video_processor.cpp.obj.d"
 )
 
 # Per-language clean rules from dependency scanning.

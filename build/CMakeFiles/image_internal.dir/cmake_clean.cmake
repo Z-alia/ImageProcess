@@ -1,12 +1,12 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/image_internal.dir/global_image_buffer.c.obj"
-  "CMakeFiles/image_internal.dir/global_image_buffer.c.obj.d"
-  "CMakeFiles/image_internal.dir/image.c.obj"
-  "CMakeFiles/image_internal.dir/image.c.obj.d"
-  "CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj"
-  "CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj.d"
-  "libimage_internal.a"
-  "libimage_internal.pdb"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/lib/libimage_internal.a"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/lib/libimage_internal.pdb"
+  "CMakeFiles/image_internal.dir/src/global_image_buffer.c.obj"
+  "CMakeFiles/image_internal.dir/src/global_image_buffer.c.obj.d"
+  "CMakeFiles/image_internal.dir/src/image.c.obj"
+  "CMakeFiles/image_internal.dir/src/image.c.obj.d"
+  "CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.obj"
+  "CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.obj.d"
 )
 
 # Per-language clean rules from dependency scanning.

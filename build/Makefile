@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess
+CMAKE_SOURCE_DIR = C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build
+CMAKE_BINARY_DIR = C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\udp\ImageProcess\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -154,158 +154,158 @@ video_processor/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/build
 .PHONY : video_processor/fast
 
-global_image_buffer.obj: global_image_buffer.c.obj
-.PHONY : global_image_buffer.obj
+src/global_image_buffer.obj: src/global_image_buffer.c.obj
+.PHONY : src/global_image_buffer.obj
 
 # target to build an object file
-global_image_buffer.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/global_image_buffer.c.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/global_image_buffer.c.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/global_image_buffer.c.obj
-.PHONY : global_image_buffer.c.obj
+src/global_image_buffer.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/global_image_buffer.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj
+.PHONY : src/global_image_buffer.c.obj
 
-global_image_buffer.i: global_image_buffer.c.i
-.PHONY : global_image_buffer.i
+src/global_image_buffer.i: src/global_image_buffer.c.i
+.PHONY : src/global_image_buffer.i
 
 # target to preprocess a source file
-global_image_buffer.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/global_image_buffer.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/global_image_buffer.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/global_image_buffer.c.i
-.PHONY : global_image_buffer.c.i
+src/global_image_buffer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/global_image_buffer.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/global_image_buffer.c.i
+.PHONY : src/global_image_buffer.c.i
 
-global_image_buffer.s: global_image_buffer.c.s
-.PHONY : global_image_buffer.s
+src/global_image_buffer.s: src/global_image_buffer.c.s
+.PHONY : src/global_image_buffer.s
 
 # target to generate assembly for a file
-global_image_buffer.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/global_image_buffer.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/global_image_buffer.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/global_image_buffer.c.s
-.PHONY : global_image_buffer.c.s
+src/global_image_buffer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/global_image_buffer.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/global_image_buffer.c.s
+.PHONY : src/global_image_buffer.c.s
 
-image.obj: image.c.obj
-.PHONY : image.obj
+src/image.obj: src/image.c.obj
+.PHONY : src/image.obj
 
 # target to build an object file
-image.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/image.c.obj
-.PHONY : image.c.obj
+src/image.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/image.c.obj
+.PHONY : src/image.c.obj
 
-image.i: image.c.i
-.PHONY : image.i
+src/image.i: src/image.c.i
+.PHONY : src/image.i
 
 # target to preprocess a source file
-image.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/image.c.i
-.PHONY : image.c.i
+src/image.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/image.c.i
+.PHONY : src/image.c.i
 
-image.s: image.c.s
-.PHONY : image.s
+src/image.s: src/image.c.s
+.PHONY : src/image.s
 
 # target to generate assembly for a file
-image.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/image.c.s
-.PHONY : image.c.s
+src/image.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/image.c.s
+.PHONY : src/image.c.s
 
-main.obj: main.cpp.obj
-.PHONY : main.obj
+src/main.obj: src/main.cpp.obj
+.PHONY : src/main.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+src/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/main.cpp.obj
+.PHONY : src/main.cpp.obj
 
-main.i: main.cpp.i
-.PHONY : main.i
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
-morph_binary_bitpacked.obj: morph_binary_bitpacked.c.obj
-.PHONY : morph_binary_bitpacked.obj
+src/morph_binary_bitpacked.obj: src/morph_binary_bitpacked.c.obj
+.PHONY : src/morph_binary_bitpacked.obj
 
 # target to build an object file
-morph_binary_bitpacked.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.obj
-.PHONY : morph_binary_bitpacked.c.obj
+src/morph_binary_bitpacked.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.obj
+.PHONY : src/morph_binary_bitpacked.c.obj
 
-morph_binary_bitpacked.i: morph_binary_bitpacked.c.i
-.PHONY : morph_binary_bitpacked.i
+src/morph_binary_bitpacked.i: src/morph_binary_bitpacked.c.i
+.PHONY : src/morph_binary_bitpacked.i
 
 # target to preprocess a source file
-morph_binary_bitpacked.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.i
-.PHONY : morph_binary_bitpacked.c.i
+src/morph_binary_bitpacked.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.i
+.PHONY : src/morph_binary_bitpacked.c.i
 
-morph_binary_bitpacked.s: morph_binary_bitpacked.c.s
-.PHONY : morph_binary_bitpacked.s
+src/morph_binary_bitpacked.s: src/morph_binary_bitpacked.c.s
+.PHONY : src/morph_binary_bitpacked.s
 
 # target to generate assembly for a file
-morph_binary_bitpacked.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/morph_binary_bitpacked.c.s
-.PHONY : morph_binary_bitpacked.c.s
+src/morph_binary_bitpacked.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.s
+.PHONY : src/morph_binary_bitpacked.c.s
 
-processor.obj: processor.c.obj
-.PHONY : processor.obj
+src/processor.obj: src/processor.c.obj
+.PHONY : src/processor.obj
 
 # target to build an object file
-processor.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/processor.c.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/processor.c.obj
-.PHONY : processor.c.obj
+src/processor.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/processor.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/processor.c.obj
+.PHONY : src/processor.c.obj
 
-processor.i: processor.c.i
-.PHONY : processor.i
+src/processor.i: src/processor.c.i
+.PHONY : src/processor.i
 
 # target to preprocess a source file
-processor.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/processor.c.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/processor.c.i
-.PHONY : processor.c.i
+src/processor.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/processor.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/processor.c.i
+.PHONY : src/processor.c.i
 
-processor.s: processor.c.s
-.PHONY : processor.s
+src/processor.s: src/processor.c.s
+.PHONY : src/processor.s
 
 # target to generate assembly for a file
-processor.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/processor.c.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/processor.c.s
-.PHONY : processor.c.s
+src/processor.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/processor.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/processor.c.s
+.PHONY : src/processor.c.s
 
-video_processor.obj: video_processor.cpp.obj
-.PHONY : video_processor.obj
+src/video_processor.obj: src/video_processor.cpp.obj
+.PHONY : src/video_processor.obj
 
 # target to build an object file
-video_processor.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/video_processor.cpp.obj
-.PHONY : video_processor.cpp.obj
+src/video_processor.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/video_processor.cpp.obj
+.PHONY : src/video_processor.cpp.obj
 
-video_processor.i: video_processor.cpp.i
-.PHONY : video_processor.i
+src/video_processor.i: src/video_processor.cpp.i
+.PHONY : src/video_processor.i
 
 # target to preprocess a source file
-video_processor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/video_processor.cpp.i
-.PHONY : video_processor.cpp.i
+src/video_processor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/video_processor.cpp.i
+.PHONY : src/video_processor.cpp.i
 
-video_processor.s: video_processor.cpp.s
-.PHONY : video_processor.s
+src/video_processor.s: src/video_processor.cpp.s
+.PHONY : src/video_processor.s
 
 # target to generate assembly for a file
-video_processor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/video_processor.cpp.s
-.PHONY : video_processor.cpp.s
+src/video_processor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/video_processor.cpp.s
+.PHONY : src/video_processor.cpp.s
 
 # Help Target
 help:
@@ -318,24 +318,24 @@ help:
 	@echo ... image_internal
 	@echo ... imageprocessor
 	@echo ... video_processor
-	@echo ... global_image_buffer.obj
-	@echo ... global_image_buffer.i
-	@echo ... global_image_buffer.s
-	@echo ... image.obj
-	@echo ... image.i
-	@echo ... image.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
-	@echo ... morph_binary_bitpacked.obj
-	@echo ... morph_binary_bitpacked.i
-	@echo ... morph_binary_bitpacked.s
-	@echo ... processor.obj
-	@echo ... processor.i
-	@echo ... processor.s
-	@echo ... video_processor.obj
-	@echo ... video_processor.i
-	@echo ... video_processor.s
+	@echo ... src/global_image_buffer.obj
+	@echo ... src/global_image_buffer.i
+	@echo ... src/global_image_buffer.s
+	@echo ... src/image.obj
+	@echo ... src/image.i
+	@echo ... src/image.s
+	@echo ... src/main.obj
+	@echo ... src/main.i
+	@echo ... src/main.s
+	@echo ... src/morph_binary_bitpacked.obj
+	@echo ... src/morph_binary_bitpacked.i
+	@echo ... src/morph_binary_bitpacked.s
+	@echo ... src/processor.obj
+	@echo ... src/processor.i
+	@echo ... src/processor.s
+	@echo ... src/video_processor.obj
+	@echo ... src/video_processor.i
+	@echo ... src/video_processor.s
 .PHONY : help
 
 

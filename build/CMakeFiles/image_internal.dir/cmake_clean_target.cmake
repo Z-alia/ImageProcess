@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "libimage_internal.a"
+  "C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/install/lib/libimage_internal.a"
 )

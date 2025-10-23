@@ -24,7 +24,6 @@ extern "C" {
 static GtkWidget *window;
 static GtkWidget *image_area;
 static GtkWidget *original_array_area;
-static GtkWidget *process_button;
 static GtkWidget *imo_image_view;
 static GdkPixbuf *current_image = NULL;
 
@@ -39,6 +38,12 @@ static const int TARGET_HEIGHT = IMAGE_H;
 static cv::VideoCapture g_cap;
 static int g_frame_index = 0;
 static std::string g_video_path;
+static guint g_playback_timer = 0;      // 播放定时器ID
+static gboolean g_is_playing = FALSE;   // 是否正在播放
+static double g_playback_speed = 1.0;   // 播放倍速
+static GtkWidget *g_play_button = NULL; // 播放/暂停按钮
+static GtkWidget *g_progress_scale = NULL; // 进度条
+static gboolean g_updating_progress = FALSE; // 是否正在更新进度条（避免递归）
 #endif
 
 // 前置声明
@@ -61,7 +66,6 @@ static gboolean is_png_file(const gchar *filename);
 static gboolean is_jpeg_file(const gchar *filename);
 static GdkPixbuf* render_bw_array_pixbuf(uint8_t **arr, int w, int h, int pixel_size);
 static GdkPixbuf* render_imo_array_pixbuf(uint8_t **arr, int w, int h, int pixel_size);
-static void process_image_clicked(GtkWidget *widget, gpointer data);
 
 #ifdef HAVE_OPENCV
 // 视频导入相关回调
@@ -70,6 +74,13 @@ static void next_frame_clicked(GtkWidget *widget, gpointer data);
 static void prev_frame_clicked(GtkWidget *widget, gpointer data);
 static void show_cv_frame(const cv::Mat &frame);
 static void open_tiled_selector_clicked(GtkWidget *widget, gpointer data);
+static void play_pause_clicked(GtkWidget *widget, gpointer data);
+static void speed_changed(GtkWidget *widget, gpointer data);
+static gboolean playback_timer_callback(gpointer user_data);
+static void stop_playback();
+static void start_playback();
+static void progress_scale_changed(GtkRange *range, gpointer user_data);
+static void update_progress_bar();
 #endif
 
 int main(int argc, char **argv) {
@@ -103,11 +114,6 @@ static void activate(GtkApplication *app, gpointer user_data) {
     g_signal_connect(upload_button, "clicked", G_CALLBACK(upload_image_clicked), NULL);
     gtk_box_pack_start(GTK_BOX(hbox), upload_button, FALSE, FALSE, 0);
 
-    process_button = gtk_button_new_with_label("处理图像 (original->imo)");
-    g_signal_connect(process_button, "clicked", G_CALLBACK(process_image_clicked), NULL);
-    gtk_box_pack_start(GTK_BOX(hbox), process_button, FALSE, FALSE, 0);
-    gtk_widget_set_sensitive(process_button, FALSE);
-
 #ifdef HAVE_OPENCV
     GtkWidget *open_video_btn = gtk_button_new_with_label("导入视频(mp4)");
     gtk_box_pack_start(GTK_BOX(hbox), open_video_btn, FALSE, FALSE, 0);
@@ -117,13 +123,46 @@ static void activate(GtkApplication *app, gpointer user_data) {
     gtk_box_pack_start(GTK_BOX(hbox), prev_btn, FALSE, FALSE, 0);
     g_signal_connect(prev_btn, "clicked", G_CALLBACK(prev_frame_clicked), NULL);
 
+    g_play_button = gtk_button_new_with_label("▶ 播放");
+    gtk_box_pack_start(GTK_BOX(hbox), g_play_button, FALSE, FALSE, 0);
+    g_signal_connect(g_play_button, "clicked", G_CALLBACK(play_pause_clicked), NULL);
+
     GtkWidget *next_btn = gtk_button_new_with_label("下一帧");
     gtk_box_pack_start(GTK_BOX(hbox), next_btn, FALSE, FALSE, 0);
     g_signal_connect(next_btn, "clicked", G_CALLBACK(next_frame_clicked), NULL);
 
+    // 倍速选择下拉框
+    GtkWidget *speed_label = gtk_label_new("倍速:");
+    gtk_box_pack_start(GTK_BOX(hbox), speed_label, FALSE, FALSE, 0);
+    
+    GtkWidget *speed_combo = gtk_combo_box_text_new();
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(speed_combo), "0.25x");
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(speed_combo), "0.5x");
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(speed_combo), "1x");
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(speed_combo), "2x");
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(speed_combo), "4x");
+    gtk_combo_box_set_active(GTK_COMBO_BOX(speed_combo), 2); // 默认 1x
+    gtk_box_pack_start(GTK_BOX(hbox), speed_combo, FALSE, FALSE, 0);
+    g_signal_connect(speed_combo, "changed", G_CALLBACK(speed_changed), NULL);
+
     GtkWidget *tiled_btn = gtk_button_new_with_label("平铺选帧");
     gtk_box_pack_start(GTK_BOX(hbox), tiled_btn, FALSE, FALSE, 0);
     g_signal_connect(tiled_btn, "clicked", G_CALLBACK(open_tiled_selector_clicked), NULL);
+#endif
+
+#ifdef HAVE_OPENCV
+    // 视频进度条
+    GtkWidget *progress_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+    gtk_box_pack_start(GTK_BOX(vbox), progress_hbox, FALSE, FALSE, 0);
+    
+    GtkWidget *progress_label = gtk_label_new("进度:");
+    gtk_box_pack_start(GTK_BOX(progress_hbox), progress_label, FALSE, FALSE, 0);
+    
+    g_progress_scale = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 100, 1);
+    gtk_scale_set_draw_value(GTK_SCALE(g_progress_scale), TRUE);
+    gtk_scale_set_value_pos(GTK_SCALE(g_progress_scale), GTK_POS_RIGHT);
+    gtk_box_pack_start(GTK_BOX(progress_hbox), g_progress_scale, TRUE, TRUE, 0);
+    g_signal_connect(g_progress_scale, "value-changed", G_CALLBACK(progress_scale_changed), NULL);
 #endif
 
     GtkWidget *image_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
@@ -223,7 +262,12 @@ static gboolean load_png_image(const gchar *filename) {
     if (!scaled) return FALSE;
     gboolean ok = pixbuf_to_binary_array(scaled);
     g_object_unref(scaled);
-    if (ok) { refresh_all_views(); gtk_widget_set_sensitive(process_button, TRUE); }
+    if (ok) {
+        // 自动处理图像
+        allocate_imo_array();
+        process_original_to_imo(&original_bi_image[0][0], &imo[0][0], IMAGE_W, IMAGE_H);
+        refresh_all_views();
+    }
     return ok;
 }
 
@@ -236,7 +280,12 @@ static gboolean load_jpeg_image(const gchar *filename) {
     if (!scaled) return FALSE;
     gboolean ok = pixbuf_to_binary_array(scaled);
     g_object_unref(scaled);
-    if (ok) { refresh_all_views(); gtk_widget_set_sensitive(process_button, TRUE); }
+    if (ok) {
+        // 自动处理图像
+        allocate_imo_array();
+        process_original_to_imo(&original_bi_image[0][0], &imo[0][0], IMAGE_W, IMAGE_H);
+        refresh_all_views();
+    }
     return ok;
 }
 
@@ -277,12 +326,6 @@ static void allocate_imo_array() {
             imo[i][j] = 255;
         }
     }
-}
-
-static void process_image_clicked(GtkWidget *widget, gpointer data) {
-    allocate_imo_array();
-    process_original_to_imo(&original_bi_image[0][0], &imo[0][0], IMAGE_W, IMAGE_H);
-    refresh_all_views();
 }
 
 static GdkPixbuf* render_bw_array_pixbuf(uint8_t arr[IMAGE_H][IMAGE_W], int w, int h, int pixel_size) {
@@ -374,7 +417,11 @@ static void show_cv_frame(const cv::Mat &frame) {
         if (scaled) {
             pixbuf_to_binary_array(scaled);
             g_object_unref(scaled);
-            gtk_widget_set_sensitive(process_button, TRUE);
+            
+            // 自动处理图像：从 original 转换为 imo
+            allocate_imo_array();
+            process_original_to_imo(&original_bi_image[0][0], &imo[0][0], IMAGE_W, IMAGE_H);
+            
             refresh_all_views();
         }
     }
@@ -387,8 +434,14 @@ static void on_thumb_clicked(GtkWidget *widget, gpointer user_data)
     ThumbData *td = (ThumbData*)user_data;
     if (!td) return;
     if (g_cap.isOpened()) {
+        stop_playback(); // 停止播放
         g_cap.set(cv::CAP_PROP_POS_FRAMES, td->frame_index);
-        cv::Mat frame; if (g_cap.read(frame)) { g_frame_index = (int)g_cap.get(cv::CAP_PROP_POS_FRAMES); show_cv_frame(frame); }
+        cv::Mat frame; 
+        if (g_cap.read(frame)) { 
+            g_frame_index = (int)g_cap.get(cv::CAP_PROP_POS_FRAMES); 
+            show_cv_frame(frame);
+            update_progress_bar();
+        }
     }
     if (td->dialog) gtk_widget_destroy(td->dialog);
     free(td);
@@ -401,6 +454,8 @@ static void open_tiled_selector_clicked(GtkWidget *widget, gpointer data)
                                                 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "请先导入视频");
         gtk_dialog_run(GTK_DIALOG(err)); gtk_widget_destroy(err); return;
     }
+    
+    stop_playback(); // 停止播放
 
     // 获取总帧数与采样步长
     int total = (int)g_cap.get(cv::CAP_PROP_FRAME_COUNT);
@@ -458,11 +513,17 @@ static void open_video_clicked(GtkWidget *widget, gpointer data) {
         g_video_path = filename ? filename : "";
         g_free(filename);
         if (!g_video_path.empty()) {
+            stop_playback(); // 停止当前播放
             if (g_cap.isOpened()) g_cap.release();
             g_cap.open(g_video_path);
             g_frame_index = 0;
             if (g_cap.isOpened()) {
-                cv::Mat frame; if (g_cap.read(frame)) { g_frame_index = 1; show_cv_frame(frame);} else {
+                cv::Mat frame; 
+                if (g_cap.read(frame)) { 
+                    g_frame_index = 1; 
+                    show_cv_frame(frame);
+                    update_progress_bar();
+                } else {
                     GtkWidget *err = gtk_message_dialog_new(GTK_WINDOW(window), GTK_DIALOG_DESTROY_WITH_PARENT,
                                                             GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "无法读取首帧");
                     gtk_dialog_run(GTK_DIALOG(err)); gtk_widget_destroy(err);
@@ -479,12 +540,174 @@ static void open_video_clicked(GtkWidget *widget, gpointer data) {
 
 static void next_frame_clicked(GtkWidget *widget, gpointer data) {
     if (!g_cap.isOpened()) return;
-    cv::Mat frame; if (g_cap.read(frame)) { ++g_frame_index; show_cv_frame(frame);} }
+    stop_playback(); // 停止播放
+    cv::Mat frame; 
+    if (g_cap.read(frame)) { 
+        ++g_frame_index; 
+        show_cv_frame(frame);
+        update_progress_bar();
+    }
+}
 
 static void prev_frame_clicked(GtkWidget *widget, gpointer data) {
     if (!g_cap.isOpened()) return;
+    stop_playback(); // 停止播放
     double pos = g_cap.get(cv::CAP_PROP_POS_FRAMES);
     double back = pos - 2; if (back < 0) back = 0;
     g_cap.set(cv::CAP_PROP_POS_FRAMES, back);
-    cv::Mat frame; if (g_cap.read(frame)) { g_frame_index = (int)g_cap.get(cv::CAP_PROP_POS_FRAMES); show_cv_frame(frame);} }
+    cv::Mat frame; if (g_cap.read(frame)) { 
+        g_frame_index = (int)g_cap.get(cv::CAP_PROP_POS_FRAMES); 
+        show_cv_frame(frame);
+        update_progress_bar();
+    }
+}
+
+// 播放控制函数
+static void stop_playback() {
+    if (g_playback_timer != 0) {
+        g_source_remove(g_playback_timer);
+        g_playback_timer = 0;
+    }
+    g_is_playing = FALSE;
+    if (g_play_button) {
+        gtk_button_set_label(GTK_BUTTON(g_play_button), "▶ 播放");
+    }
+}
+
+static void start_playback() {
+    if (!g_cap.isOpened()) return;
+    
+    // 计算定时器间隔（毫秒）
+    double fps = g_cap.get(cv::CAP_PROP_FPS);
+    if (fps <= 0) fps = 25.0; // 默认25fps
+    int interval_ms = (int)(1000.0 / (fps * g_playback_speed));
+    if (interval_ms < 1) interval_ms = 1; // 至少1ms
+    
+    g_is_playing = TRUE;
+    if (g_play_button) {
+        gtk_button_set_label(GTK_BUTTON(g_play_button), "⏸ 暂停");
+    }
+    
+    // 启动定时器
+    if (g_playback_timer != 0) {
+        g_source_remove(g_playback_timer);
+    }
+    g_playback_timer = g_timeout_add(interval_ms, playback_timer_callback, NULL);
+}
+
+static gboolean playback_timer_callback(gpointer user_data) {
+    if (!g_is_playing || !g_cap.isOpened()) {
+        stop_playback();
+        return G_SOURCE_REMOVE;
+    }
+    
+    // 读取下一帧
+    cv::Mat frame;
+    if (g_cap.read(frame)) {
+        ++g_frame_index;
+        show_cv_frame(frame);
+        update_progress_bar();
+        
+        // 检查是否到达视频末尾
+        int total_frames = (int)g_cap.get(cv::CAP_PROP_FRAME_COUNT);
+        if (total_frames > 0 && g_frame_index >= total_frames) {
+            stop_playback();
+            return G_SOURCE_REMOVE;
+        }
+        
+        // 根据倍速调整定时器间隔
+        double fps = g_cap.get(cv::CAP_PROP_FPS);
+        if (fps <= 0) fps = 25.0;
+        int interval_ms = (int)(1000.0 / (fps * g_playback_speed));
+        if (interval_ms < 1) interval_ms = 1;
+        
+        // 移除旧定时器并创建新的（以应用新的倍速）
+        g_playback_timer = g_timeout_add(interval_ms, playback_timer_callback, NULL);
+        return G_SOURCE_REMOVE;
+    } else {
+        // 到达视频末尾
+        stop_playback();
+        return G_SOURCE_REMOVE;
+    }
+}
+
+static void play_pause_clicked(GtkWidget *widget, gpointer data) {
+    if (!g_cap.isOpened()) {
+        GtkWidget *err = gtk_message_dialog_new(GTK_WINDOW(window), GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "请先导入视频");
+        gtk_dialog_run(GTK_DIALOG(err));
+        gtk_widget_destroy(err);
+        return;
+    }
+    
+    if (g_is_playing) {
+        stop_playback();
+    } else {
+        start_playback();
+    }
+}
+
+static void speed_changed(GtkWidget *widget, gpointer data) {
+    GtkComboBox *combo = GTK_COMBO_BOX(widget);
+    int active = gtk_combo_box_get_active(combo);
+    
+    switch (active) {
+        case 0: g_playback_speed = 0.25; break;
+        case 1: g_playback_speed = 0.5; break;
+        case 2: g_playback_speed = 1.0; break;
+        case 3: g_playback_speed = 2.0; break;
+        case 4: g_playback_speed = 4.0; break;
+        default: g_playback_speed = 1.0; break;
+    }
+    
+    // 如果正在播放，重启定时器以应用新的倍速
+    if (g_is_playing) {
+        gboolean was_playing = g_is_playing;
+        stop_playback();
+        if (was_playing) {
+            start_playback();
+        }
+    }
+}
+
+static void update_progress_bar() {
+    if (!g_cap.isOpened() || !g_progress_scale) return;
+    
+    int total_frames = (int)g_cap.get(cv::CAP_PROP_FRAME_COUNT);
+    if (total_frames <= 0) return;
+    
+    double progress = (double)g_frame_index / total_frames * 100.0;
+    
+    g_updating_progress = TRUE;
+    gtk_range_set_value(GTK_RANGE(g_progress_scale), progress);
+    g_updating_progress = FALSE;
+}
+
+static void progress_scale_changed(GtkRange *range, gpointer user_data) {
+    if (g_updating_progress || !g_cap.isOpened()) return;
+    
+    double value = gtk_range_get_value(range);
+    int total_frames = (int)g_cap.get(cv::CAP_PROP_FRAME_COUNT);
+    if (total_frames <= 0) return;
+    
+    int target_frame = (int)(value / 100.0 * total_frames);
+    if (target_frame < 0) target_frame = 0;
+    if (target_frame >= total_frames) target_frame = total_frames - 1;
+    
+    // 停止播放并跳转到目标帧
+    gboolean was_playing = g_is_playing;
+    stop_playback();
+    
+    g_cap.set(cv::CAP_PROP_POS_FRAMES, target_frame);
+    cv::Mat frame;
+    if (g_cap.read(frame)) {
+        g_frame_index = (int)g_cap.get(cv::CAP_PROP_POS_FRAMES);
+        show_cv_frame(frame);
+    }
+    
+    // 如果之前在播放，继续播放
+    if (was_playing) {
+        start_playback();
+    }
+}
 #endif

@@ -14,10 +14,10 @@ set "PATH=%MSYS2_MINGW64_BIN%;%PATH%"
 set "XDG_DATA_DIRS=C:\msys64\mingw64\share;%XDG_DATA_DIRS%"
 set "GSETTINGS_SCHEMA_DIR=C:\msys64\mingw64\share\glib-2.0\schemas"
 
-set "APP_DIR=%~dp0build\bin"
+set "APP_DIR=%~dp0install\bin"
 if not exist "%APP_DIR%\imageprocessor.exe" (
     echo [error] imageprocessor.exe not found in "%APP_DIR%".
-    echo         Build the project first using: cmake -S . -B build -G "MinGW Makefiles" ^& cmake --build build
+    echo         Build the project first using: build.bat
     exit /b 1
 )
 

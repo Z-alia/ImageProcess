@@ -9,29 +9,35 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+# ROS2 风格目录结构
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/install/bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/install/lib")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/install/lib")
+
+# 源代码目录
+set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 
 # 选项：是否构建 GTK 图形界面（默认 OFF，便于在没有 GTK 的环境下也能构建视频处理工具）
 option(BUILD_GUI "Build GTK GUI imageprocessor" OFF)
 
 # 公共 C 源文件（两端共用）
 set(COMMON_C_SOURCES
-    processor.c
+    ${SRC_DIR}/processor.c
 )
 
 # 内部实现：单独静态库（默认构建，但不链接到 GUI/CLI，以实现对外隐藏）
 add_library(image_internal STATIC
-    global_image_buffer.c
-    image.c
-    morph_binary_bitpacked.c
+    ${SRC_DIR}/global_image_buffer.c
+    ${SRC_DIR}/image.c
+    ${SRC_DIR}/morph_binary_bitpacked.c
 )
-target_include_directories(image_internal PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(image_internal PUBLIC ${SRC_DIR})
 
 # ---------------- GUI 目标（可选） ----------------
 if(BUILD_GUI)
     set(SOURCES_GUI
-        main.cpp
-        global_image_buffer.c
+        ${SRC_DIR}/main.cpp
+        ${SRC_DIR}/global_image_buffer.c
         ${COMMON_C_SOURCES}
     )
 
@@ -67,8 +73,8 @@ if(BUILD_VIDEO_TOOL)
     find_package(OpenCV QUIET)
     if(OpenCV_FOUND)
         add_executable(video_processor
-            video_processor.cpp
-            global_image_buffer.c
+            ${SRC_DIR}/video_processor.cpp
+            ${SRC_DIR}/global_image_buffer.c
             ${COMMON_C_SOURCES}
         )
         target_include_directories(video_processor PRIVATE ${OpenCV_INCLUDE_DIRS})
