@@ -1,1 +1,1 @@
--I"C:/Users/28693/Desktop/Smart-Car-dx/ImageProcess/src" -isystem C:/msys64/mingw64/include/opencv4
+-IC:/Users/28693/Desktop/ImageProcess/src -isystem C:/msys64/mingw64/include/opencv4

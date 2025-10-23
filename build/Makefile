@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess
+CMAKE_SOURCE_DIR = C:\Users\28693\Desktop\ImageProcess
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build
+CMAKE_BINARY_DIR = C:\Users\28693\Desktop\ImageProcess\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles C:\Users\28693\Desktop\ImageProcess\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\Smart-Car-dx\ImageProcess\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -153,6 +153,30 @@ video_processor: cmake_check_build_system
 video_processor/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/build
 .PHONY : video_processor/fast
+
+src/csv_reader.obj: src/csv_reader.cpp.obj
+.PHONY : src/csv_reader.obj
+
+# target to build an object file
+src/csv_reader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/csv_reader.cpp.obj
+.PHONY : src/csv_reader.cpp.obj
+
+src/csv_reader.i: src/csv_reader.cpp.i
+.PHONY : src/csv_reader.i
+
+# target to preprocess a source file
+src/csv_reader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/csv_reader.cpp.i
+.PHONY : src/csv_reader.cpp.i
+
+src/csv_reader.s: src/csv_reader.cpp.s
+.PHONY : src/csv_reader.s
+
+# target to generate assembly for a file
+src/csv_reader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/csv_reader.cpp.s
+.PHONY : src/csv_reader.cpp.s
 
 src/global_image_buffer.obj: src/global_image_buffer.c.obj
 .PHONY : src/global_image_buffer.obj
@@ -318,6 +342,9 @@ help:
 	@echo ... image_internal
 	@echo ... imageprocessor
 	@echo ... video_processor
+	@echo ... src/csv_reader.obj
+	@echo ... src/csv_reader.i
+	@echo ... src/csv_reader.s
 	@echo ... src/global_image_buffer.obj
 	@echo ... src/global_image_buffer.i
 	@echo ... src/global_image_buffer.s

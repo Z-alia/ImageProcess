@@ -37,6 +37,7 @@ target_include_directories(image_internal PUBLIC ${SRC_DIR})
 if(BUILD_GUI)
     set(SOURCES_GUI
         ${SRC_DIR}/main.cpp
+        ${SRC_DIR}/csv_reader.cpp
         ${SRC_DIR}/global_image_buffer.c
         ${COMMON_C_SOURCES}
     )

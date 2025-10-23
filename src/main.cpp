@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include "processor.h"
 #include "global_image_buffer.h"
+#include "csv_reader.h"
 
 #ifdef HAVE_OPENCV
 // 兼容 MSYS2 mingw64 (msvcrt) 缺少 quick_exit/timespec_get 的环境：
@@ -44,6 +45,11 @@ static double g_playback_speed = 1.0;   // 播放倍速
 static GtkWidget *g_play_button = NULL; // 播放/暂停按钮
 static GtkWidget *g_progress_scale = NULL; // 进度条
 static gboolean g_updating_progress = FALSE; // 是否正在更新进度条（避免递归）
+
+// 日志显示相关
+static CSVReader g_csv_reader;
+static GtkWidget *g_log_text_view = NULL;  // 日志显示文本框
+static GtkTextBuffer *g_log_buffer = NULL; // 日志文本缓冲区
 #endif
 
 // 前置声明
@@ -81,6 +87,8 @@ static void stop_playback();
 static void start_playback();
 static void progress_scale_changed(GtkRange *range, gpointer user_data);
 static void update_progress_bar();
+static void load_log_csv_clicked(GtkWidget *widget, gpointer data);
+static void update_log_display(int frame_index);
 #endif
 
 int main(int argc, char **argv) {
@@ -118,6 +126,10 @@ static void activate(GtkApplication *app, gpointer user_data) {
     GtkWidget *open_video_btn = gtk_button_new_with_label("导入视频(mp4)");
     gtk_box_pack_start(GTK_BOX(hbox), open_video_btn, FALSE, FALSE, 0);
     g_signal_connect(open_video_btn, "clicked", G_CALLBACK(open_video_clicked), NULL);
+
+    GtkWidget *load_log_btn = gtk_button_new_with_label("加载日志CSV");
+    gtk_box_pack_start(GTK_BOX(hbox), load_log_btn, FALSE, FALSE, 0);
+    g_signal_connect(load_log_btn, "clicked", G_CALLBACK(load_log_csv_clicked), NULL);
 
     GtkWidget *prev_btn = gtk_button_new_with_label("上一帧");
     gtk_box_pack_start(GTK_BOX(hbox), prev_btn, FALSE, FALSE, 0);
@@ -183,11 +195,43 @@ static void activate(GtkApplication *app, gpointer user_data) {
     gtk_container_add(GTK_CONTAINER(orig_frame), original_array_area);
     gtk_box_pack_start(GTK_BOX(left_vbox), orig_frame, TRUE, TRUE, 0);
 
-    GtkWidget *imo_frame = gtk_frame_new("IMO 数组图");
+    // 右侧垂直布局：IMO 数组图 + 日志显示
+    GtkWidget *right_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_box_pack_start(GTK_BOX(image_hbox), right_vbox, TRUE, TRUE, 0);
+
+    GtkWidget *imo_frame = gtk_frame_new("IMO 数组图（最终输出）");
     gtk_frame_set_shadow_type(GTK_FRAME(imo_frame), GTK_SHADOW_ETCHED_IN);
     imo_image_view = gtk_image_new();
     gtk_container_add(GTK_CONTAINER(imo_frame), imo_image_view);
-    gtk_box_pack_start(GTK_BOX(image_hbox), imo_frame, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(right_vbox), imo_frame, TRUE, TRUE, 0);
+
+#ifdef HAVE_OPENCV
+    // 添加日志显示区域（在 IMO 数组图下方）
+    GtkWidget *log_frame = gtk_frame_new("实时日志");
+    gtk_frame_set_shadow_type(GTK_FRAME(log_frame), GTK_SHADOW_ETCHED_IN);
+    
+    // 创建滚动窗口
+    GtkWidget *log_scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(log_scroll), 
+                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    gtk_widget_set_size_request(log_scroll, -1, 150); // 固定高度150像素
+    
+    // 创建文本视图
+    g_log_text_view = gtk_text_view_new();
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(g_log_text_view), FALSE);
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(g_log_text_view), GTK_WRAP_WORD_CHAR);
+    
+    // 设置等宽字体
+    PangoFontDescription *font_desc = pango_font_description_from_string("Monospace 10");
+    gtk_widget_override_font(g_log_text_view, font_desc);
+    pango_font_description_free(font_desc);
+    
+    g_log_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(g_log_text_view));
+    
+    gtk_container_add(GTK_CONTAINER(log_scroll), g_log_text_view);
+    gtk_container_add(GTK_CONTAINER(log_frame), log_scroll);
+    gtk_box_pack_start(GTK_BOX(right_vbox), log_frame, FALSE, FALSE, 0);
+#endif
 
     g_signal_connect(current_frame, "size-allocate", G_CALLBACK(on_size_allocate), NULL);
     g_signal_connect(orig_frame, "size-allocate", G_CALLBACK(on_size_allocate), NULL);
@@ -405,6 +449,152 @@ static GdkPixbuf* pixbuf_from_rgb_mat_copy(const cv::Mat &rgb)
 }
 
 static void show_cv_frame(const cv::Mat &frame) {
+    // 左侧显示原始帧（限制大小为 TARGET_WIDTH x TARGET_HEIGHT，与 original 图保持一致）
+    cv::Mat bgr; 
+    if (frame.channels() == 3) 
+        bgr = frame; 
+    else 
+        cv::cvtColor(frame, bgr, cv::COLOR_GRAY2BGR);
+    
+    cv::Mat rgb; 
+    cv::cvtColor(bgr, rgb, cv::COLOR_BGR2RGB);
+    
+    // 将原始图缩放到 TARGET_WIDTH x TARGET_HEIGHT 以保持界面协调
+    cv::Mat resized_rgb;
+    if (rgb.cols != TARGET_WIDTH || rgb.rows != TARGET_HEIGHT) {
+        cv::resize(rgb, resized_rgb, cv::Size(TARGET_WIDTH, TARGET_HEIGHT), 0, 0, cv::INTER_LINEAR);
+    } else {
+        resized_rgb = rgb;
+    }
+    
+    GdkPixbuf *pb = pixbuf_from_rgb_mat_copy(resized_rgb);
+    if (pb) {
+        gtk_image_set_from_pixbuf(GTK_IMAGE(image_area), pb);
+        
+        // 用于二值化的 pixbuf（已经是 TARGET_WIDTH x TARGET_HEIGHT）
+        pixbuf_to_binary_array(pb);
+        g_object_unref(pb);
+        
+        // 自动处理图像：从 original 转换为 imo
+        allocate_imo_array();
+        process_original_to_imo(&original_bi_image[0][0], &imo[0][0], IMAGE_W, IMAGE_H);
+        
+        refresh_all_views();
+    }
+    
+    // 更新日志显示
+    update_log_display(g_frame_index);
+}
+
+static void load_log_csv_clicked(GtkWidget *widget, gpointer data) {
+    GtkWidget *dialog = gtk_file_chooser_dialog_new("选择日志CSV文件", GTK_WINDOW(window), 
+                                                      GTK_FILE_CHOOSER_ACTION_OPEN,
+                                                      "_取消", GTK_RESPONSE_CANCEL, 
+                                                      "_打开", GTK_RESPONSE_ACCEPT, NULL);
+    
+    // 添加CSV文件过滤器
+    GtkFileFilter *csv_filter = gtk_file_filter_new();
+    gtk_file_filter_set_name(csv_filter, "CSV 文件");
+    gtk_file_filter_add_pattern(csv_filter, "*.csv");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), csv_filter);
+    
+    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
+        char *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        
+        if (g_csv_reader.loadCSV(filename)) {
+            // 成功加载
+            GtkWidget *info = gtk_message_dialog_new(GTK_WINDOW(window), 
+                                                      GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                      GTK_MESSAGE_INFO, 
+                                                      GTK_BUTTONS_CLOSE,
+                                                      "成功加载 %d 条日志记录", 
+                                                      g_csv_reader.getRecordCount());
+            gtk_dialog_run(GTK_DIALOG(info));
+            gtk_widget_destroy(info);
+            
+            // 更新当前帧的日志显示
+            update_log_display(g_frame_index);
+        } else {
+            GtkWidget *err = gtk_message_dialog_new(GTK_WINDOW(window), 
+                                                     GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                     GTK_MESSAGE_ERROR, 
+                                                     GTK_BUTTONS_CLOSE,
+                                                     "无法加载CSV文件");
+            gtk_dialog_run(GTK_DIALOG(err));
+            gtk_widget_destroy(err);
+        }
+        
+        g_free(filename);
+    }
+    
+    gtk_widget_destroy(dialog);
+}
+
+static void update_log_display(int frame_index) {
+    if (!g_log_buffer) return;
+    
+    // 清空当前内容
+    gtk_text_buffer_set_text(g_log_buffer, "", -1);
+    
+    if (g_csv_reader.getRecordCount() == 0) {
+        gtk_text_buffer_set_text(g_log_buffer, "未加载日志文件\n请点击\"加载日志CSV\"按钮", -1);
+        return;
+    }
+    
+    // 获取对应帧的日志（假设帧索引从1开始，CSV记录从0开始）
+    int log_index = frame_index - 1;
+    if (log_index < 0) log_index = 0;
+    
+    if (log_index >= g_csv_reader.getRecordCount()) {
+        char msg[256];
+        snprintf(msg, sizeof(msg), "当前帧: %d (超出日志范围)\n总日志数: %d", 
+                 frame_index, g_csv_reader.getRecordCount());
+        gtk_text_buffer_set_text(g_log_buffer, msg, -1);
+        return;
+    }
+    
+    LogRecord record = g_csv_reader.getLogByIndex(log_index);
+    
+    // 构建显示文本
+    std::string display_text;
+    display_text += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+    display_text += "  当前帧: " + std::to_string(frame_index) + " / " + 
+                   std::to_string(g_csv_reader.getRecordCount()) + "\n";
+    display_text += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+    
+    display_text += "⏰ 时间戳:\n  " + record.timestamp + "\n\n";
+    
+    // 显示自定义变量
+    std::vector<std::string> varNames = g_csv_reader.getVariableNames();
+    if (!varNames.empty()) {
+        display_text += "📊 日志变量:\n";
+        for (const auto& varName : varNames) {
+            auto it = record.variables.find(varName);
+            if (it != record.variables.end()) {
+                display_text += "  • " + varName + ": " + it->second + "\n";
+            }
+        }
+        display_text += "\n";
+    }
+    
+    // 显示原始数据
+    if (!record.log_utf8.empty()) {
+        display_text += "📝 UTF-8文本:\n  " + record.log_utf8 + "\n\n";
+    }
+    
+    if (!record.log_hex.empty()) {
+        display_text += "🔧 Hex数据:\n  ";
+        // 格式化hex显示，每32个字符换行
+        for (size_t i = 0; i < record.log_hex.length(); i += 32) {
+            if (i > 0) display_text += "  ";
+            display_text += record.log_hex.substr(i, 32) + "\n";
+        }
+    }
+    
+    gtk_text_buffer_set_text(g_log_buffer, display_text.c_str(), -1);
+}
+
+static void show_cv_frame_OLD(const cv::Mat &frame) {
     // 左侧显示原始帧（安全复制到 GdkPixbuf）
     cv::Mat bgr; if (frame.channels()==3) bgr = frame; else cv::cvtColor(frame, bgr, cv::COLOR_GRAY2BGR);
     cv::Mat rgb; cv::cvtColor(bgr, rgb, cv::COLOR_BGR2RGB);
