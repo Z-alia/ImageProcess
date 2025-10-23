@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <cctype>
 
 CSVReader::CSVReader() {
 }
@@ -21,6 +22,9 @@ bool CSVReader::loadCSV(const std::string& filename) {
     std::string line;
     bool isFirstLine = true;
     std::vector<std::string> headers;
+    int timestampCol = -1;
+    int hexCol = -1;
+    int utf8Col = -1;
     
     while (std::getline(file, line)) {
         if (line.empty()) continue;
@@ -32,28 +36,66 @@ bool CSVReader::loadCSV(const std::string& filename) {
             headers = fields;
             isFirstLine = false;
             
-            // 提取自定义变量名（跳过前3个固定列）
-            if (headers.size() > 3) {
-                for (size_t i = 3; i < headers.size(); i++) {
+            // 自动检测关键列的位置（不区分大小写）
+            for (size_t i = 0; i < headers.size(); i++) {
+                std::string colName = trim(headers[i]);
+                std::string lowerColName = colName;
+                std::transform(lowerColName.begin(), lowerColName.end(), lowerColName.begin(), ::tolower);
+                
+                // 检测时间戳列
+                if (lowerColName.find("time") != std::string::npos || 
+                    lowerColName.find("iso") != std::string::npos ||
+                    lowerColName.find("timestamp") != std::string::npos) {
+                    if (timestampCol == -1) timestampCol = i;
+                }
+                // 检测hex列
+                else if (lowerColName.find("hex") != std::string::npos) {
+                    if (hexCol == -1) hexCol = i;
+                }
+                // 检测utf8/text列
+                else if (lowerColName.find("utf") != std::string::npos || 
+                         lowerColName.find("text") != std::string::npos) {
+                    if (utf8Col == -1) utf8Col = i;
+                }
+            }
+            
+            // 如果没有检测到关键列，使用默认位置（前3列）
+            if (timestampCol == -1 && headers.size() > 0) timestampCol = 0;
+            if (hexCol == -1 && headers.size() > 1) hexCol = 1;
+            if (utf8Col == -1 && headers.size() > 2) utf8Col = 2;
+            
+            // 提取自定义变量名（所有非关键列）
+            for (size_t i = 0; i < headers.size(); i++) {
+                if ((int)i != timestampCol && (int)i != hexCol && (int)i != utf8Col) {
                     variableNames.push_back(trim(headers[i]));
                 }
             }
             continue;
         }
         
-        // 解析数据行
-        if (fields.size() < 3) continue; // 至少需要3个基本字段
+        // 解析数据行（不再要求至少3列）
+        if (fields.empty()) continue;
         
         LogRecord record;
-        record.timestamp = trim(fields[0]);
-        record.log_hex = trim(fields[1]);
-        record.log_utf8 = trim(fields[2]);
+        
+        // 从检测到的列位置读取数据，如果列不存在则为空
+        if (timestampCol >= 0 && timestampCol < (int)fields.size()) {
+            record.timestamp = trim(fields[timestampCol]);
+        }
+        if (hexCol >= 0 && hexCol < (int)fields.size()) {
+            record.log_hex = trim(fields[hexCol]);
+        }
+        if (utf8Col >= 0 && utf8Col < (int)fields.size()) {
+            record.log_utf8 = trim(fields[utf8Col]);
+        }
         
         // 解析自定义变量值
-        for (size_t i = 3; i < fields.size() && i < headers.size(); i++) {
-            std::string varName = trim(headers[i]);
-            std::string varValue = trim(fields[i]);
-            record.variables[varName] = varValue;
+        for (size_t i = 0; i < fields.size() && i < headers.size(); i++) {
+            if ((int)i != timestampCol && (int)i != hexCol && (int)i != utf8Col) {
+                std::string varName = trim(headers[i]);
+                std::string varValue = trim(fields[i]);
+                record.variables[varName] = varValue;
+            }
         }
         
         records.push_back(record);
