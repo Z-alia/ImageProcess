@@ -178,6 +178,30 @@ src/csv_reader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/csv_reader.cpp.s
 .PHONY : src/csv_reader.cpp.s
 
+src/dynamic_log.obj: src/dynamic_log.cpp.obj
+.PHONY : src/dynamic_log.obj
+
+# target to build an object file
+src/dynamic_log.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.obj
+.PHONY : src/dynamic_log.cpp.obj
+
+src/dynamic_log.i: src/dynamic_log.cpp.i
+.PHONY : src/dynamic_log.i
+
+# target to preprocess a source file
+src/dynamic_log.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.i
+.PHONY : src/dynamic_log.cpp.i
+
+src/dynamic_log.s: src/dynamic_log.cpp.s
+.PHONY : src/dynamic_log.s
+
+# target to generate assembly for a file
+src/dynamic_log.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.s
+.PHONY : src/dynamic_log.cpp.s
+
 src/global_image_buffer.obj: src/global_image_buffer.c.obj
 .PHONY : src/global_image_buffer.obj
 
@@ -369,6 +393,9 @@ help:
 	@echo ... src/csv_reader.obj
 	@echo ... src/csv_reader.i
 	@echo ... src/csv_reader.s
+	@echo ... src/dynamic_log.obj
+	@echo ... src/dynamic_log.i
+	@echo ... src/dynamic_log.s
 	@echo ... src/global_image_buffer.obj
 	@echo ... src/global_image_buffer.i
 	@echo ... src/global_image_buffer.s

@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "C:/Users/28693/Desktop/ImageProcess/install/lib/libimageprocessor.dll.a"
   "CMakeFiles/imageprocessor.dir/src/csv_reader.cpp.obj"
   "CMakeFiles/imageprocessor.dir/src/csv_reader.cpp.obj.d"
+  "CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.obj"
+  "CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.obj.d"
   "CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj"
   "CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj.d"
   "CMakeFiles/imageprocessor.dir/src/main.cpp.obj"

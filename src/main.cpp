@@ -8,6 +8,7 @@
 #include "global_image_buffer.h"
 #include "csv_reader.h"
 #include "oscilloscope.h"
+#include "dynamic_log.h"
 
 #ifdef HAVE_OPENCV
 // 兼容 MSYS2 mingw64 (msvcrt) 缺少 quick_exit/timespec_get 的环境：
@@ -691,61 +692,88 @@ static void load_log_csv_clicked(GtkWidget *widget, gpointer data) {
 static void update_log_display(int frame_index) {
     if (!g_log_buffer) return;
     
+    // 更新动态日志管理器的当前帧
+    log_set_current_frame(frame_index);
+    
     // 清空当前内容
     gtk_text_buffer_set_text(g_log_buffer, "", -1);
     
-    if (g_csv_reader.getRecordCount() == 0) {
-        gtk_text_buffer_set_text(g_log_buffer, "未加载日志文件\n请点击\"加载日志CSV\"按钮", -1);
+    bool has_csv_logs = (g_csv_reader.getRecordCount() > 0);
+    bool has_dynamic_logs = false;
+    std::vector<DynamicLogVariable> dynamic_logs;
+    
+    // 检查是否有动态日志
+    dynamic_logs = DynamicLogManager::getInstance().getFrameLogs(frame_index);
+    has_dynamic_logs = !dynamic_logs.empty();
+    
+    // 如果既没有CSV也没有动态日志
+    if (!has_csv_logs && !has_dynamic_logs) {
+        gtk_text_buffer_set_text(g_log_buffer, 
+            "未加载日志文件\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "• 点击\"加载日志CSV\"加载文件\n"
+            "• 或在代码中使用 log_add_*() 函数添加日志", -1);
         return;
     }
-    
-    // 获取对应帧的日志（假设帧索引从1开始，CSV记录从0开始）
-    int log_index = frame_index - 1;
-    if (log_index < 0) log_index = 0;
-    
-    if (log_index >= g_csv_reader.getRecordCount()) {
-        char msg[256];
-        snprintf(msg, sizeof(msg), "当前帧: %d (超出日志范围)\n总日志数: %d", 
-                 frame_index, g_csv_reader.getRecordCount());
-        gtk_text_buffer_set_text(g_log_buffer, msg, -1);
-        return;
-    }
-    
-    LogRecord record = g_csv_reader.getLogByIndex(log_index);
     
     // 构建显示文本
     std::string display_text;
     display_text += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
-    display_text += "  当前帧: " + std::to_string(frame_index) + " / " + 
-                   std::to_string(g_csv_reader.getRecordCount()) + "\n";
+    display_text += "  当前帧: " + std::to_string(frame_index);
+    if (has_csv_logs) {
+        display_text += " / " + std::to_string(g_csv_reader.getRecordCount());
+    }
+    display_text += "\n";
     display_text += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
     
-    display_text += "⏰ 时间戳:\n  " + record.timestamp + "\n\n";
-    
-    // 显示自定义变量
-    std::vector<std::string> varNames = g_csv_reader.getVariableNames();
-    if (!varNames.empty()) {
-        display_text += "📊 日志变量:\n";
-        for (const auto& varName : varNames) {
-            auto it = record.variables.find(varName);
-            if (it != record.variables.end()) {
-                display_text += "  • " + varName + ": " + it->second + "\n";
-            }
+    // ======== 显示动态日志（优先级更高） ========
+    if (has_dynamic_logs) {
+        display_text += "🔧 动态日志 (代码添加):\n";
+        for (const auto& var : dynamic_logs) {
+            display_text += "  • " + var.name + ": " + var.value_str + "\n";
         }
         display_text += "\n";
     }
     
-    // 显示原始数据
-    if (!record.log_utf8.empty()) {
-        display_text += "📝 UTF-8文本:\n  " + record.log_utf8 + "\n\n";
-    }
+    // ======== 显示CSV日志 ========
+    if (has_csv_logs) {
+        // 获取对应帧的日志（假设帧索引从1开始，CSV记录从0开始）
+        int log_index = frame_index - 1;
+        if (log_index < 0) log_index = 0;
+        
+        if (log_index >= g_csv_reader.getRecordCount()) {
+            display_text += "⚠️  当前帧超出CSV日志范围\n\n";
+        } else {
+            LogRecord record = g_csv_reader.getLogByIndex(log_index);
+            
+            display_text += "⏰ 时间戳:\n  " + record.timestamp + "\n\n";
+            
+            // 显示自定义变量
+            std::vector<std::string> varNames = g_csv_reader.getVariableNames();
+            if (!varNames.empty()) {
+                display_text += "📊 CSV日志变量:\n";
+                for (const auto& varName : varNames) {
+                    auto it = record.variables.find(varName);
+                    if (it != record.variables.end()) {
+                        display_text += "  • " + varName + ": " + it->second + "\n";
+                    }
+                }
+                display_text += "\n";
+            }
+            
+            // 显示原始数据
+            if (!record.log_utf8.empty()) {
+                display_text += "📝 UTF-8文本:\n  " + record.log_utf8 + "\n\n";
+            }
     
-    if (!record.log_hex.empty()) {
-        display_text += "🔧 Hex数据:\n  ";
-        // 格式化hex显示，每32个字符换行
-        for (size_t i = 0; i < record.log_hex.length(); i += 32) {
-            if (i > 0) display_text += "  ";
-            display_text += record.log_hex.substr(i, 32) + "\n";
+            if (!record.log_hex.empty()) {
+                display_text += "🔧 Hex数据:\n  ";
+                // 格式化hex显示，每32个字符换行
+                for (size_t i = 0; i < record.log_hex.length(); i += 32) {
+                    if (i > 0) display_text += "  ";
+                    display_text += record.log_hex.substr(i, 32) + "\n";
+                }
+            }
         }
     }
     
