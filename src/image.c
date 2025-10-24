@@ -430,7 +430,7 @@ void image_draw_rectan(uint8_t(*image)[image_w])
 	}
 }
 
-//绘制边界线
+/*绘制边界线
 void draw_edge()
 {
 	int row=0;
@@ -440,6 +440,27 @@ void draw_edge()
 		imo[row][r_border[row]]=2;
 		imo[row][center_line[row]]=3;
 	}
+}
+*/
+//绘制边界线(完全体)
+void draw_edge()
+{
+    // 显示所有左边界点
+    for (int i = 0; i < data_stastics_l; i++) {
+        int row = points_l[i][1];
+        int col = points_l[i][0];
+        imo[row][col] = 1; // 左边界点标记为1
+    }
+    // 显示所有右边界点
+    for (int i = 0; i < data_stastics_r; i++) {
+        int row = points_r[i][1];
+        int col = points_r[i][0];
+        imo[row][col] = 2; // 右边界点标记为2
+    }
+    // 如果还要显示中线，可以保留原来的
+    for (int row = 0; row < image_h; row++) {
+        imo[row][center_line[row]] = 3;
+    }
 }
 
 
