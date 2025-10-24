@@ -24,6 +24,7 @@ void show_ov2640_image_int8(int start_x, int start_y,
 	(void)start_x; (void)start_y; (void)data; (void)w; (void)h; (void)stride_w; (void)stride_h;
 }
 #endif
+
 /*
 函数名称：int my_abs(int value)
 功能说明：求绝对值
@@ -331,36 +332,34 @@ void search_l_r(uint16_t break_flag, uint8_t(*image)[image_w], uint16_t *l_stast
 /*
 函数名称：void get_left(uint16 total_L)
 功能说明：从八邻域边界里提取需要的边线
-参数说明：
-total_L	：找到的点的总数
-函数返回：无
-修改时间：2022年9月25日
-备    注：
-example： get_left(data_stastics_l );
  */
 uint8_t l_border[image_h];//左线数组
 uint8_t r_border[image_h];//右线数组
 uint8_t center_line[image_h];//中线数组
+uint8_t left_lost[image_h];//左线丢失标志数组
+uint8_t right_lost[image_h];//右线丢失标志数组
 void get_left(uint16_t total_L)
 {
 	uint16_t j;
-	//初始化左边界为最小值
+	//初始化左边界为最小值（丢线状态）
 	for (j = 0; j < image_h; j++)
 	{
 		l_border[j] = border_min;
+		left_lost[j] = 1;  // 丢线标志
 	}
 
-	// 遍历所有找到的点，更新l_border数组
+	// 遍历所有找到的点，更新l_border数组（过程中反转行号）
 	for (j = 0; j < total_L; j++)
 	{
-		uint16_t row = points_l[j][1];
+		uint16_t row = image_h - 1 - points_l[j][1]; // 反转行号
 		uint16_t col = points_l[j][0];
 		if (row < image_h) // 确保行号在范围内
 		{
-			// 如果当前行的边界还是初始值，或者找到了一个更左边的点
-			if (l_border[row] == border_min || col < l_border[row])
+			// 找到真实边界点：取该行最右边的左边界点
+			if (col > l_border[row])
 			{
 				l_border[row] = col;
+				left_lost[row] = 0;  // 找到边界，清除丢线标志
 			}
 		}
 	}
@@ -378,23 +377,25 @@ example：get_right(data_stastics_r);
 void get_right(uint16_t total_R)
 {
 	uint16_t j;
-	//初始化右边界为最大值
+	//初始化右边界为最大值（丢线状态）
 	for (j = 0; j < image_h; j++)
 	{
 		r_border[j] = border_max;
+		right_lost[j] = 1;  // 丢线标志
 	}
 
-	// 遍历所有找到的点，更新r_border数组
+	// 遍历所有找到的点，更新r_border数组（过程中反转行号）
 	for (j = 0; j < total_R; j++)
 	{
-		uint16_t row = points_r[j][1];
+		uint16_t row = image_h - 1 - points_r[j][1]; // 反转行号
 		uint16_t col = points_r[j][0];
 		if (row < image_h) // 确保行号在范围内
 		{
-			// 如果当前行的边界还是初始值，或者找到了一个更右边的点
-			if (r_border[row] == border_max || col > r_border[row])
+			// 找到真实边界点：取该行最左边的右边界点
+			if (col < r_border[row])
 			{
 				r_border[row] = col;
+				right_lost[row] = 0;  // 找到边界，清除丢线标志
 			}
 		}
 	}
@@ -430,39 +431,144 @@ void image_draw_rectan(uint8_t(*image)[image_w])
 	}
 }
 
-/*绘制边界线
+/*绘制边界线(横向去重)
 void draw_edge()
 {
 	int row=0;
 	for(row=0;row<120;row++)
     {
-		imo[row][l_border[row]]=1;
-		imo[row][r_border[row]]=2;
-		imo[row][center_line[row]]=3;
+		imo[119-row][l_border[row]]=1;
+		imo[119-row][r_border[row]]=2;
+		imo[119-row][center_line[row]]=3;
 	}
 }
 */
+
 //绘制边界线(完全体)
 void draw_edge()
 {
-    // 显示所有左边界点
+    // 显示左边界
     for (int i = 0; i < data_stastics_l; i++) {
         int row = points_l[i][1];
         int col = points_l[i][0];
         imo[row][col] = 1; // 左边界点标记为1
     }
-    // 显示所有右边界点
+    // 显示右边界
     for (int i = 0; i < data_stastics_r; i++) {
         int row = points_r[i][1];
         int col = points_r[i][0];
         imo[row][col] = 2; // 右边界点标记为2
     }
-    // 如果还要显示中线，可以保留原来的
+    // 显示中线
     for (int row = 0; row < image_h; row++) {
-        imo[row][center_line[row]] = 3;
+        imo[image_h-row][center_line[row]] = 3;
     }
 }
 
+
+/**
+ * @brief 整数序列匹配函数
+ *
+ * 功能：
+ * 1. 在 'input' 序列中查找 'pattern' 序列。
+ * 2. 严格匹配 'pattern' 中的每一个元素, 包括重复。
+ * 3. 允许 'pattern' 中相邻元素之间存在最多 'max_gap' 个 "噪声" 元素。
+ *
+ * @param input        输入整数序列
+ * @param input_len    输入长度
+ * @param pattern      目标模式序列
+ * @param pattern_len  模式长度 (必须 > 0)
+ * @param max_gap      允许的最大单段间隔 (应 >= 0)
+ *
+ * @return match_result_t 结构体, 包含匹配状态和置信度
+ */
+match_result match_strict_sequence_with_gaps(
+    const uint16_t* input,     // 输入序列
+    size_t         input_len,
+    const uint16_t* pattern,    //目标模式序列
+    size_t         pattern_len,
+    uint16_t        max_gap       // 允许的最大单段间隔
+) {
+    // 默认结果
+    match_result result = {0, 0, 0, 0.0f}; 
+    
+    // 1. 鲁棒性检查
+    if (!input || !pattern || pattern_len == 0 || input_len == 0 || max_gap < 0) {
+        return result;
+    }
+
+    size_t  pat_idx = 0;           // 模式索引 (使用 size_t)
+    uint16_t current_gap = 0;     // 标准化
+    uint16_t total_gap = 0;         // 标准化
+
+    for (size_t i = 0; i < input_len; i++) {
+        
+        // 2. 提前退出剪枝
+        if (input_len - i < pattern_len - pat_idx) {
+            break; 
+        }
+
+        if (input[i] == pattern[pat_idx]) {
+            // 3. 找到匹配项
+            if (pat_idx > 0) {
+                total_gap += current_gap;
+            }
+            pat_idx++;
+            current_gap = 0; 
+
+            // 4. 检查是否完全匹配
+            if (pat_idx == pattern_len) {
+                result.matched = 1; 
+                result.total_gap = total_gap;
+                result.end = (uint8_t)i; // 记录最后匹配位置的行号
+                
+                // (pattern_len - 1) 可能会溢出如果 pattern_len 是 0,
+                // 但我们已在开头检查过 pattern_len > 0, 所以这里是安全的。
+                uint16_t max_possible_gap = (uint16_t)(pattern_len - 1) * max_gap; // 标准化
+                
+                if (max_possible_gap == 0) {
+                    result.confidence = (total_gap == 0) ? 1.0f : 0.0f;
+                } else {
+                    // 强制类型转换为 float 以进行浮点数除法
+                    result.confidence = 1.0f - (float)total_gap / (float)max_possible_gap;
+                }
+                return result; 
+            }
+        } else {
+            // 5. 不匹配
+            if (pat_idx > 0) {
+                // 计入间隔
+                current_gap++;
+                
+                if (current_gap > max_gap) {
+                    // 间隔超限, 重置状态
+                    pat_idx = 0;
+                    current_gap = 0;
+                    total_gap = 0;
+
+                    // 检查当前这个 input[i] 是否是 pattern[0]
+                    if (input[i] == pattern[0]) {
+                        pat_idx = 1;
+                    }
+                }
+            }
+            // else (pat_idx == 0), 继续寻找 pattern[0]
+        }
+    }
+
+    // 循环结束仍未匹配
+    return result;
+}
+
+// 创建匹配序列
+growth_array arr = {
+    .outer_up = {3,3,3,5,5,5},
+    .inner_up = {7,7,7,6,6,6},
+    .up_outer = {6,6,6,3,3,3},
+    .up_inner = {5,5,5,7,7,7},
+    .up_outerdownarc = {5,5,2,2,3,4,4},
+    .outer_uparc = {3,4,4,4,4,4,4,5}
+};
 
 /** 
 * @brief 最小二乘法
@@ -568,30 +674,24 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 	uint8_t break_num_r = 0;
 	uint8_t start, end;
 	float slope_l_rate = 0, intercept_l = 0;
-	//出十字
-	for (i = 1; i + 7 < total_num_l; i++)
+	
+	// 左边匹配检测
+	match_result result_l = match_strict_sequence_with_gaps(dir_l, total_num_l, arr.up_inner, 6, 3);
+	if (result_l.matched)
 	{
-		if (dir_l[i - 1] == 4 && dir_l[i] == 4 && dir_l[i + 3] == 6 && dir_l[i + 5] == 6 && dir_l[i + 7] == 6)
-		{
-			break_num_l = points_l[i][1];//传递y坐标
-			//printf("brea_knum-L:%d\n", break_num_l);
-			//printf("I:%d\n", i);
-			//printf("十字标志位：1\n");
-			break;
-		}
+		break_num_l = result_l.end; // 使用匹配结束位置
+		break_num_l = points_l[break_num_l][1]; // 转换为y坐标
 	}
-	for (i = 1; i + 7 < total_num_r; i++)
+	
+	// 右边匹配检测
+	match_result result_r = match_strict_sequence_with_gaps(dir_r, total_num_r, arr.up_inner, 6, 3);
+	if (result_r.matched)
 	{
-		if (dir_r[i - 1] == 4 && dir_r[i] == 4 && dir_r[i + 3] == 6 && dir_r[i + 5] == 6 && dir_r[i + 7] == 6)
-		{
-			break_num_r = points_r[i][1];//传递y坐标
-			//printf("brea_knum-R:%d\n", break_num_r);
-			//printf("I:%d\n", i);
-			//printf("十字标志位：1\n");
-			break;
-		}
+		break_num_r = result_r.end; // 使用匹配结束位置
+		break_num_r = points_r[break_num_r][1]; // 转换为y坐标
 	}
-	if (break_num_l&&break_num_r&&image[image_h - 1][4] && image[image_h - 1][image_w - 4])//两边生长方向都符合条件
+
+	if (result_l.matched && result_r.matched) // 两边生长方向都符合条件
 	{
 		//计算斜率
 		start = break_num_l - 15;
@@ -621,7 +721,6 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 	}
 
 }
-
 
 /*
 函数名称：void image_process(void)
