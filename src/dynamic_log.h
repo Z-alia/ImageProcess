@@ -51,6 +51,15 @@ int log_get_current_frame();
 // 设置当前帧索引（通常由视频播放器自动设置）
 void log_set_current_frame(int frame_index);
 
+// 设置CSV自动保存路径（设置后会自动写入）
+void log_set_csv_path(const char* csv_path);
+
+// 获取当前CSV路径
+const char* log_get_csv_path();
+
+// 立即刷新所有日志到CSV（通常自动调用）
+void log_flush_to_csv();
+
 #ifdef __cplusplus
 }
 
@@ -90,6 +99,14 @@ public:
     // 获取所有有日志的帧索引
     std::vector<int> getFrameIndices() const;
     
+    // CSV自动保存
+    void setCsvPath(const std::string& path);
+    std::string getCsvPath() const { return csv_path; }
+    void flushToCsv();
+    
+    // 获取所有变量名（用于CSV表头）
+    std::vector<std::string> getAllVariableNames() const;
+    
 private:
     DynamicLogManager();
     ~DynamicLogManager();
@@ -102,6 +119,11 @@ private:
     // 存储结构: frame_index -> vector of variables
     std::map<int, std::vector<DynamicLogVariable>> frame_logs;
     int current_frame;
+    std::string csv_path;
+    bool auto_save_enabled;
+    
+    // 内部函数：写入单帧到CSV
+    void appendFrameToCsv(int frame_index);
 };
 
 #endif // __cplusplus

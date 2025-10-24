@@ -93,6 +93,7 @@ private:
     void drawAxisLabels(cairo_t *cr, int width, int height);
     
     // 辅助函数
+    void calculateYAxisRange(double& y_min, double& y_max) const;
     GdkRGBA getNextColor();
     void parseValueFromString(const std::string& str, double& value);
     std::string formatValue(double value);

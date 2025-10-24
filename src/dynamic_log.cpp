@@ -2,15 +2,22 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
+#include <fstream>
+#include <algorithm>
+#include <ctime>
+#include <set>
 
 // ============================================================================
 // C++ 实现
 // ============================================================================
 
-DynamicLogManager::DynamicLogManager() : current_frame(0) {
+DynamicLogManager::DynamicLogManager() : current_frame(0), auto_save_enabled(false) {
 }
 
 DynamicLogManager::~DynamicLogManager() {
+    if (auto_save_enabled && !csv_path.empty()) {
+        flushToCsv();
+    }
     clearAll();
 }
 
@@ -71,6 +78,11 @@ void DynamicLogManager::addVariable(const std::string& var_name, LogVarType type
     var.value_str = valueToString(type, var_ptr);
     
     frame_logs[frame_index].push_back(var);
+    
+    // 如果启用了自动保存，立即写入CSV
+    if (auto_save_enabled && !csv_path.empty()) {
+        appendFrameToCsv(frame_index);
+    }
 }
 
 std::vector<DynamicLogVariable> DynamicLogManager::getFrameLogs(int frame_index) const {
@@ -95,6 +107,74 @@ std::vector<int> DynamicLogManager::getFrameIndices() const {
         indices.push_back(pair.first);
     }
     return indices;
+}
+
+void DynamicLogManager::setCsvPath(const std::string& path) {
+    csv_path = path;
+    auto_save_enabled = !path.empty();
+    
+    // 不创建新文件，直接使用现有的CSV文件
+    // CSV文件由 CSVReader 加载时已经存在
+}
+
+std::vector<std::string> DynamicLogManager::getAllVariableNames() const {
+    std::vector<std::string> names;
+    std::set<std::string> name_set;
+    
+    // 收集所有出现过的变量名（保持插入顺序）
+    for (const auto& frame_pair : frame_logs) {
+        for (const auto& var : frame_pair.second) {
+            if (name_set.insert(var.name).second) {
+                names.push_back(var.name);
+            }
+        }
+    }
+    
+    return names;
+}
+
+void DynamicLogManager::appendFrameToCsv(int frame_index) {
+    if (csv_path.empty()) return;
+    
+    // 获取该帧的所有变量
+    auto it = frame_logs.find(frame_index);
+    if (it == frame_logs.end() || it->second.empty()) return;
+    
+    const auto& vars = it->second;
+    
+    // 追加模式打开文件（RAII自动关闭）
+    std::ofstream file(csv_path, std::ios::app);
+    if (!file.is_open()) {
+        // 文件打开失败，静默返回（避免干扰主程序）
+        return;
+    }
+    
+    // 生成当前时间戳（ISO格式）
+    time_t now = time(nullptr);
+    struct tm* timeinfo = localtime(&now);
+    if (!timeinfo) return;
+    
+    char timestamp[64];
+    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", timeinfo);
+    
+    // 按照标准CSV日志格式写入：
+    // host_recv_iso, log_text_hex, log_text_utf8, 变量1, 变量2, ...
+    file << timestamp << ",,"  // 时间戳 + 空hex列
+         << "[dynamic]";        // 标记为动态日志
+    
+    // 写入所有变量值
+    for (const auto& var : vars) {
+        file << "," << var.value_str;
+    }
+    
+    file << "\n";
+    // file.close() 由析构函数自动调用
+}
+
+void DynamicLogManager::flushToCsv() {
+    // 在合并模式下，每次添加变量时已经立即写入CSV
+    // 此函数主要用于兼容性，实际上数据已实时写入
+    // 无需额外操作
 }
 
 // ============================================================================
@@ -159,6 +239,24 @@ int log_get_current_frame() {
 
 void log_set_current_frame(int frame_index) {
     DynamicLogManager::getInstance().setCurrentFrame(frame_index);
+}
+
+void log_set_csv_path(const char* csv_path) {
+    if (!csv_path) {
+        DynamicLogManager::getInstance().setCsvPath("");
+    } else {
+        DynamicLogManager::getInstance().setCsvPath(csv_path);
+    }
+}
+
+const char* log_get_csv_path() {
+    static std::string path;
+    path = DynamicLogManager::getInstance().getCsvPath();
+    return path.c_str();
+}
+
+void log_flush_to_csv() {
+    DynamicLogManager::getInstance().flushToCsv();
 }
 
 } // extern "C"

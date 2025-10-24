@@ -655,12 +655,15 @@ static void load_log_csv_clicked(GtkWidget *widget, gpointer data) {
             // 保存CSV路径
             g_csv_file_path = filename;
             
+            // 设置动态日志直接写入同一个CSV文件
+            log_set_csv_path(g_csv_file_path.c_str());
+            
             // 成功加载
             GtkWidget *info = gtk_message_dialog_new(GTK_WINDOW(window), 
                                                       GTK_DIALOG_DESTROY_WITH_PARENT,
                                                       GTK_MESSAGE_INFO, 
                                                       GTK_BUTTONS_CLOSE,
-                                                      "成功加载 %d 条日志记录", 
+                                                      "成功加载 %d 条日志记录\n动态日志将写入同一文件", 
                                                       g_csv_reader.getRecordCount());
             gtk_dialog_run(GTK_DIALOG(info));
             gtk_widget_destroy(info);
@@ -698,13 +701,10 @@ static void update_log_display(int frame_index) {
     // 清空当前内容
     gtk_text_buffer_set_text(g_log_buffer, "", -1);
     
+    // 检查日志来源
     bool has_csv_logs = (g_csv_reader.getRecordCount() > 0);
-    bool has_dynamic_logs = false;
-    std::vector<DynamicLogVariable> dynamic_logs;
-    
-    // 检查是否有动态日志
-    dynamic_logs = DynamicLogManager::getInstance().getFrameLogs(frame_index);
-    has_dynamic_logs = !dynamic_logs.empty();
+    std::vector<DynamicLogVariable> dynamic_logs = DynamicLogManager::getInstance().getFrameLogs(frame_index);
+    bool has_dynamic_logs = !dynamic_logs.empty();
     
     // 如果既没有CSV也没有动态日志
     if (!has_csv_logs && !has_dynamic_logs) {

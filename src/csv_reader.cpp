@@ -23,12 +23,8 @@ bool CSVReader::loadCSV(const std::string& filename) {
     std::string line;
     bool isFirstLine = true;
     std::vector<std::string> headers;
-    int timestampCol = -1;
-    int hexCol = -1;
-    int utf8Col = -1;
-    int totalLines = 0;
-    int skippedLines = 0;
-    int errorLines = 0;
+    int timestampCol = -1, hexCol = -1, utf8Col = -1;
+    int totalLines = 0, skippedLines = 0, errorLines = 0;
     
     while (std::getline(file, line)) {
         totalLines++;
@@ -57,8 +53,7 @@ bool CSVReader::loadCSV(const std::string& filename) {
             
             // 自动检测关键列的位置（不区分大小写）
             for (size_t i = 0; i < headers.size(); i++) {
-                std::string colName = trim(headers[i]);
-                std::string lowerColName = colName;
+                std::string lowerColName = trim(headers[i]);
                 std::transform(lowerColName.begin(), lowerColName.end(), lowerColName.begin(), ::tolower);
                 
                 // 检测时间戳列

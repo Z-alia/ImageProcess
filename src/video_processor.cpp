@@ -26,12 +26,11 @@ static void ensure_dir(const fs::path &p) {
 
 static void resize_and_binarize(const cv::Mat &src, std::vector<std::vector<uint8_t>> &original,
                                 int target_w, int target_h) {
-    cv::Mat gray, resized;
-    if (src.channels() == 1) {
-        gray = src;
-    } else {
+    cv::Mat gray = (src.channels() == 1) ? src : cv::Mat();
+    if (gray.empty()) {
         cv::cvtColor(src, gray, cv::COLOR_BGR2GRAY);
     }
+    cv::Mat resized;
     cv::resize(gray, resized, cv::Size(target_w, target_h), 0, 0, cv::INTER_LINEAR);
 
     original.assign(target_h, std::vector<uint8_t>(target_w, 255));
@@ -107,21 +106,17 @@ int main(int argc, char **argv) {
         if (exportImo) {
             // 将 imo 可视化落盘为彩色 PNG（0=黑，1=红，2=橙，3=黄，4=绿，5=青，255=白）
             cv::Mat viz(TARGET_H, TARGET_W, CV_8UC3);
+            // 颜色映射表
+            static const cv::Vec3b colorMap[] = {
+                {0,0,0}, {0,0,255}, {0,165,255}, {0,255,255}, 
+                {0,255,0}, {255,255,0}, {255,255,255}  // 索引0-5+默认
+            };
+            
             for (int y = 0; y < TARGET_H; ++y) {
                 cv::Vec3b *row = viz.ptr<cv::Vec3b>(y);
                 for (int x = 0; x < TARGET_W; ++x) {
                     uint8_t v = imo[y][x];
-                    cv::Vec3b bgr;
-                    switch (v) {
-                        case 0: bgr = {0,0,0}; break;            // 黑
-                        case 1: bgr = {0,0,255}; break;          // 红 (BGR)
-                        case 2: bgr = {0,165,255}; break;        // 橙
-                        case 3: bgr = {0,255,255}; break;        // 黄
-                        case 4: bgr = {0,255,0}; break;          // 绿
-                        case 5: bgr = {255,255,0}; break;        // 青
-                        case 255: default: bgr = {255,255,255}; break; // 白
-                    }
-                    row[x] = bgr;
+                    row[x] = (v <= 5) ? colorMap[v] : colorMap[6];  // 255或其他→白色
                 }
             }
             std::snprintf(namebuf, sizeof(namebuf), "imo_%06d.png", idx);

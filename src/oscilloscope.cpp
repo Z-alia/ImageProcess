@@ -490,6 +490,45 @@ void OscilloscopeWindow::drawGrid(cairo_t *cr, int width, int height) {
     }
 }
 
+// 计算Y轴范围的辅助函数
+void OscilloscopeWindow::calculateYAxisRange(double& y_min, double& y_max) const {
+    y_min = 0.0;
+    y_max = 100.0;
+    
+    if (auto_scale && !channels.empty()) {
+        // 自动缩放：找到所有可见通道的最小最大值
+        bool first = true;
+        for (const auto& ch : channels) {
+            if (ch.visible && !ch.values.empty()) {
+                if (first) {
+                    y_min = ch.min_value;
+                    y_max = ch.max_value;
+                    first = false;
+                } else {
+                    y_min = std::min(y_min, ch.min_value);
+                    y_max = std::max(y_max, ch.max_value);
+                }
+            }
+        }
+        
+        // 添加边距，避免数据贴边
+        double range = y_max - y_min;
+        if (range < 0.001) {
+            // 如果范围太小，使用固定范围
+            double center = (y_max + y_min) / 2.0;
+            y_min = center - 0.5;
+            y_max = center + 0.5;
+        } else {
+            // 添加10%的边距
+            y_min -= range * 0.1;
+            y_max += range * 0.1;
+        }
+    } else {
+        y_min = fixed_y_min;
+        y_max = fixed_y_max;
+    }
+}
+
 // 绘制通道数据
 void OscilloscopeWindow::drawChannels(cairo_t *cr, int width, int height) {
     const int margin_left = 60;
@@ -518,41 +557,8 @@ void OscilloscopeWindow::drawChannels(cairo_t *cr, int width, int height) {
     }
     
     // 计算Y轴范围
-    double y_min = 0.0;
-    double y_max = 100.0;
-    
-    if (auto_scale && !channels.empty()) {
-        // 自动缩放：找到所有可见通道的最小最大值
-        bool first = true;
-        for (const auto& ch : channels) {
-            if (ch.visible && !ch.values.empty()) {
-                if (first) {
-                    y_min = ch.min_value;
-                    y_max = ch.max_value;
-                    first = false;
-                } else {
-                    if (ch.min_value < y_min) y_min = ch.min_value;
-                    if (ch.max_value > y_max) y_max = ch.max_value;
-                }
-            }
-        }
-        
-        // 添加边距，避免数据贴边
-        double range = y_max - y_min;
-        if (range < 0.001) {
-            // 如果范围太小，使用固定范围
-            double center = (y_max + y_min) / 2.0;
-            y_min = center - 0.5;
-            y_max = center + 0.5;
-        } else {
-            // 添加10%的边距
-            y_min -= range * 0.1;
-            y_max += range * 0.1;
-        }
-    } else {
-        y_min = fixed_y_min;
-        y_max = fixed_y_max;
-    }
+    double y_min, y_max;
+    calculateYAxisRange(y_min, y_max);
     
     // 确保Y轴范围有效
     double y_range = y_max - y_min;
@@ -672,35 +678,8 @@ void OscilloscopeWindow::drawAxisLabels(cairo_t *cr, int width, int height) {
     cairo_restore(cr);
     
     // 绘制Y轴刻度值（使用与绘制通道相同的Y轴范围）
-    double y_min = 0.0;
-    double y_max = 100.0;
-    
-    if (auto_scale && !channels.empty()) {
-        bool first = true;
-        for (const auto& ch : channels) {
-            if (ch.visible && !ch.values.empty()) {
-                if (first) {
-                    y_min = ch.min_value;
-                    y_max = ch.max_value;
-                    first = false;
-                } else {
-                    if (ch.min_value < y_min) y_min = ch.min_value;
-                    if (ch.max_value > y_max) y_max = ch.max_value;
-                }
-            }
-        }
-        
-        // 与绘制通道时保持一致的范围处理
-        double range = y_max - y_min;
-        if (range < 0.001) {
-            double center = (y_max + y_min) / 2.0;
-            y_min = center - 0.5;
-            y_max = center + 0.5;
-        } else {
-            y_min -= range * 0.1;
-            y_max += range * 0.1;
-        }
-    }
+    double y_min, y_max;
+    calculateYAxisRange(y_min, y_max);
     
     // 绘制刻度数字
     for (int i = 0; i <= 5; i++) {
