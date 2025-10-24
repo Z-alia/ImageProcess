@@ -131,11 +131,26 @@ CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.s"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\ImageProcess\src\dynamic_log.cpp -o CMakeFiles\imageprocessor.dir\src\dynamic_log.cpp.s
 
+CMakeFiles/imageprocessor.dir/src/utils.cpp.obj: CMakeFiles/imageprocessor.dir/flags.make
+CMakeFiles/imageprocessor.dir/src/utils.cpp.obj: CMakeFiles/imageprocessor.dir/includes_CXX.rsp
+CMakeFiles/imageprocessor.dir/src/utils.cpp.obj: C:/Users/28693/Desktop/ImageProcess/src/utils.cpp
+CMakeFiles/imageprocessor.dir/src/utils.cpp.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/imageprocessor.dir/src/utils.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/src/utils.cpp.obj -MF CMakeFiles\imageprocessor.dir\src\utils.cpp.obj.d -o CMakeFiles\imageprocessor.dir\src\utils.cpp.obj -c C:\Users\28693\Desktop\ImageProcess\src\utils.cpp
+
+CMakeFiles/imageprocessor.dir/src/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/imageprocessor.dir/src/utils.cpp.i"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\ImageProcess\src\utils.cpp > CMakeFiles\imageprocessor.dir\src\utils.cpp.i
+
+CMakeFiles/imageprocessor.dir/src/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/imageprocessor.dir/src/utils.cpp.s"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\ImageProcess\src\utils.cpp -o CMakeFiles\imageprocessor.dir\src\utils.cpp.s
+
 CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/flags.make
 CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
 CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj: C:/Users/28693/Desktop/ImageProcess/src/global_image_buffer.c
 CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj -MF CMakeFiles\imageprocessor.dir\src\global_image_buffer.c.obj.d -o CMakeFiles\imageprocessor.dir\src\global_image_buffer.c.obj -c C:\Users\28693\Desktop\ImageProcess\src\global_image_buffer.c
 
 CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.i: cmake_force
@@ -150,7 +165,7 @@ CMakeFiles/imageprocessor.dir/src/processor.c.obj: CMakeFiles/imageprocessor.dir
 CMakeFiles/imageprocessor.dir/src/processor.c.obj: CMakeFiles/imageprocessor.dir/includes_C.rsp
 CMakeFiles/imageprocessor.dir/src/processor.c.obj: C:/Users/28693/Desktop/ImageProcess/src/processor.c
 CMakeFiles/imageprocessor.dir/src/processor.c.obj: CMakeFiles/imageprocessor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/imageprocessor.dir/src/processor.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/imageprocessor.dir/src/processor.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/imageprocessor.dir/src/processor.c.obj -MF CMakeFiles\imageprocessor.dir\src\processor.c.obj.d -o CMakeFiles\imageprocessor.dir\src\processor.c.obj -c C:\Users\28693\Desktop\ImageProcess\src\processor.c
 
 CMakeFiles/imageprocessor.dir/src/processor.c.i: cmake_force
@@ -167,6 +182,7 @@ imageprocessor_OBJECTS = \
 "CMakeFiles/imageprocessor.dir/src/csv_reader.cpp.obj" \
 "CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.obj" \
 "CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.obj" \
+"CMakeFiles/imageprocessor.dir/src/utils.cpp.obj" \
 "CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj" \
 "CMakeFiles/imageprocessor.dir/src/processor.c.obj"
 
@@ -177,6 +193,7 @@ C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/i
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/csv_reader.cpp.obj
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.obj
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.obj
+C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/utils.cpp.obj
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/global_image_buffer.c.obj
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/src/processor.c.obj
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/build.make
@@ -272,7 +289,7 @@ C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: C:/msys64/mi
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/linkLibs.rsp
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/objects1.rsp
 C:/Users/28693/Desktop/ImageProcess/install/bin/imageprocessor.exe: CMakeFiles/imageprocessor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable C:\Users\28693\Desktop\ImageProcess\install\bin\imageprocessor.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable C:\Users\28693\Desktop\ImageProcess\install\bin\imageprocessor.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\imageprocessor.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

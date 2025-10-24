@@ -250,8 +250,17 @@ bool OscilloscopeWindow::loadCSV(const std::string& filename) {
         return false;
     }
     
-    // 获取可用变量列表
+    // 获取可用变量列表（CSV + 动态日志）
     available_vars = csv_reader.getVariableNames();
+    
+    // 添加动态日志变量
+    std::vector<std::string> dynamic_vars = DynamicLogManager::getInstance().getAllVariableNames();
+    for (const auto& var : dynamic_vars) {
+        // 检查是否已存在（避免重复）
+        if (std::find(available_vars.begin(), available_vars.end(), var) == available_vars.end()) {
+            available_vars.push_back(var + " [动态]");  // 添加标记区分
+        }
+    }
     
     // 更新下拉框
     if (add_channel_combo) {
@@ -273,7 +282,8 @@ bool OscilloscopeWindow::loadCSV(const std::string& filename) {
             // 默认选择第一个
             gtk_combo_box_set_active(GTK_COMBO_BOX(add_channel_combo), 0);
             
-            g_print("[示波器] 成功加载CSV，找到 %zu 个变量\n", available_vars.size());
+            g_print("[示波器] 成功加载CSV，找到 %zu 个CSV变量 + %zu 个动态变量\n", 
+                    csv_reader.getVariableNames().size(), dynamic_vars.size());
         }
     }
     
@@ -290,18 +300,30 @@ void OscilloscopeWindow::addChannel(const std::string& variable_name) {
         return;
     }
     
+    // 检查是否为动态日志变量
+    bool is_dynamic = (variable_name.find(" [动态]") != std::string::npos);
+    std::string clean_name = variable_name;
+    if (is_dynamic) {
+        // 移除 " [动态]" 后缀
+        size_t pos = clean_name.find(" [动态]");
+        if (pos != std::string::npos) {
+            clean_name = clean_name.substr(0, pos);
+        }
+    }
+    
     // 检查是否已存在
     for (const auto& ch : channels) {
-        if (ch.variable_name == variable_name) {
-            g_print("[示波器] 通道 '%s' 已存在\n", variable_name.c_str());
+        if (ch.variable_name == clean_name) {
+            g_print("[示波器] 通道 '%s' 已存在\n", clean_name.c_str());
             return;
         }
     }
     
     // 创建新通道
     ChannelData new_channel;
-    new_channel.name = variable_name;
-    new_channel.variable_name = variable_name;
+    new_channel.name = is_dynamic ? clean_name + " [动态]" : clean_name;
+    new_channel.variable_name = clean_name;
+    new_channel.is_dynamic = is_dynamic;
     new_channel.color = getNextColor();
     new_channel.visible = true;
     new_channel.min_value = 0.0;
@@ -309,7 +331,7 @@ void OscilloscopeWindow::addChannel(const std::string& variable_name) {
     
     channels.push_back(new_channel);
     
-    g_print("[示波器] 已添加通道: %s\n", variable_name.c_str());
+    g_print("[示波器] 已添加%s通道: %s\n", is_dynamic ? "动态日志" : "CSV", clean_name.c_str());
     
     // 更新TreeView
     if (channel_list) {
@@ -351,63 +373,82 @@ void OscilloscopeWindow::clearAllChannels() {
 void OscilloscopeWindow::updateChannelData(int frame_index) {
     current_frame_index = frame_index;
     
-    if (csv_reader.getRecordCount() == 0) {
-        return;
-    }
-    
-    // 限制索引范围
-    int log_index = frame_index - 1;
-    if (log_index < 0) log_index = 0;
-    if (log_index >= csv_reader.getRecordCount()) {
-        log_index = csv_reader.getRecordCount() - 1;
-    }
-    
-    LogRecord record = csv_reader.getLogByIndex(log_index);
-    
     // 计算时间（使用帧索引作为时间，单位：秒，假设30fps）
     double current_time = frame_index / 30.0;
     
     // 更新每个通道的数据
     for (auto& channel : channels) {
-        auto it = record.variables.find(channel.variable_name);
-        if (it != record.variables.end()) {
-            double value = 0.0;
-            parseValueFromString(it->second, value);
+        double value = 0.0;
+        bool found = false;
+        
+        if (channel.is_dynamic) {
+            // 从动态日志读取
+            std::vector<DynamicLogVariable> dynamic_logs = 
+                DynamicLogManager::getInstance().getFrameLogs(frame_index);
             
-            // 检测时间倒退（用户往回拖动进度条）
-            if (!channel.times.empty() && current_time < channel.times.back()) {
-                // 清除所有当前时间之后的数据
-                while (!channel.times.empty() && channel.times.back() > current_time) {
-                    channel.times.pop_back();
-                    channel.values.pop_back();
+            for (const auto& log_var : dynamic_logs) {
+                if (log_var.name == channel.variable_name) {
+                    parseValueFromString(log_var.value_str, value);
+                    found = true;
+                    break;
                 }
             }
-            
-            // 添加数据点
-            channel.values.push_back(value);
-            channel.times.push_back(current_time);
-            
-            // 更新最小最大值
-            if (channel.values.size() == 1) {
-                channel.min_value = value;
-                channel.max_value = value;
-            } else {
-                if (value < channel.min_value) channel.min_value = value;
-                if (value > channel.max_value) channel.max_value = value;
+        } else {
+            // 从CSV读取
+            if (csv_reader.getRecordCount() > 0) {
+                // 限制索引范围
+                int log_index = frame_index - 1;
+                if (log_index < 0) log_index = 0;
+                if (log_index >= csv_reader.getRecordCount()) {
+                    log_index = csv_reader.getRecordCount() - 1;
+                }
+                
+                LogRecord record = csv_reader.getLogByIndex(log_index);
+                auto it = record.variables.find(channel.variable_name);
+                if (it != record.variables.end()) {
+                    parseValueFromString(it->second, value);
+                    found = true;
+                }
             }
-            
-            // 移除超出时间窗口的旧数据
-            while (!channel.times.empty() && 
-                   (current_time - channel.times.front()) > time_window) {
-                channel.times.pop_front();
-                channel.values.pop_front();
+        }
+        
+        if (!found) {
+            continue;  // 该帧没有此变量的数据
+        }
+        
+        // 检测时间倒退（用户往回拖动进度条）
+        if (!channel.times.empty() && current_time < channel.times.back()) {
+            // 清除所有当前时间之后的数据
+            while (!channel.times.empty() && channel.times.back() > current_time) {
+                channel.times.pop_back();
+                channel.values.pop_back();
             }
-            
-            // 重新计算最小最大值
-            if (!channel.values.empty()) {
-                channel.min_value = *std::min_element(channel.values.begin(), channel.values.end());
-                channel.max_value = *std::max_element(channel.values.begin(), channel.values.end());
-            }
+        }
+        
+        // 添加数据点
+        channel.values.push_back(value);
+        channel.times.push_back(current_time);
+        
+        // 更新最小最大值
+        if (channel.values.size() == 1) {
+            channel.min_value = value;
+            channel.max_value = value;
+        } else {
+            if (value < channel.min_value) channel.min_value = value;
+            if (value > channel.max_value) channel.max_value = value;
+        }
+        
+        // 移除超出时间窗口的旧数据
+        while (!channel.times.empty() && 
+               (current_time - channel.times.front()) > time_window) {
+            channel.times.pop_front();
+            channel.values.pop_front();
+        }
+        
+        // 重新计算最小最大值
+        if (!channel.values.empty()) {
+            channel.min_value = *std::min_element(channel.values.begin(), channel.values.end());
+            channel.max_value = *std::max_element(channel.values.begin(), channel.values.end());
         }
     }
     

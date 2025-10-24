@@ -183,6 +183,7 @@ src/dynamic_log.obj: src/dynamic_log.cpp.obj
 
 # target to build an object file
 src/dynamic_log.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.obj
 .PHONY : src/dynamic_log.cpp.obj
 
@@ -191,6 +192,7 @@ src/dynamic_log.i: src/dynamic_log.cpp.i
 
 # target to preprocess a source file
 src/dynamic_log.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/dynamic_log.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.i
 .PHONY : src/dynamic_log.cpp.i
 
@@ -199,6 +201,7 @@ src/dynamic_log.s: src/dynamic_log.cpp.s
 
 # target to generate assembly for a file
 src/dynamic_log.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/dynamic_log.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.s
 .PHONY : src/dynamic_log.cpp.s
 
@@ -355,6 +358,36 @@ src/processor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/processor.c.s
 .PHONY : src/processor.c.s
 
+src/utils.obj: src/utils.cpp.obj
+.PHONY : src/utils.obj
+
+# target to build an object file
+src/utils.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/utils.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/utils.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/utils.cpp.obj
+.PHONY : src/utils.cpp.obj
+
+src/utils.i: src/utils.cpp.i
+.PHONY : src/utils.i
+
+# target to preprocess a source file
+src/utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/utils.cpp.i
+.PHONY : src/utils.cpp.i
+
+src/utils.s: src/utils.cpp.s
+.PHONY : src/utils.s
+
+# target to generate assembly for a file
+src/utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\image_internal.dir\build.make CMakeFiles/image_internal.dir/src/utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\imageprocessor.dir\build.make CMakeFiles/imageprocessor.dir/src/utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\video_processor.dir\build.make CMakeFiles/video_processor.dir/src/utils.cpp.s
+.PHONY : src/utils.cpp.s
+
 src/video_processor.obj: src/video_processor.cpp.obj
 .PHONY : src/video_processor.obj
 
@@ -414,6 +447,9 @@ help:
 	@echo ... src/processor.obj
 	@echo ... src/processor.i
 	@echo ... src/processor.s
+	@echo ... src/utils.obj
+	@echo ... src/utils.i
+	@echo ... src/utils.s
 	@echo ... src/video_processor.obj
 	@echo ... src/video_processor.i
 	@echo ... src/video_processor.s

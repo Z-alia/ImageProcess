@@ -20,9 +20,10 @@ set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 # 选项：是否构建 GTK 图形界面（默认 OFF，便于在没有 GTK 的环境下也能构建视频处理工具）
 option(BUILD_GUI "Build GTK GUI imageprocessor" OFF)
 
-# 公共 C 源文件（两端共用）
-set(COMMON_C_SOURCES
+# 公共 C/C++ 源文件（两端共用）
+set(COMMON_SOURCES
     ${SRC_DIR}/processor.c
+    ${SRC_DIR}/utils.cpp
 )
 
 # 内部实现：单独静态库（默认构建，但不链接到 GUI/CLI，以实现对外隐藏）
@@ -30,6 +31,8 @@ add_library(image_internal STATIC
     ${SRC_DIR}/global_image_buffer.c
     ${SRC_DIR}/image.c
     ${SRC_DIR}/morph_binary_bitpacked.c
+    ${SRC_DIR}/dynamic_log.cpp
+    ${SRC_DIR}/utils.cpp
 )
 target_include_directories(image_internal PUBLIC ${SRC_DIR})
 
@@ -40,8 +43,9 @@ if(BUILD_GUI)
         ${SRC_DIR}/csv_reader.cpp
         ${SRC_DIR}/oscilloscope.cpp
         ${SRC_DIR}/dynamic_log.cpp
+        ${SRC_DIR}/utils.cpp
         ${SRC_DIR}/global_image_buffer.c
-        ${COMMON_C_SOURCES}
+        ${COMMON_SOURCES}
     )
 
     find_package(PkgConfig REQUIRED)
@@ -77,11 +81,12 @@ if(BUILD_VIDEO_TOOL)
     if(OpenCV_FOUND)
         add_executable(video_processor
             ${SRC_DIR}/video_processor.cpp
+            ${SRC_DIR}/utils.cpp
             ${SRC_DIR}/global_image_buffer.c
-            ${COMMON_C_SOURCES}
+            ${COMMON_SOURCES}
         )
         target_include_directories(video_processor PRIVATE ${OpenCV_INCLUDE_DIRS})
-    target_link_libraries(video_processor PRIVATE ${OpenCV_LIBS} image_internal)
+        target_link_libraries(video_processor PRIVATE ${OpenCV_LIBS} image_internal)
     else()
         message(WARNING "OpenCV 未找到，将跳过 video_processor 目标的构建。设置 OpenCV 环境或使用 -DOpenCV_DIR 指定后重试。")
     endif()

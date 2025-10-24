@@ -116,13 +116,17 @@ private:
     // 将变量值转换为字符串
     std::string valueToString(LogVarType type, const void* var_ptr);
     
+    // CSV辅助函数
+    std::vector<std::string> parseLine(const std::string& line);
+    std::string escapeCSV(const std::string& str);
+    
     // 存储结构: frame_index -> vector of variables
     std::map<int, std::vector<DynamicLogVariable>> frame_logs;
     int current_frame;
     std::string csv_path;
     bool auto_save_enabled;
     
-    // 内部函数：写入单帧到CSV
+    // 内部函数：写入单帧到CSV（已废弃）
     void appendFrameToCsv(int frame_index);
 };
 

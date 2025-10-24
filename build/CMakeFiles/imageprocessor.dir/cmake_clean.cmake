@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.obj.d"
   "CMakeFiles/imageprocessor.dir/src/processor.c.obj"
   "CMakeFiles/imageprocessor.dir/src/processor.c.obj.d"
+  "CMakeFiles/imageprocessor.dir/src/utils.cpp.obj"
+  "CMakeFiles/imageprocessor.dir/src/utils.cpp.obj.d"
 )
 
 # Per-language clean rules from dependency scanning.

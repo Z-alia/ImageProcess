@@ -86,11 +86,26 @@ CMakeFiles/video_processor.dir/src/video_processor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/video_processor.dir/src/video_processor.cpp.s"
 	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\ImageProcess\src\video_processor.cpp -o CMakeFiles\video_processor.dir\src\video_processor.cpp.s
 
+CMakeFiles/video_processor.dir/src/utils.cpp.obj: CMakeFiles/video_processor.dir/flags.make
+CMakeFiles/video_processor.dir/src/utils.cpp.obj: CMakeFiles/video_processor.dir/includes_CXX.rsp
+CMakeFiles/video_processor.dir/src/utils.cpp.obj: C:/Users/28693/Desktop/ImageProcess/src/utils.cpp
+CMakeFiles/video_processor.dir/src/utils.cpp.obj: CMakeFiles/video_processor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/video_processor.dir/src/utils.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/video_processor.dir/src/utils.cpp.obj -MF CMakeFiles\video_processor.dir\src\utils.cpp.obj.d -o CMakeFiles\video_processor.dir\src\utils.cpp.obj -c C:\Users\28693\Desktop\ImageProcess\src\utils.cpp
+
+CMakeFiles/video_processor.dir/src/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/video_processor.dir/src/utils.cpp.i"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\ImageProcess\src\utils.cpp > CMakeFiles\video_processor.dir\src\utils.cpp.i
+
+CMakeFiles/video_processor.dir/src/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/video_processor.dir/src/utils.cpp.s"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\ImageProcess\src\utils.cpp -o CMakeFiles\video_processor.dir\src\utils.cpp.s
+
 CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj: CMakeFiles/video_processor.dir/flags.make
 CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj: CMakeFiles/video_processor.dir/includes_C.rsp
 CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj: C:/Users/28693/Desktop/ImageProcess/src/global_image_buffer.c
 CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj: CMakeFiles/video_processor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj -MF CMakeFiles\video_processor.dir\src\global_image_buffer.c.obj.d -o CMakeFiles\video_processor.dir\src\global_image_buffer.c.obj -c C:\Users\28693\Desktop\ImageProcess\src\global_image_buffer.c
 
 CMakeFiles/video_processor.dir/src/global_image_buffer.c.i: cmake_force
@@ -105,7 +120,7 @@ CMakeFiles/video_processor.dir/src/processor.c.obj: CMakeFiles/video_processor.d
 CMakeFiles/video_processor.dir/src/processor.c.obj: CMakeFiles/video_processor.dir/includes_C.rsp
 CMakeFiles/video_processor.dir/src/processor.c.obj: C:/Users/28693/Desktop/ImageProcess/src/processor.c
 CMakeFiles/video_processor.dir/src/processor.c.obj: CMakeFiles/video_processor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/video_processor.dir/src/processor.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/video_processor.dir/src/processor.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/video_processor.dir/src/processor.c.obj -MF CMakeFiles\video_processor.dir\src\processor.c.obj.d -o CMakeFiles\video_processor.dir\src\processor.c.obj -c C:\Users\28693\Desktop\ImageProcess\src\processor.c
 
 CMakeFiles/video_processor.dir/src/processor.c.i: cmake_force
@@ -119,6 +134,7 @@ CMakeFiles/video_processor.dir/src/processor.c.s: cmake_force
 # Object files for target video_processor
 video_processor_OBJECTS = \
 "CMakeFiles/video_processor.dir/src/video_processor.cpp.obj" \
+"CMakeFiles/video_processor.dir/src/utils.cpp.obj" \
 "CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj" \
 "CMakeFiles/video_processor.dir/src/processor.c.obj"
 
@@ -126,6 +142,7 @@ video_processor_OBJECTS = \
 video_processor_EXTERNAL_OBJECTS =
 
 C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: CMakeFiles/video_processor.dir/src/video_processor.cpp.obj
+C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: CMakeFiles/video_processor.dir/src/utils.cpp.obj
 C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: CMakeFiles/video_processor.dir/src/global_image_buffer.c.obj
 C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: CMakeFiles/video_processor.dir/src/processor.c.obj
 C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: CMakeFiles/video_processor.dir/build.make
@@ -191,7 +208,7 @@ C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: C:/msys64/m
 C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: CMakeFiles/video_processor.dir/linkLibs.rsp
 C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: CMakeFiles/video_processor.dir/objects1.rsp
 C:/Users/28693/Desktop/ImageProcess/install/bin/video_processor.exe: CMakeFiles/video_processor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable C:\Users\28693\Desktop\ImageProcess\install\bin\video_processor.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable C:\Users\28693\Desktop\ImageProcess\install\bin\video_processor.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\video_processor.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

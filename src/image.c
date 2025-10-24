@@ -5,6 +5,7 @@
 #include "image.h"
 #include "morph_binary_bitpacked.h"
 #include "global_image_buffer.h"
+#include "dynamic_log.h"
 
 // ---- 桌面环境桩：移除嵌入式依赖，提供最小可编译实现 ----
 // 若在嵌入式环境下已有这些外部符号，可在编译时定义以下宏以禁用本文件的桩：
@@ -562,12 +563,12 @@ match_result match_strict_sequence_with_gaps(
 
 // 创建匹配序列
 growth_array arr = {
-    .outer_up = {3,3,3,5,5,5},
-    .inner_up = {7,7,7,6,6,6},
-    .up_outer = {6,6,6,3,3,3},
-    .up_inner = {5,5,5,7,7,7},
-    .up_outerdownarc = {5,5,2,2,3,4,4},
-    .outer_uparc = {3,4,4,4,4,4,4,5}
+    .outer_up = {2,2,2,4,4,4},
+    .inner_up = {6,6,6,5,5,5},
+    .up_outer = {5,5,5,2,2,2},
+    .up_inner = {4,4,4,6,6,6},
+    .up_outerdownarc = {4,4,1,1,2,3,3,3},
+    .outer_uparc = {2,3,3,3,3,3,3,4}
 };
 
 /** 
@@ -691,8 +692,11 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 		break_num_r = points_r[break_num_r][1]; // 转换为y坐标
 	}
 
+	static uint8_t breakk = 0;
 	if (result_l.matched && result_r.matched) // 两边生长方向都符合条件
 	{
+
+		breakk = 1; // 重置丢线计数器
 		//计算斜率
 		start = break_num_l - 15;
 		start = limit_a_b(start, 0, image_h-1);
@@ -719,6 +723,7 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 
 
 	}
+	log_add_uint8("breakk", breakk,-1);
 
 }
 

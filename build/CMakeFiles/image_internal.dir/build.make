@@ -116,11 +116,43 @@ CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.s"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\28693\Desktop\ImageProcess\src\morph_binary_bitpacked.c -o CMakeFiles\image_internal.dir\src\morph_binary_bitpacked.c.s
 
+CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj: CMakeFiles/image_internal.dir/flags.make
+CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj: CMakeFiles/image_internal.dir/includes_CXX.rsp
+CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj: C:/Users/28693/Desktop/ImageProcess/src/dynamic_log.cpp
+CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj: CMakeFiles/image_internal.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj -MF CMakeFiles\image_internal.dir\src\dynamic_log.cpp.obj.d -o CMakeFiles\image_internal.dir\src\dynamic_log.cpp.obj -c C:\Users\28693\Desktop\ImageProcess\src\dynamic_log.cpp
+
+CMakeFiles/image_internal.dir/src/dynamic_log.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/image_internal.dir/src/dynamic_log.cpp.i"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\ImageProcess\src\dynamic_log.cpp > CMakeFiles\image_internal.dir\src\dynamic_log.cpp.i
+
+CMakeFiles/image_internal.dir/src/dynamic_log.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/image_internal.dir/src/dynamic_log.cpp.s"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\ImageProcess\src\dynamic_log.cpp -o CMakeFiles\image_internal.dir\src\dynamic_log.cpp.s
+
+CMakeFiles/image_internal.dir/src/utils.cpp.obj: CMakeFiles/image_internal.dir/flags.make
+CMakeFiles/image_internal.dir/src/utils.cpp.obj: CMakeFiles/image_internal.dir/includes_CXX.rsp
+CMakeFiles/image_internal.dir/src/utils.cpp.obj: C:/Users/28693/Desktop/ImageProcess/src/utils.cpp
+CMakeFiles/image_internal.dir/src/utils.cpp.obj: CMakeFiles/image_internal.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/image_internal.dir/src/utils.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/image_internal.dir/src/utils.cpp.obj -MF CMakeFiles\image_internal.dir\src\utils.cpp.obj.d -o CMakeFiles\image_internal.dir\src\utils.cpp.obj -c C:\Users\28693\Desktop\ImageProcess\src\utils.cpp
+
+CMakeFiles/image_internal.dir/src/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/image_internal.dir/src/utils.cpp.i"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\28693\Desktop\ImageProcess\src\utils.cpp > CMakeFiles\image_internal.dir\src\utils.cpp.i
+
+CMakeFiles/image_internal.dir/src/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/image_internal.dir/src/utils.cpp.s"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\28693\Desktop\ImageProcess\src\utils.cpp -o CMakeFiles\image_internal.dir\src\utils.cpp.s
+
 # Object files for target image_internal
 image_internal_OBJECTS = \
 "CMakeFiles/image_internal.dir/src/global_image_buffer.c.obj" \
 "CMakeFiles/image_internal.dir/src/image.c.obj" \
-"CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.obj"
+"CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.obj" \
+"CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj" \
+"CMakeFiles/image_internal.dir/src/utils.cpp.obj"
 
 # External object files for target image_internal
 image_internal_EXTERNAL_OBJECTS =
@@ -128,9 +160,11 @@ image_internal_EXTERNAL_OBJECTS =
 C:/Users/28693/Desktop/ImageProcess/install/lib/libimage_internal.a: CMakeFiles/image_internal.dir/src/global_image_buffer.c.obj
 C:/Users/28693/Desktop/ImageProcess/install/lib/libimage_internal.a: CMakeFiles/image_internal.dir/src/image.c.obj
 C:/Users/28693/Desktop/ImageProcess/install/lib/libimage_internal.a: CMakeFiles/image_internal.dir/src/morph_binary_bitpacked.c.obj
+C:/Users/28693/Desktop/ImageProcess/install/lib/libimage_internal.a: CMakeFiles/image_internal.dir/src/dynamic_log.cpp.obj
+C:/Users/28693/Desktop/ImageProcess/install/lib/libimage_internal.a: CMakeFiles/image_internal.dir/src/utils.cpp.obj
 C:/Users/28693/Desktop/ImageProcess/install/lib/libimage_internal.a: CMakeFiles/image_internal.dir/build.make
 C:/Users/28693/Desktop/ImageProcess/install/lib/libimage_internal.a: CMakeFiles/image_internal.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C static library C:\Users\28693\Desktop\ImageProcess\install\lib\libimage_internal.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\28693\Desktop\ImageProcess\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library C:\Users\28693\Desktop\ImageProcess\install\lib\libimage_internal.a"
 	$(CMAKE_COMMAND) -P CMakeFiles\image_internal.dir\cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\image_internal.dir\link.txt --verbose=$(VERBOSE)
 

@@ -388,6 +388,9 @@ static gboolean load_png_image(const gchar *filename) {
     gboolean ok = pixbuf_to_binary_array(scaled);
     g_object_unref(scaled);
     if (ok) {
+        // 设置当前帧为0（单张图片）
+        log_set_current_frame(0);
+        
         // 自动处理图像
         allocate_imo_array();
         process_original_to_imo(&original_bi_image[0][0], &imo[0][0], IMAGE_W, IMAGE_H);
@@ -419,6 +422,9 @@ static gboolean load_jpeg_image(const gchar *filename) {
     gboolean ok = pixbuf_to_binary_array(scaled);
     g_object_unref(scaled);
     if (ok) {
+        // 设置当前帧为0（单张图片）
+        log_set_current_frame(0);
+        
         // 自动处理图像
         allocate_imo_array();
         process_original_to_imo(&original_bi_image[0][0], &imo[0][0], IMAGE_W, IMAGE_H);
@@ -619,6 +625,9 @@ static void show_cv_frame(const cv::Mat &frame) {
         }
         
         g_object_unref(pb);
+        
+        // 设置当前帧索引（让动态日志知道当前帧号）
+        log_set_current_frame(g_frame_index);
         
         // 自动处理图像：从 original 转换为 imo
         allocate_imo_array();

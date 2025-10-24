@@ -7,15 +7,17 @@
 #include <deque>
 #include <map>
 #include "csv_reader.h"
+#include "dynamic_log.h"  // 添加动态日志支持
 
 // 通道数据结构
 struct ChannelData {
     std::string name;           // 通道名称
-    std::string variable_name;  // CSV中的变量名
+    std::string variable_name;  // CSV或动态日志中的变量名
     GdkRGBA color;              // 通道颜色
     std::deque<double> values;  // 数据点（Y值）
     std::deque<double> times;   // 时间戳（X值，相对时间，单位：秒）
     bool visible;               // 是否显示
+    bool is_dynamic;            // 是否为动态日志变量
     double min_value;           // 最小值（用于自动缩放）
     double max_value;           // 最大值（用于自动缩放）
 };

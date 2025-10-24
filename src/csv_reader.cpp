@@ -1,4 +1,5 @@
 #include "csv_reader.h"
+#include "utils.h"
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -15,8 +16,17 @@ CSVReader::~CSVReader() {
 bool CSVReader::loadCSV(const std::string& filename) {
     clear();
     
-    std::ifstream file(filename, std::ios::binary);  // 使用binary模式,避免编码问题
+    // Windows下使用宽字符路径打开文件，支持中文路径
+    std::ifstream file;
+#ifdef _WIN32
+    std::wstring wfilename = utf8_to_wstring(filename);
+    file.open(wfilename.c_str(), std::ios::binary);
+#else
+    file.open(filename, std::ios::binary);
+#endif
+    
     if (!file.is_open()) {
+        fprintf(stderr, "[CSV错误] 无法打开文件: %s\n", filename.c_str());
         return false;
     }
     
@@ -44,7 +54,7 @@ bool CSVReader::loadCSV(const std::string& filename) {
         }
         
         try {
-            std::vector<std::string> fields = parseLine(line);
+            std::vector<std::string> fields = parse_csv_line(line);
             
             if (isFirstLine) {
                 // 解析表头
@@ -97,20 +107,20 @@ bool CSVReader::loadCSV(const std::string& filename) {
         
         // 从检测到的列位置读取数据，如果列不存在则为空
         if (timestampCol >= 0 && timestampCol < (int)fields.size()) {
-            record.timestamp = trim(fields[timestampCol]);
+            record.timestamp = trim_string(fields[timestampCol]);
         }
         if (hexCol >= 0 && hexCol < (int)fields.size()) {
-            record.log_hex = trim(fields[hexCol]);
+            record.log_hex = trim_string(fields[hexCol]);
         }
         if (utf8Col >= 0 && utf8Col < (int)fields.size()) {
-            record.log_utf8 = trim(fields[utf8Col]);
+            record.log_utf8 = trim_string(fields[utf8Col]);
         }
         
         // 解析自定义变量值
         for (size_t i = 0; i < fields.size() && i < headers.size(); i++) {
             if ((int)i != timestampCol && (int)i != hexCol && (int)i != utf8Col) {
-                std::string varName = trim(headers[i]);
-                std::string varValue = trim(fields[i]);
+                std::string varName = trim_string(headers[i]);
+                std::string varValue = trim_string(fields[i]);
                 record.variables[varName] = varValue;
             }
         }
@@ -135,7 +145,8 @@ bool CSVReader::loadCSV(const std::string& filename) {
         fprintf(stderr, "[CSV警告] 读取的行数异常少,可能存在编码或格式问题\n");
     }
     
-    return !records.empty();
+    // 如果至少读取了表头，允许加载（即使没有数据行）
+    return totalLines > 0 || !records.empty();
 }
 
 LogRecord CSVReader::getLogByIndex(int index) const {
@@ -150,34 +161,14 @@ void CSVReader::clear() {
     variableNames.clear();
 }
 
+// 注意：此函数已废弃，请使用 utils.h 中的 parse_csv_line
+// 保留用于向后兼容
 std::vector<std::string> CSVReader::parseLine(const std::string& line) {
-    std::vector<std::string> fields;
-    std::string field;
-    bool inQuotes = false;
-    
-    for (size_t i = 0; i < line.length(); i++) {
-        char c = line[i];
-        
-        if (c == '"') {
-            inQuotes = !inQuotes;
-        } else if (c == ',' && !inQuotes) {
-            fields.push_back(field);
-            field.clear();
-        } else {
-            field += c;
-        }
-    }
-    
-    // 添加最后一个字段
-    fields.push_back(field);
-    
-    return fields;
+    return parse_csv_line(line);
 }
 
+// 注意：此函数已废弃，请使用 utils.h 中的 trim_string
+// 保留用于向后兼容
 std::string CSVReader::trim(const std::string& str) {
-    size_t first = str.find_first_not_of(" \t\r\n\"");
-    if (first == std::string::npos) return "";
-    
-    size_t last = str.find_last_not_of(" \t\r\n\"");
-    return str.substr(first, last - first + 1);
+    return trim_string(str);
 }

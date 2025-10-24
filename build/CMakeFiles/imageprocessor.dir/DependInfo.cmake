@@ -14,6 +14,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/28693/Desktop/ImageProcess/src/dynamic_log.cpp" "CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.obj" "gcc" "CMakeFiles/imageprocessor.dir/src/dynamic_log.cpp.obj.d"
   "C:/Users/28693/Desktop/ImageProcess/src/main.cpp" "CMakeFiles/imageprocessor.dir/src/main.cpp.obj" "gcc" "CMakeFiles/imageprocessor.dir/src/main.cpp.obj.d"
   "C:/Users/28693/Desktop/ImageProcess/src/oscilloscope.cpp" "CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.obj" "gcc" "CMakeFiles/imageprocessor.dir/src/oscilloscope.cpp.obj.d"
+  "C:/Users/28693/Desktop/ImageProcess/src/utils.cpp" "CMakeFiles/imageprocessor.dir/src/utils.cpp.obj" "gcc" "CMakeFiles/imageprocessor.dir/src/utils.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

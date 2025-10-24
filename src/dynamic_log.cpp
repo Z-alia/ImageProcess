@@ -1,4 +1,5 @@
 #include "dynamic_log.h"
+#include "utils.h"
 #include <sstream>
 #include <iomanip>
 #include <cstring>
@@ -77,12 +78,25 @@ void DynamicLogManager::addVariable(const std::string& var_name, LogVarType type
     var.type = type;
     var.value_str = valueToString(type, var_ptr);
     
-    frame_logs[frame_index].push_back(var);
-    
-    // 如果启用了自动保存，立即写入CSV
-    if (auto_save_enabled && !csv_path.empty()) {
-        appendFrameToCsv(frame_index);
+    // 检查该帧是否已有同名变量，如果有则更新，否则添加
+    auto& frame_vars = frame_logs[frame_index];
+    bool found = false;
+    for (auto& existing_var : frame_vars) {
+        if (existing_var.name == var_name) {
+            // 更新已存在的变量值
+            existing_var.value_str = var.value_str;
+            existing_var.type = var.type;
+            found = true;
+            break;
+        }
     }
+    
+    if (!found) {
+        // 添加新变量
+        frame_vars.push_back(var);
+    }
+    
+    // 不再立即写入，而是等待flushToCsv统一写入
 }
 
 std::vector<DynamicLogVariable> DynamicLogManager::getFrameLogs(int frame_index) const {
@@ -134,47 +148,224 @@ std::vector<std::string> DynamicLogManager::getAllVariableNames() const {
 }
 
 void DynamicLogManager::appendFrameToCsv(int frame_index) {
-    if (csv_path.empty()) return;
-    
-    // 获取该帧的所有变量
-    auto it = frame_logs.find(frame_index);
-    if (it == frame_logs.end() || it->second.empty()) return;
-    
-    const auto& vars = it->second;
-    
-    // 追加模式打开文件（RAII自动关闭）
-    std::ofstream file(csv_path, std::ios::app);
-    if (!file.is_open()) {
-        // 文件打开失败，静默返回（避免干扰主程序）
-        return;
-    }
-    
-    // 生成当前时间戳（ISO格式）
-    time_t now = time(nullptr);
-    struct tm* timeinfo = localtime(&now);
-    if (!timeinfo) return;
-    
-    char timestamp[64];
-    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", timeinfo);
-    
-    // 按照标准CSV日志格式写入：
-    // host_recv_iso, log_text_hex, log_text_utf8, 变量1, 变量2, ...
-    file << timestamp << ",,"  // 时间戳 + 空hex列
-         << "[dynamic]";        // 标记为动态日志
-    
-    // 写入所有变量值
-    for (const auto& var : vars) {
-        file << "," << var.value_str;
-    }
-    
-    file << "\n";
-    // file.close() 由析构函数自动调用
+    // 此函数已废弃，不再使用
+    // 改用 flushToCsv() 统一写入整个CSV
 }
 
 void DynamicLogManager::flushToCsv() {
-    // 在合并模式下，每次添加变量时已经立即写入CSV
-    // 此函数主要用于兼容性，实际上数据已实时写入
-    // 无需额外操作
+    if (csv_path.empty()) {
+        fprintf(stderr, "[动态日志警告] CSV路径未设置，跳过写入\n");
+        return;
+    }
+    
+    // 1. 读取现有CSV文件的所有内容
+    std::vector<std::vector<std::string>> existing_data;
+    std::vector<std::string> headers;
+    
+#ifdef _WIN32
+    // Windows下使用宽字符路径
+    std::wstring wpath = utf8_to_wstring(csv_path);
+    FILE* fp = _wfopen(wpath.c_str(), L"rb");
+    if (fp) {
+        // 使用C风格文件读取来支持宽字符路径
+        fseek(fp, 0, SEEK_END);
+        long file_size = ftell(fp);
+        fseek(fp, 0, SEEK_SET);
+        
+        if (file_size > 0) {
+            std::vector<char> buffer(file_size + 1);
+            size_t bytes_read = fread(buffer.data(), 1, file_size, fp);
+            buffer[bytes_read] = '\0';
+            fclose(fp);
+            
+            // 解析内容
+            std::istringstream iss(buffer.data());
+            std::string line;
+            bool first_line = true;
+            
+            while (std::getline(iss, line)) {
+                // 移除\r
+                if (!line.empty() && line.back() == '\r') {
+                    line.pop_back();
+                }
+                
+                if (line.empty()) continue;
+                
+                std::vector<std::string> fields = parse_csv_line(line);
+                
+                if (first_line) {
+                    headers = fields;
+                    first_line = false;
+                } else {
+                    existing_data.push_back(fields);
+                }
+            }
+        } else {
+            fclose(fp);
+        }
+    }
+#else
+    // Linux/Unix 使用标准文件流
+    std::ifstream infile(csv_path, std::ios::binary);
+    if (infile.is_open()) {
+        std::string line;
+        bool first_line = true;
+        
+        while (std::getline(infile, line)) {
+            // 移除\r
+            if (!line.empty() && line.back() == '\r') {
+                line.pop_back();
+            }
+            
+            if (line.empty()) continue;
+            
+            std::vector<std::string> fields = parse_csv_line(line);
+            
+            if (first_line) {
+                headers = fields;
+                first_line = false;
+            } else {
+                existing_data.push_back(fields);
+            }
+        }
+        infile.close();
+    }
+#endif
+    
+    // 2. 获取所有动态日志变量名
+    std::vector<std::string> new_var_names = getAllVariableNames();
+    
+    if (new_var_names.empty()) {
+        fprintf(stderr, "[动态日志] 没有新变量需要写入\n");
+        return;
+    }
+    
+    // 2.5. 检测是否存在 frame_id 列
+    int frame_id_col = -1;
+    for (size_t i = 0; i < headers.size(); i++) {
+        std::string lower_header = headers[i];
+        std::transform(lower_header.begin(), lower_header.end(), lower_header.begin(), ::tolower);
+        if (lower_header == "frame_id" || lower_header == "frameid" || lower_header == "frame") {
+            frame_id_col = static_cast<int>(i);
+            break;
+        }
+    }
+    
+    // 3. 更新表头（添加新变量列）
+    size_t original_col_count = headers.size();
+    for (const auto& var_name : new_var_names) {
+        // 检查是否已存在
+        if (std::find(headers.begin(), headers.end(), var_name) == headers.end()) {
+            headers.push_back(var_name);
+        }
+    }
+    
+    // 4. 为每一行数据填充新列的值
+    for (size_t row_idx = 0; row_idx < existing_data.size(); row_idx++) {
+        auto& row = existing_data[row_idx];
+        
+        // 根据 frame_id 列或行索引确定帧号
+        int frame_index;
+        if (frame_id_col >= 0 && frame_id_col < static_cast<int>(row.size())) {
+            // 如果有 frame_id 列，使用它
+            try {
+                frame_index = std::stoi(row[frame_id_col]);
+            } catch (...) {
+                // 如果解析失败，使用行索引 + 1
+                frame_index = static_cast<int>(row_idx + 1);
+            }
+        } else {
+            // 没有 frame_id 列，默认：第一行 = 帧1
+            frame_index = static_cast<int>(row_idx + 1);
+        }
+        
+        // 扩展行到新的列数
+        while (row.size() < headers.size()) {
+            row.push_back("");
+        }
+        
+        // 填充动态日志的值
+        auto frame_logs_it = frame_logs.find(frame_index);
+        if (frame_logs_it != frame_logs.end()) {
+            for (const auto& var : frame_logs_it->second) {
+                // 找到变量名对应的列索引
+                auto header_it = std::find(headers.begin(), headers.end(), var.name);
+                if (header_it != headers.end()) {
+                    size_t col_idx = std::distance(headers.begin(), header_it);
+                    if (col_idx < row.size()) {
+                        row[col_idx] = var.value_str;
+                    }
+                }
+            }
+        }
+    }
+    
+    // 5. 写回CSV文件
+#ifdef _WIN32
+    fp = _wfopen(wpath.c_str(), L"wb");
+    if (!fp) {
+        fprintf(stderr, "[动态日志错误] 无法写入文件: %s\n", csv_path.c_str());
+        return;
+    }
+    
+    // 写入表头
+    std::ostringstream oss;
+    for (size_t i = 0; i < headers.size(); i++) {
+        if (i > 0) oss << ",";
+        oss << escape_csv_field(headers[i]);
+    }
+    oss << "\n";
+    
+    // 写入数据行
+    for (const auto& row : existing_data) {
+        for (size_t i = 0; i < row.size(); i++) {
+            if (i > 0) oss << ",";
+            oss << escape_csv_field(row[i]);
+        }
+        oss << "\n";
+    }
+    
+    std::string output = oss.str();
+    fwrite(output.c_str(), 1, output.size(), fp);
+    fclose(fp);
+#else
+    std::ofstream outfile(csv_path, std::ios::trunc);
+    if (!outfile.is_open()) {
+        fprintf(stderr, "[动态日志错误] 无法写入文件: %s\n", csv_path.c_str());
+        return;
+    }
+    
+    // 写入表头
+    for (size_t i = 0; i < headers.size(); i++) {
+        if (i > 0) outfile << ",";
+        outfile << escape_csv_field(headers[i]);
+    }
+    outfile << "\n";
+    
+    // 写入数据行
+    for (const auto& row : existing_data) {
+        for (size_t i = 0; i < row.size(); i++) {
+            if (i > 0) outfile << ",";
+            outfile << escape_csv_field(row[i]);
+        }
+        outfile << "\n";
+    }
+    
+    outfile.close();
+#endif
+    
+    size_t new_vars_count = headers.size() - original_col_count;
+    fprintf(stderr, "[动态日志] 已更新CSV文件，添加 %zu 个新变量\n", new_vars_count);
+}
+
+// 注意：这两个函数已废弃，请使用 utils.h 中的公共函数
+// 保留用于向后兼容
+std::vector<std::string> DynamicLogManager::parseLine(const std::string& line) {
+    return parse_csv_line(line);
+}
+
+std::string DynamicLogManager::escapeCSV(const std::string& str) {
+    return escape_csv_field(str);
 }
 
 // ============================================================================
