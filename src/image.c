@@ -606,15 +606,15 @@ match_result match_strict_sequence_with_gaps(
 }
 
 // 创建匹配序列（用于元素识别）
-// ⚠️ 注意：这些序列值是dir_l/dir_r的记录值，不是实际生长方向
+//  注意：这些序列值是dir_l/dir_r的记录值，不是实际生长方向 但是后续判断就用这个
 // 实际生长方向 = seeds[(记录值+1) & 7]
 growth_array arr = {
-    .outer_up = {2,2,2,4,4,4},       // 外环上坡：记录2→左上, 记录4→右上
-    .inner_up = {6,6,6,5,5,5},       // 内环上坡：记录6→右下, 记录5→向右
-    .up_outer = {5,5,5,2,2,2},       // 向上外环：记录5→向右, 记录2→左上
-    .up_inner = {4,4,4,6,6,6},       // 十字路口：记录4→右上, 记录6→右下
-    .up_outerdownarc = {4,4,1,1,2,3,3,3}, // 外环下弧
-    .outer_uparc = {2,3,3,3,3,3,3,4} // 外环上弧
+    .outer_up = {1,1,1,3,3,3},       
+    .inner_up = {5,5,5,4,4,4},       
+    .up_outer = {4,4,4,1,1,1},       
+    .up_inner = {3,3,3,5,5,5},       
+    .up_outerdownarc = {4,4,1,1,2,3,3,3}, 
+    .outer_uparc = {2,3,3,3,3,3,3,4} 
 };
 
 /** 
@@ -740,30 +740,20 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 
 	if (result_l.matched && result_r.matched) // 两边生长方向都符合条件
 	{
-
-		//计算斜率
-		start = break_num_l - 15;
-		start = limit_a_b(start, 0, image_h-1);
-		end = break_num_l - 5;
-		calculate_s_i(start, end, l_border, &slope_l_rate, &intercept_l);
-		//printf("slope_l_rate:%d\nintercept_l:%d\n", slope_l_rate, intercept_l);
-		for (i = break_num_l - 5; i < image_h - 1; i++)
+		for(i=0;(i<break_num_l)||(i<break_num_r);i++)
 		{
-			l_border[i] = slope_l_rate * (i)+intercept_l;//y = kx+b
-			l_border[i] = limit_a_b(l_border[i], border_min, border_max);//限幅
+			// 左边补线
+			if(i<break_num_l)
+			{
+				l_border[i] = l_border[break_num_l+5];
+			}
+			// 右边补线
+			if(i<break_num_r)
+			{
+				r_border[i] = r_border[break_num_r+5];
+			}
 		}
 
-		//计算斜率
-		start = break_num_r - 15;//起点
-		start = limit_a_b(start, 0, image_h-1);//限幅
-		end = break_num_r - 5;//终点
-		calculate_s_i(start, end, r_border, &slope_l_rate, &intercept_l);
-		//printf("slope_l_rate:%d\nintercept_l:%d\n", slope_l_rate, intercept_l);
-		for (i = break_num_r - 5; i < image_h - 1; i++)
-		{
-			r_border[i] = slope_l_rate * (i)+intercept_l;
-			r_border[i] = limit_a_b(r_border[i], border_min, border_max);
-		}
 
 
 	}
