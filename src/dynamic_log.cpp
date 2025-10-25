@@ -68,6 +68,50 @@ std::string DynamicLogManager::valueToString(LogVarType type, const void* var_pt
     return oss.str();
 }
 
+std::string DynamicLogManager::arrayToString(LogVarType array_type, const void* array_ptr, int count) {
+    if (!array_ptr || count <= 0) return "[]";
+    
+    std::ostringstream oss;
+    oss << "[";
+    
+    for (int i = 0; i < count; i++) {
+        if (i > 0) oss << ",";
+        
+        switch (array_type) {
+            case LOG_TYPE_INT8_ARRAY:
+                oss << static_cast<int>(((const int8_t*)array_ptr)[i]);
+                break;
+            case LOG_TYPE_UINT8_ARRAY:
+                oss << static_cast<unsigned int>(((const uint8_t*)array_ptr)[i]);
+                break;
+            case LOG_TYPE_INT16_ARRAY:
+                oss << ((const int16_t*)array_ptr)[i];
+                break;
+            case LOG_TYPE_UINT16_ARRAY:
+                oss << ((const uint16_t*)array_ptr)[i];
+                break;
+            case LOG_TYPE_INT32_ARRAY:
+                oss << ((const int32_t*)array_ptr)[i];
+                break;
+            case LOG_TYPE_UINT32_ARRAY:
+                oss << ((const uint32_t*)array_ptr)[i];
+                break;
+            case LOG_TYPE_FLOAT_ARRAY:
+                oss << std::fixed << std::setprecision(6) << ((const float*)array_ptr)[i];
+                break;
+            case LOG_TYPE_DOUBLE_ARRAY:
+                oss << std::fixed << std::setprecision(10) << ((const double*)array_ptr)[i];
+                break;
+            default:
+                oss << "?";
+                break;
+        }
+    }
+    
+    oss << "]";
+    return oss.str();
+}
+
 void DynamicLogManager::addVariable(const std::string& var_name, LogVarType type, const void* var_ptr, int frame_index) {
     if (frame_index < 0) {
         frame_index = current_frame;
@@ -77,6 +121,7 @@ void DynamicLogManager::addVariable(const std::string& var_name, LogVarType type
     var.name = var_name;
     var.type = type;
     var.value_str = valueToString(type, var_ptr);
+    var.array_count = 0;  // 非数组
     
     // 检查该帧是否已有同名变量，如果有则更新，否则添加
     auto& frame_vars = frame_logs[frame_index];
@@ -86,6 +131,7 @@ void DynamicLogManager::addVariable(const std::string& var_name, LogVarType type
             // 更新已存在的变量值
             existing_var.value_str = var.value_str;
             existing_var.type = var.type;
+            existing_var.array_count = 0;
             found = true;
             break;
         }
@@ -97,6 +143,37 @@ void DynamicLogManager::addVariable(const std::string& var_name, LogVarType type
     }
     
     // 不再立即写入，而是等待flushToCsv统一写入
+}
+
+void DynamicLogManager::addArray(const std::string& var_name, LogVarType array_type, const void* array_ptr, int count, int frame_index) {
+    if (frame_index < 0) {
+        frame_index = current_frame;
+    }
+    
+    DynamicLogVariable var;
+    var.name = var_name;
+    var.type = array_type;
+    var.value_str = arrayToString(array_type, array_ptr, count);
+    var.array_count = count;
+    
+    // 检查该帧是否已有同名变量，如果有则更新，否则添加
+    auto& frame_vars = frame_logs[frame_index];
+    bool found = false;
+    for (auto& existing_var : frame_vars) {
+        if (existing_var.name == var_name) {
+            // 更新已存在的变量值
+            existing_var.value_str = var.value_str;
+            existing_var.type = var.type;
+            existing_var.array_count = var.array_count;
+            found = true;
+            break;
+        }
+    }
+    
+    if (!found) {
+        // 添加新变量
+        frame_vars.push_back(var);
+    }
 }
 
 std::vector<DynamicLogVariable> DynamicLogManager::getFrameLogs(int frame_index) const {
@@ -415,6 +492,51 @@ void log_add_string(const char* var_name, const char* value, int frame_index) {
     if (!value) return;
     log_add_variable(var_name, LOG_TYPE_STRING, value, frame_index);
 }
+
+// ============================================================================
+// C 接口实现 - 数组支持
+// ============================================================================
+
+void log_add_array(const char* var_name, LogVarType array_type, const void* array_ptr, int count, int frame_index) {
+    if (!var_name || !array_ptr || count <= 0) return;
+    DynamicLogManager::getInstance().addArray(var_name, array_type, array_ptr, count, frame_index);
+}
+
+void log_add_int8_array(const char* var_name, const int8_t* array, int count, int frame_index) {
+    log_add_array(var_name, LOG_TYPE_INT8_ARRAY, array, count, frame_index);
+}
+
+void log_add_uint8_array(const char* var_name, const uint8_t* array, int count, int frame_index) {
+    log_add_array(var_name, LOG_TYPE_UINT8_ARRAY, array, count, frame_index);
+}
+
+void log_add_int16_array(const char* var_name, const int16_t* array, int count, int frame_index) {
+    log_add_array(var_name, LOG_TYPE_INT16_ARRAY, array, count, frame_index);
+}
+
+void log_add_uint16_array(const char* var_name, const uint16_t* array, int count, int frame_index) {
+    log_add_array(var_name, LOG_TYPE_UINT16_ARRAY, array, count, frame_index);
+}
+
+void log_add_int32_array(const char* var_name, const int32_t* array, int count, int frame_index) {
+    log_add_array(var_name, LOG_TYPE_INT32_ARRAY, array, count, frame_index);
+}
+
+void log_add_uint32_array(const char* var_name, const uint32_t* array, int count, int frame_index) {
+    log_add_array(var_name, LOG_TYPE_UINT32_ARRAY, array, count, frame_index);
+}
+
+void log_add_float_array(const char* var_name, const float* array, int count, int frame_index) {
+    log_add_array(var_name, LOG_TYPE_FLOAT_ARRAY, array, count, frame_index);
+}
+
+void log_add_double_array(const char* var_name, const double* array, int count, int frame_index) {
+    log_add_array(var_name, LOG_TYPE_DOUBLE_ARRAY, array, count, frame_index);
+}
+
+// ============================================================================
+// 其他 C 接口实现
+// ============================================================================
 
 void log_clear_all() {
     DynamicLogManager::getInstance().clearAll();

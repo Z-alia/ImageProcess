@@ -163,12 +163,27 @@ void search_l_r(uint16_t break_flag, uint8_t(*image)[image_w], uint16_t *l_stast
 	uint8_t temp_l[8][2] = { {  0 } };
 	uint8_t center_point_l[2] = {  0 };
 	uint16_t l_data_statics;//统计左边
-	//定义八个邻域
+	//定义八个邻域（左线顺时针扫描）
 	static int8_t seeds_l[8][2] = { {0,  1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1},{1,  0},{1, 1}, };
-	//{-1,-1},{0,-1},{+1,-1},
-	//{-1, 0},	     {+1, 0},
-	//{-1,+1},{0,+1},{+1,+1},
-	//这个是顺时针
+	// 索引:     0:向下   1:左下   2:向左   3:左上   4:向上   5:右上   6:向右   7:右下
+	// 
+	// ⚠️ 重要：dir_l[]记录值与实际生长方向存在+1偏移
+	// 检测逻辑：if(image[i]==0 && image[i+1]==255) 时记录i，但实际选择i+1
+	// 
+	// dir_l[]记录值 → 实际生长方向对应关系：
+	//   记录0 → 实际生长seeds_l[1]={-1,1}  → 左下
+	//   记录1 → 实际生长seeds_l[2]={-1,0}  → 向左
+	//   记录2 → 实际生长seeds_l[3]={-1,-1} → 左上
+	//   记录3 → 实际生长seeds_l[4]={0,-1}  → 向上（主要生长方向）
+	//   记录4 → 实际生长seeds_l[5]={1,-1}  → 右上
+	//   记录5 → 实际生长seeds_l[6]={1,0}   → 向右
+	//   记录6 → 实际生长seeds_l[7]={1,1}   → 右下
+	//   记录7 → 实际生长seeds_l[0]={0,1}   → 向下
+	//
+	// 常见模式：
+	//   3,3,3... → 持续向上爬升
+	//   4,4,4... → 持续右上爬升
+	//   2,1,0... → 左转（左上→向左→左下）
 
 	//右边变量
 	uint8_t search_filds_r[8][2] = { {  0 } };
@@ -176,12 +191,27 @@ void search_l_r(uint16_t break_flag, uint8_t(*image)[image_w], uint16_t *l_stast
 	uint8_t index_r = 0;//索引下标
 	uint8_t temp_r[8][2] = { {  0 } };
 	uint16_t r_data_statics;//统计右边
-	//定义八个邻域
+	//定义八个邻域（右线逆时针扫描）
 	static int8_t seeds_r[8][2] = { {0,  1},{1,1},{1,0}, {1,-1},{0,-1},{-1,-1}, {-1,  0},{-1, 1}, };
-	//{-1,-1},{0,-1},{+1,-1},
-	//{-1, 0},	     {+1, 0},
-	//{-1,+1},{0,+1},{+1,+1},
-	//这个是逆时针
+	// 索引:     0:向下   1:右下   2:向右   3:右上   4:向上   5:左上   6:向左   7:左下
+	//
+	// ⚠️ 重要：dir_r[]记录值与实际生长方向存在+1偏移
+	// 检测逻辑：if(image[i]==0 && image[i+1]==255) 时记录i，但实际选择i+1
+	//
+	// dir_r[]记录值 → 实际生长方向对应关系：
+	//   记录0 → 实际生长seeds_r[1]={1,1}   → 右下
+	//   记录1 → 实际生长seeds_r[2]={1,0}   → 向右
+	//   记录2 → 实际生长seeds_r[3]={1,-1}  → 右上
+	//   记录3 → 实际生长seeds_r[4]={0,-1}  → 向上（主要生长方向）
+	//   记录4 → 实际生长seeds_r[5]={-1,-1} → 左上
+	//   记录5 → 实际生长seeds_r[6]={-1,0}  → 向左
+	//   记录6 → 实际生长seeds_r[7]={-1,1}  → 左下
+	//   记录7 → 实际生长seeds_r[0]={0,1}   → 向下
+	//
+	// 常见模式：
+	//   3,3,3... → 持续向上爬升
+	//   4,4,4... → 持续左上爬升
+	//   2,1,0... → 右转（右上→向右→右下）
 
 	l_data_statics = *l_stastic;//统计找到了多少个点，方便后续把点全部画出来
 	r_data_statics = *r_stastic;//统计找到了多少个点，方便后续把点全部画出来
@@ -227,13 +257,17 @@ void search_l_r(uint16_t break_flag, uint8_t(*image)[image_w], uint16_t *l_stast
 		//左边判断
 		for (i = 0; i < 8; i++)
 		{
+			// 边界检测：i位置是黑(赛道外) 且 i+1位置是白(赛道内) → 找到黑白边界
 			if (image[search_filds_l[i][1]][search_filds_l[i][0]] == 0
 				&& image[search_filds_l[(i + 1) & 7][1]][search_filds_l[(i + 1) & 7][0]] == 255)
 			{
+				// 实际选择i+1的坐标（白色区域的边缘点）
 				temp_l[index_l][0] = search_filds_l[(i + 1) & 7][0];
 				temp_l[index_l][1] = search_filds_l[(i + 1) & 7][1];
 				index_l++;
-				dir_l[l_data_statics - 1] = (i);//记录生长方向
+				// 记录i（表示在i方向检测到黑色边界，实际生长方向是i+1）
+				// 例：记录3表示在左上(3)检测到黑色，实际向上(4)生长
+				dir_l[l_data_statics - 1] = (i);
 			}
 		}
 
@@ -277,6 +311,8 @@ void search_l_r(uint16_t break_flag, uint8_t(*image)[image_w], uint16_t *l_stast
 		if (dir_l[l_data_statics - 1] == 7
 			&& (points_r[r_data_statics][1] > points_l[l_data_statics - 1][1]))//左边比右边高且已经向下生长了
 		{
+			// dir_l==7 表示记录了7，实际生长方向是seeds_l[0]={0,1}即向下
+			// 左线开始向下说明可能遇到十字路口或环岛，等待右边
 			//printf("\n左边开始向下了，等待右边，等待中... \n");
 			center_point_l[0] = points_l[l_data_statics - 1][0];//x
 			center_point_l[1] = points_l[l_data_statics - 1][1];//y
@@ -294,13 +330,17 @@ void search_l_r(uint16_t break_flag, uint8_t(*image)[image_w], uint16_t *l_stast
 		//右边判断
 		for (i = 0; i < 8; i++)
 		{
+			// 边界检测：i位置是黑(赛道外) 且 i+1位置是白(赛道内) → 找到黑白边界
 			if (image[search_filds_r[i][1]][search_filds_r[i][0]] == 0
 				&& image[search_filds_r[(i + 1) & 7][1]][search_filds_r[(i + 1) & 7][0]] == 255)
 			{
+				// 实际选择i+1的坐标（白色区域的边缘点）
 				temp_r[index_r][0] = search_filds_r[(i + 1) & 7][0];
 				temp_r[index_r][1] = search_filds_r[(i + 1) & 7][1];
 				index_r++;//索引加一
-				dir_r[r_data_statics - 1] = (i);//记录生长方向
+				// 记录i（表示在i方向检测到黑色边界，实际生长方向是i+1）
+				// 例：记录3表示在右上(3)检测到黑色，实际向上(4)生长
+				dir_r[r_data_statics - 1] = (i);
 				//printf("dir[%d]:%d\n", r_data_statics - 1, dir_r[r_data_statics - 1]);
 			}
 		}
@@ -561,14 +601,16 @@ match_result match_strict_sequence_with_gaps(
     return result;
 }
 
-// 创建匹配序列
+// 创建匹配序列（用于元素识别）
+// ⚠️ 注意：这些序列值是dir_l/dir_r的记录值，不是实际生长方向
+// 实际生长方向 = seeds[(记录值+1) & 7]
 growth_array arr = {
-    .outer_up = {2,2,2,4,4,4},
-    .inner_up = {6,6,6,5,5,5},
-    .up_outer = {5,5,5,2,2,2},
-    .up_inner = {4,4,4,6,6,6},
-    .up_outerdownarc = {4,4,1,1,2,3,3,3},
-    .outer_uparc = {2,3,3,3,3,3,3,4}
+    .outer_up = {2,2,2,4,4,4},       // 外环上坡：记录2→左上, 记录4→右上
+    .inner_up = {6,6,6,5,5,5},       // 内环上坡：记录6→右下, 记录5→向右
+    .up_outer = {5,5,5,2,2,2},       // 向上外环：记录5→向右, 记录2→左上
+    .up_inner = {4,4,4,6,6,6},       // 十字路口：记录4→右上, 记录6→右下
+    .up_outerdownarc = {4,4,1,1,2,3,3,3}, // 外环下弧
+    .outer_uparc = {2,3,3,3,3,3,3,4} // 外环上弧
 };
 
 /** 
@@ -692,11 +734,9 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 		break_num_r = points_r[break_num_r][1]; // 转换为y坐标
 	}
 
-	static uint8_t breakk = 0;
 	if (result_l.matched && result_r.matched) // 两边生长方向都符合条件
 	{
 
-		breakk = 1; // 重置丢线计数器
 		//计算斜率
 		start = break_num_l - 15;
 		start = limit_a_b(start, 0, image_h-1);
@@ -723,7 +763,6 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 
 
 	}
-	log_add_uint8("breakk", breakk,-1);
 
 }
 
@@ -766,8 +805,7 @@ if (get_start_point(image_h - 3)||get_start_point(image_h - 5)||get_start_point(
     //显示边线
 	draw_edge();
 
-
-
+	log_add_uint16_array("dir_l", dir_l, data_stastics_l,-1);
 
 }
 
