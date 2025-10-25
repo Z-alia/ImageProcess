@@ -502,7 +502,11 @@ void draw_edge()
     }
     // 显示中线
     for (int row = 0; row < image_h; row++) {
+		// 这里y索引要颠倒 因为最终左、右、中线是从底部向上 而imo是从顶部向下
         imo[image_h-row][center_line[row]] = 3;
+		imo[image_h-row][l_border[row]] = 4;
+		imo[image_h-row][r_border[row]] = 5;
+
     }
 }
 
@@ -767,6 +771,16 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 }
 
 /*
+日志记录函数 日志统一写在这里
+*/
+void userlog()
+{
+	log_add_uint16_array("dir_l", dir_l, data_stastics_l,-1);
+	log_add_uint16_array("dir_r", dir_r, data_stastics_r,-1);
+}
+
+
+/*
 函数名称：void image_process(void)
 功能说明：最终处理函数
 参数说明：无
@@ -805,8 +819,7 @@ if (get_start_point(image_h - 3)||get_start_point(image_h - 5)||get_start_point(
     //显示边线
 	draw_edge();
 
-	log_add_uint16_array("dir_l", dir_l, data_stastics_l,-1);
-
+	userlog();
 }
 
 
