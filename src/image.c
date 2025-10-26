@@ -6,6 +6,7 @@
 #include "morph_binary_bitpacked.h"
 #include "global_image_buffer.h"
 #include "dynamic_log.h"
+#include "processor.h"
 
 // ---- 桌面环境桩：移除嵌入式依赖，提供最小可编译实现 ----
 // 若在嵌入式环境下已有这些外部符号，可在编译时定义以下宏以禁用本文件的桩：
@@ -14,7 +15,13 @@
 //  - HAVE_EXTERNAL_LCD_SHOW
 
 // 使用 global_image_buffer.h 中的全局数组
-struct watch_o watch;
+// 显式初始化关键字段为 120，其余未列出字段默认置零
+struct watch_o watch = {
+	.InLoopAngle2 = 120,
+	.InLoopAngleL = 120,
+	.InLoopAngleR = 120,
+	.InLoopCirc = 120,
+};
 #ifndef HAVE_EXTERNAL_LCD_SHOW
 // LCD 显示函数空实现（避免链接错误）
 void show_ov2640_image_int8(int start_x, int start_y,
@@ -142,7 +149,7 @@ example：
 	search_l_r((uint16)USE_num,image,&data_stastics_l, &data_stastics_r,start_point_l[0],
 				start_point_l[1], start_point_r[0], start_point_r[1],&hightest);
  */
-#define USE_num	image_h*3	//定义找点的数组成员个数按理说300个点能放下，但是有些特殊情况确实难顶，多定义了一点
+
 
  //存放点的x，y坐标
 uint16_t points_l[(uint16_t)USE_num][2] = { {  0 } };//左线
@@ -773,9 +780,13 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 */
 void userlog()
 {
-	log_add_uint8("InLoopAngleL", watch.InLoopAngleL, -1);
+	log_add_uint8("InLoopAngle", watch.InLoopAngleL, -1);
+	log_add_uint8("InLoopAngle2", watch.InLoopAngle2, -1);
+	log_add_uint8("InLoopAngle2_x", watch.InLoopAngle2_x, -1);
     log_add_uint8("InLoopCirc", watch.InLoopCirc, -1);
     log_add_uint8("InLoop", watch.InLoop, -1);
+
+	log_add_uint8("top_x", watch.top_x, -1);
 	log_add_uint8("left_lost_num", watch.left_lost_num, -1);
 	log_add_uint8("right_lost_num", watch.right_lost_num, -1);
     log_add_uint8_array("right_lost", right_lost, sizeof(right_lost)/sizeof(right_lost[0]), -1);
@@ -816,6 +827,8 @@ if (get_start_point(image_h - 3)||get_start_point(image_h - 5)||get_start_point(
 	//处理函数放这里 不要放到if外面
     cross_fill(imo, l_border, r_border, data_stastics_l, data_stastics_r, dir_l, dir_r, points_l, points_r);//十字补线
 }
+	//补线
+	left_ring_linefix();
     //求中线
 	for (i = Hightest; i < image_h-1; i++)
 	{

@@ -18,6 +18,7 @@ void process_original_to_imo(const uint8_t *original,
                              uint8_t *imo_out,
                              int width,
                              int height);
+ void left_ring_linefix();
 
 #ifdef __cplusplus
 }

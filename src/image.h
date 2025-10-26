@@ -77,7 +77,10 @@ struct watch_o
     int black_obstacle_line;
     int left_obstacle_x;
     int right_obstacle_x;
-	
+	//补线
+    int top_x;//赛道左右两条直线交汇处的横坐标值（此时y=115）用于补线
+
+
     int16_t CurrentY;           //当前的Y值
 	int16_t LastLine;           //如果断线（不论是否接回） 最后有效中点行数
 	int16_t CurrentMid;         //当前的的中点X值
@@ -101,7 +104,9 @@ extern struct watch_o watch;
 
 #define bin_jump_num	1//跳过的点数
 #define border_max	image_w-2 //边界最大值
-#define border_min	1	//边界最小值	
+#define border_min	1	//边界最小值
+
+#define USE_num	image_h*3	//定义找点的数组成员个数按理说300个点能放下，但是有些特殊情况确实难顶，多定义了一点
 
 extern void image_process(void); //直接在中断或循环里调用此程序就可以循环执行了
 
@@ -110,5 +115,7 @@ extern uint8_t r_border[image_h];//右线数组
 extern uint8_t center_line[image_h];//中线数组
 extern uint8_t left_lost[image_h];//左线丢失标志数组
 extern uint8_t right_lost[image_h];//右线丢失标志数组
+extern uint16_t dir_r[(uint16_t)USE_num];//用来存储右边生长方向
+extern uint16_t dir_l[(uint16_t)USE_num];//用来存储左边生长方向
 #endif /*_IMAGE_H*/
 
