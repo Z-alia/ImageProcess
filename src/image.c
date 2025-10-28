@@ -21,6 +21,8 @@ struct watch_o watch = {
 	.InLoopAngleL = 120,
 	.InLoopAngleR = 120,
 	.InLoopCirc = 120,
+	.OutLoopAngle1 = 120,
+	.InLoop=3, //10.28 outloop test tag
 };
 #ifndef HAVE_EXTERNAL_LCD_SHOW
 // LCD 显示函数空实现（避免链接错误）
@@ -780,11 +782,13 @@ void cross_fill(uint8_t(*image)[image_w], uint8_t *l_border, uint8_t *r_border, 
 */
 void userlog()
 {
-	log_add_uint8("InLoopAngle", watch.InLoopAngleL, -1);
-	log_add_uint8("InLoopAngle2", watch.InLoopAngle2, -1);
-	log_add_uint8("InLoopAngle2_x", watch.InLoopAngle2_x, -1);
-    log_add_uint8("InLoopCirc", watch.InLoopCirc, -1);
+	//log_add_uint8("InLoopAngle", watch.InLoopAngleL, -1);
+	//log_add_uint8("InLoopAngle2", watch.InLoopAngle2, -1);
+	//log_add_uint8("InLoopAngle2_x", watch.InLoopAngle2_x, -1);
+    //log_add_uint8("InLoopCirc", watch.InLoopCirc, -1);
     log_add_uint8("InLoop", watch.InLoop, -1);
+	log_add_uint8("OutLoop_turn_point_x", watch.OutLoop_turn_point_x, -1);
+	log_add_uint8("OutLoopAngle1", watch.OutLoopAngle1, -1);
 
 	log_add_uint8("top_x", watch.top_x, -1);
 	log_add_uint8("left_lost_num", watch.left_lost_num, -1);

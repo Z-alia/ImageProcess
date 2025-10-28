@@ -329,6 +329,54 @@ void left_ring_begin_turn()
         //beep2(2,20);
     }
 }
+/*函数名称：left_ring_prepare_out()
+功能说明：小车角度积分完成，准备出环
+*/
+void left_ring_prepare_out()//第340帧
+{
+    if(watch.InLoop != 3)return;
+    if( watch.InLoop == 3
+        //&&get_integeral_state(&angle_integral)==1 10.28 test tag
+        //&&get_integeral_data(&angle_integral)>160
+        &&r_border[69]<120
+        &&r_border[69]>95
+    )
+   {
+       watch.InLoop = 4;
+       watch.OutLoop_turn_point_x=r_border[69];
+       //beep2(4,20);
+   }
+}
+/*函数名称：left_ring_out_angle()
+功能说明：检测出环时右角点位置
+*/
+void left_ring_out_angle()
+{
+    if(watch.InLoop != 4)return;//在循环之前跳出，节省时间
+    for(int y = loop_forward_far;y>loop_forward_near;y--)//逐行扫描
+        {
+        if ((watch.InLoop == 4)&&y<80
+                 //lineinfo[y].left_lost
+                 &&r_border[y+1] >= r_border[y]
+                 &&r_border[y+2] >= r_border[y+1]
+                 &&r_border[y-1] >= r_border[y]
+                 &&r_border[y-2] >= r_border[y]
+/*                 &&lineinfo[y - 3].right > lineinfo[y - 1].right
+                 &&lineinfo[y + 4].right > lineinfo[y + 2].right
+                 &&lineinfo[y - 5].right > lineinfo[y - 3].right*/
+                 &&r_border[y] > 30
+                 &&Grayscale[119-y-2][r_border[y]]==255
+)
+             {
+                 if(watch.OutLoopAngle1>y)
+                 {
+                     //watch.OutLoopRight = lineinfo[y].right;
+                     watch.OutLoopAngle1 = y; //出环判断列
+                     break;
+                 }
+             }
+        }
+}
 /*----------------------------------补线---------------------------------------------------------------------*/
 float slopeL;
 float slopeOL;
@@ -431,10 +479,14 @@ void process_original_to_imo(const uint8_t * RESTRICT original,
     }
 
     //我的屎
+    /*
     left_ring_first_angle();
     left_ring_circular_arc();
     left_ring_second_angle();
     left_ring_begin_turn();
+    */
+    left_ring_prepare_out();
+    left_ring_out_angle();
     // 调用你的流水线
     image_process();
 
